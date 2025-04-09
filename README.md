@@ -16,7 +16,7 @@ A web platform that connects freelancers with clients, built with:
 
 ```bash
 git clone https://github.com/bethelcoder/agile_software_achitects.git
-cd freelance-platform
+cd agile_software_achitects
 
 ```
 
