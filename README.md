@@ -16,17 +16,19 @@ A web platform that connects freelancers with clients, built with:
 
 ```bash
 git clone https://github.com/bethelcoder/agile_software_achitects.git
-cd freelance-platform
+cd agile_software_achitects
 
 ```
 
-### 2. Install Dependencies
+### 2. Procedure after cloning
 
-- **npm init --yes**
-- **npm install express**
-- **npm install ejs**
-- **npm install express-session**
-- **npm install express-flash**
+- **git checkout master**
+- **git pull origin master**
+- **git status**
+
+### 3. Install Dependencies
+
+- **Look up into package.json under dependencies and install the listed dependencies**
 
 
 ### 3. Middlewares
