@@ -3,7 +3,7 @@ name: Azure CI/CD for Freelancer Platform
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   build-and-deploy:
