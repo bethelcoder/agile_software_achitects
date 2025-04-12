@@ -75,6 +75,7 @@ a {
     padding-bottom: 1.3rem;
     padding-right: 2rem;
     transition: .3s;
+    cursor: pointer;
 }
 .acc:hover {
     background-color: #f3f4f6;
