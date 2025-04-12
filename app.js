@@ -7,6 +7,7 @@ app.use(express.json());
 const passport = require('passport');
 const session = require('express-session');
 
+const User= require('./backend/api/database');
 const PORT = process.env.PORT || 4000;
 
 // View and static config
@@ -45,7 +46,12 @@ app.use(session({
     app.use('/auth', userRoutes);
 
     app.get('/profile', (req, res) => {
+
         console.log(req.user);
+        const data= {
+          userId: req.user.id
+        }
+        User.add(data);
         res.send(`Welcome ${req.user.displayName}`);
     })
 
