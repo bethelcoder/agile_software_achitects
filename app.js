@@ -6,6 +6,7 @@ const path = require('path');
 app.use(express.json());
 const passport = require('passport');
 const session = require('express-session');
+
 const PORT = process.env.PORT || 4000;
 
 // View and static config
@@ -15,7 +16,6 @@ app.use(express.static('public'));
 app.use("/config", express.static("config"));
 const userRoutes = require('./backend/routes/routes');
 require('./backend/api/passport');
-
 // Session setup
 app.use(session({
     secret: 'secret',
@@ -27,6 +27,20 @@ app.use(session({
   app.use(passport.initialize());
   app.use(passport.session());
   
+//   passport.use (
+//     new GoogleStrategy({
+//         clientID: process.env.GOOGLE_CLIENT_ID,
+//         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+//         callbackURL: 'http://localhost:4000/auth/google/callback',
+//     }, (accessToken, refreshToken, profile, done) => {
+//         return done(null, profile);
+//     }
+//     )
+//   );
+
+//   passport.serializeUser((user, done) => done(null, user));
+//   passport.deserializeUser((user, done) => done(null, user));
+  
   // Google authentication routes
     app.use('/auth', userRoutes);
 
@@ -36,13 +50,10 @@ app.use(session({
     })
 
 
-    app.get('/logout', (req, res, next) => {
-        req.logout(function (err) {
-          if (err) { return next(err); }
-          res.redirect('/');
-        });
-      });
-      
+    app.get("/logout", (req, res) => {
+        req.logOut();
+        res.redirect("/");
+    })
 
 app.get('/', (req, res) => {
     res.render('index');
