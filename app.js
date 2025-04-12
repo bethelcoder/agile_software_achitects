@@ -1,16 +1,48 @@
 //app config
+require('dotenv').config();
 const express = require('express');
 const app = express();
 const path = require('path');
 app.use(express.json());
+const passport = require('passport');
+const session = require('express-session');
 const PORT = process.env.PORT || 4000;
 
 // View and static config
 app.set("view engine", "ejs");
 app.set('views', path.join(__dirname, 'frontend', 'view'));//if views is located in another folder called frontend!!
 app.use(express.static('public'));
+app.use("/config", express.static("config"));
 const userRoutes = require('./backend/routes/routes');
+require('./backend/api/passport');
 
+// Session setup
+app.use(session({
+    secret: 'secret',
+    resave: false,
+    saveUninitialized: true,
+  }));
+  
+  // Initialize passport and session
+  app.use(passport.initialize());
+  app.use(passport.session());
+  
+  // Google authentication routes
+    app.use('/auth', userRoutes);
+
+    app.get('/profile', (req, res) => {
+        console.log(req.user);
+        res.send(`Welcome ${req.user.displayName}`);
+    })
+
+
+    app.get('/logout', (req, res, next) => {
+        req.logout(function (err) {
+          if (err) { return next(err); }
+          res.redirect('/');
+        });
+      });
+      
 
 app.get('/', (req, res) => {
     res.render('index');

@@ -8,6 +8,7 @@ const login = async () => {
       console.error('Error signing in: ', error.message);
     }
   };
+  
   const logout = async () => {
     try {
       await firebase.auth().signOut();
@@ -16,7 +17,5 @@ const login = async () => {
       console.error('Error logging out: ', error.message);
     }
   };
-module.exports={
-    login,
-    logout
-};  
+
+  export { login, logout };
