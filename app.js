@@ -49,7 +49,6 @@ app.use(session({
         res.send(`Welcome ${req.user.displayName}`);
     })
 
-
     app.get("/logout", (req, res) => {
         req.logOut();
         res.redirect("/");
