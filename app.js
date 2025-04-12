@@ -48,9 +48,11 @@ app.use(session({
     app.get('/profile', (req, res) => {
 
         console.log(req.user);
-        const data= {
+
+        const data = {
           userId: req.user.id
         }
+        
         User.add(data);
         res.send(`Welcome ${req.user.displayName}`);
     })
