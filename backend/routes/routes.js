@@ -29,8 +29,5 @@ router.get('/github/callback',
   }
 );
 
-router.get('/profile1', (req, res) => {
-  res.send('This is the Profile page');
-});
 
 module.exports = router;
