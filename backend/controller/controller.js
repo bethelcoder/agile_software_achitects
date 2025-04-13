@@ -7,7 +7,12 @@ const logPage = (req, res) => {
     res.render('login');
 };
 
+const profPage = (req, res) => {
+    res.render('profile');
+};
+
 module.exports = {
     regPage,
     logPage,
+    profPage,
 }

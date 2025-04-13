@@ -45,16 +45,45 @@ app.use(session({
   // Google authentication routes
     app.use('/auth', userRoutes);
 
-    app.get('/profile', (req, res) => {
 
-        console.log(req.user);
+    app.get('/profile1', (req, res) => {
+      const name = req.query.name;
+      const lname = req.query.lname;
+      const role = req.query.role;
+      const data = {
+        userId: req.user.id,
+        userName: name,
+        lastName: lname,
+        role: role
+      }
+      const id =User.doc(req.user.id);
+      id.set(data);
 
-        const data = {
-          userId: req.user.id
-        }
-        
-        User.add(data);
-        res.send(`Welcome ${req.user.displayName}`);
+      
+      res.send(` Welcome ${name}, ${lname} '\n' Role:${role}`);
+    });
+    
+
+    app.get('/profile', async(req, res) => {
+
+      
+      const userId= req.user.id;
+      const docRef = User.doc(userId);
+      const docSnap = await docRef.get();
+
+      if (docSnap.exists) {
+
+        const Userdata =docSnap.data();
+
+        res.send(` Welcome ${Userdata.userName}, ${Userdata.lastName} '\n' Role:${Userdata.role}`);
+
+        } else {
+
+          res.render('profile');
+          
+      }
+    
+      
     })
 
     app.get("/logout", (req, res) => {

@@ -6,6 +6,7 @@ const passport = require('passport');
 
 router.get('/register', controllers.regPage);
 router.get('/login', controllers.logPage);
+router.get('/profile', controllers.profPage);
 
 router.get('/google', passport.authenticate('google', {
     scope: ['profile', 'email'] // These are the data we want access to from the user
@@ -24,10 +25,12 @@ router.get('/github', passport.authenticate('github', {
 router.get('/github/callback',
   passport.authenticate('github', { failureRedirect: '/login' }),
   (req, res) => {
-    res.redirect('/profile');
+    res.render('/profile');
   }
 );
 
-
+router.get('/profile1', (req, res) => {
+  res.send('This is the Profile page');
+});
 
 module.exports = router;
