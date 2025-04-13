@@ -46,7 +46,8 @@ app.use(session({
 
     app.get('/profile', (req, res) => {
         console.log(req.user);
-        res.send(`Welcome ${req.user.displayName}`);
+        const id=req.user.id;
+        res.render('usernamepage');     
     })
 
 
