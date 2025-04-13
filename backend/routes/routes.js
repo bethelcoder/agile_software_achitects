@@ -17,7 +17,17 @@ router.get('/google/callback',
     res.redirect('/profile');
   }
 );
-  
+router.get('/github', passport.authenticate('github', {
+  scope: ['profile', 'email'] // These are the data we want access to from the user
+})); 
+
+router.get('/github/callback',
+  passport.authenticate('github', { failureRedirect: '/login' }),
+  (req, res) => {
+    res.redirect('/profile');
+  }
+);
+
 
 
 module.exports = router;

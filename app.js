@@ -7,6 +7,7 @@ app.use(express.json());
 const passport = require('passport');
 const session = require('express-session');
 
+const User= require('./backend/api/database');
 const PORT = process.env.PORT || 4000;
 
 // View and static config
@@ -45,11 +46,16 @@ app.use(session({
     app.use('/auth', userRoutes);
 
     app.get('/profile', (req, res) => {
-        console.log(req.user);
-        const id=req.user.id;
-        res.render('usernamepage');     
-    })
 
+        console.log(req.user);
+      
+        const data = {
+          userId: req.user.id
+        }
+        
+        User.add(data);
+        res.render('usernamepage');  
+    })
 
     app.get("/logout", (req, res) => {
         req.logOut();
@@ -61,4 +67,6 @@ app.get('/', (req, res) => {
 });
 
 app.use('/users', userRoutes);
-app.listen(PORT, () => console.log(`Running on localhost:${PORT}`));
+app.listen(PORT, () => console.log(`Running on http://localhost:${PORT}`));
+
+module.exports = app;

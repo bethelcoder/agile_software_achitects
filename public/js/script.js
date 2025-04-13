@@ -12,7 +12,7 @@ googleBtn.addEventListener('click', () => {
 );
 
 microsoftBtn.addEventListener('click', () => {
-    alert('Microsoft button clicked!');
+    window.location.href = "/auth/github";
 });
 
 facebookBtn.addEventListener('click', () => {
