@@ -67,4 +67,6 @@ app.get('/', (req, res) => {
 });
 
 app.use('/users', userRoutes);
-app.listen(PORT, () => console.log(`Running on localhost:${PORT}`));
+app.listen(PORT, () => console.log(`Running on http://localhost:${PORT}`));
+
+module.exports = app;
