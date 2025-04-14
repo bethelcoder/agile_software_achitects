@@ -1,5 +1,5 @@
 const passport = require('passport');
-const User = require('../firebase/config/firebase');
+const User = require('../api/database');
 //controllers for registration and login
 const regPage = (req, res) => {
     res.render('register');

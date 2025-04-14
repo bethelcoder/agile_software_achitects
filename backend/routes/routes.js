@@ -2,7 +2,7 @@ const { Router } = require('express');
 const router = Router();
 const controllers = require('../controller/controller');
 const passport = require('passport');
-const User = require('../firebase/config/firebase');
+const User = require('../api/database');
 
 
 router.get('/register', controllers.regPage);
