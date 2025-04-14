@@ -6,8 +6,6 @@ const path = require('path');
 app.use(express.json());
 const passport = require('passport');
 const session = require('express-session');
-
-const User= require('./backend/api/database');
 const PORT = process.env.PORT || 4000;
 
 // View and static config
@@ -17,6 +15,7 @@ app.use(express.static('public'));
 app.use("/config", express.static("config"));
 const userRoutes = require('./backend/routes/routes');
 require('./backend/api/passport');
+
 // Session setup
 app.use(session({
     secret: 'secret',
@@ -27,44 +26,60 @@ app.use(session({
   // Initialize passport and session
   app.use(passport.initialize());
   app.use(passport.session());
-  
-//   passport.use (
-//     new GoogleStrategy({
-//         clientID: process.env.GOOGLE_CLIENT_ID,
-//         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-//         callbackURL: 'http://localhost:4000/auth/google/callback',
-//     }, (accessToken, refreshToken, profile, done) => {
-//         return done(null, profile);
-//     }
-//     )
-//   );
+  app.use(express.urlencoded({ extended: true }));
 
-//   passport.serializeUser((user, done) => done(null, user));
-//   passport.deserializeUser((user, done) => done(null, user));
-  
+  app.use((req, res, next) => {
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+    next();
+  });
   // Google authentication routes
     app.use('/auth', userRoutes);
 
-    app.get('/profile', (req, res) => {
+    app.get('/g-profile', (req, res) => {
 
+        const googleId = req.user.id;
+
+        req.session.tempUser = {
+            userId: googleId,
+          };
+        res.render('usernamepage');
+    });
+
+    app.get('/github-profile', (req, res) => {
+
+        const githubId = req.user.id;
         console.log(req.user);
-      
-        const data = {
-          userId: req.user.id
-        }
-        
-        User.add(data);
-        res.render('usernamepage');  
-    })
+        req.session.tempUser = {
+            userId: githubId,
+          };
+        res.render('usernamepage');
+    });
 
-    app.get("/logout", (req, res) => {
-        req.logOut();
-        res.redirect("/");
-    })
+    app.get('/logout', (req, res) => {
+        req.logout(function(err) {
+          if (err) {
+            console.error("Logout error:", err);
+            return res.redirect('/error'); // Or handle as needed
+          }
+      
+          req.session.destroy((err) => {
+            if (err) {
+              console.error("Session destruction error:", err);
+            }
+            res.clearCookie('connect.sid'); // Clear the session cookie
+            res.redirect('/'); // Redirect to homepage or login page
+          });
+        });
+      });
+      
 
 app.get('/', (req, res) => {
     res.render('index');
 });
+
+  
 
 app.use('/users', userRoutes);
 app.listen(PORT, () => console.log(`Running on http://localhost:${PORT}`));

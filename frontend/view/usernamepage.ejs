@@ -1,36 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Freelancify</title>
-  <link rel="stylesheet" href="/css/usernamepage.css" />
+  <meta charset="UTF-8">
+  <title>Create Your Freelancify Account</title>
+  <link href="/css/usernamepage.css" rel="stylesheet"/>
 </head>
 <body>
+  
+  <section class="form-container">
+    <form action="/users/submit-username" method="POST">
+      <img src="/images/Freelancify.png" alt="Freelancify Logo">
 
+      <h2>Just one step to setting up an account for you👌</h2>
+      <p>Choose a unique username — this will be visible on your public profile.</p>
 
-    <form class="container">
-        <img src="/images/Freelancify.png">
-        <label for="username">Enter your username</label><br>
-        <input type="text" id="username" name="username"><br><br>
-      
-        <p>Register as a:</p>
-      
-        <!-- Role selection (inline layout) -->
-        <input type="radio" name="role" id="freelancer">
-        <label for="freelancer" class="role-button">Freelancer</label>
-      
-        <input type="radio" name="role" id="client">
-        <label for="client" class="role-button">Client</label><br><br>
-      
-        <input type="checkbox" id="terms">
-        <label for="terms">I agree to the Terms and Conditions</label><br>
-      
-        <input type="checkbox" id="privacy">
-        <label for="privacy">I agree to the Privacy Policy</label><br><br>
-      
-        <button type="submit" class="create-account">Create Account</button>
-      </form>
-      
+      <input type="text" 
+        name="username" 
+        placeholder="Enter a unique username" 
+        value="<%= typeof userName !== 'undefined' ? userName : '' %>"
+        required>
+      <ul>
+        <% if(typeof errors != 'undefined') { %>
+          <% errors.forEach((error) => { %>
+          <li style="color: red; font-weight: bold;font-size: .8rem;"><%= error.message %></li>
+          <% }) %>
+            <% } %>
+      </ul>
+      <section class="checkbox-group">
+        <label>
+          <input 
+            type="checkbox" 
+            name="roles" 
+            value="client"
+            <%= typeof roles != 'undefined' && roles.includes('client') ? 'checked' : '' %>> Client</label>
+
+        <label>
+          <input
+            type="checkbox" 
+            name="roles" 
+            value="freelancer"
+            <%= typeof roles != 'undefined' && roles.includes('freelancer') ? 'checked' : '' %>> Freelancer</label>
+      </section>
+
+      <section class="radio-group">
+        <label style="display: block; text-align: left; margin-bottom: 0.5rem;">
+          <input type="checkbox" name="agreement_tc" value="agree" required>
+          I agree to the <a href="/terms" target="_blank">Terms & Conditions</a>
+        </label>
+        <label style="display: block; text-align: left; margin-bottom: 1.5rem;">
+          <input type="checkbox" name="agreement_privacy" value="agree" required>
+          I agree to the <a href="/privacy" target="_blank">Privacy Policy</a>
+        </label>
+      </section>
+
+      <button type="submit">Create Account</button>
+    </form>
+  </section>
+  <script type="module" src="/js/regUsers.js"></script>
 </body>
 </html>

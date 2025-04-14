@@ -7,9 +7,7 @@ const twitterBtn = document.querySelector('#twitter-icon').parentElement;
 // Example: Adding event listeners
 googleBtn.addEventListener('click', () => {
     window.location.href = "/auth/google";
-}
-
-);
+});
 
 microsoftBtn.addEventListener('click', () => {
     window.location.href = "/auth/github";
