@@ -1,99 +1,86 @@
 body {
-    font-family: sans-serif;
-    text-align: center;
-    
-    margin: 0;
-    padding: 0;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.4);
-    display: grid;
-    place-items: center;
-  }
-  
-  .container {
-    background-color: white;
-    padding: 3rem;
-    border-radius: 15px;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
-    max-width: 800px;
-    height: 500px;
-    width: 380px; 
-    padding-top: 2rem; 
-  }
-  
-  img {
-    display: block;
-    margin: 0 auto 2rem auto; /* center image and add space BELOW it */
-    max-width: 200px;
-    max-height: 100px;
-  }
-  
-  
-  input[type="text"] {
-    padding: 0.6rem 1rem;
-    width: 100%;
-    max-width: 250px;
-    border: 2px solid #333;
-    border-radius: 10px;
-    font-size: 1rem;
-    outline: none;
-  }
-  
-  /* Hide radio buttons */
-  input[type="radio"] {
-    display: none;
-  }
-  
-  /* Style the labels as buttons */
-  .role-button {
-    display: inline-block;
-    width: 120px;
-    padding: 0.5rem;
-    margin: 0 0.5rem;
-    border: 2px solid #333;
-    border-radius: 8px;
-    font-weight: bold;
-    font-size: 1.1rem;
-    cursor: pointer;
-    transition: background 0.3s ease, color 0.3s ease;
-  }
-  
-  /* Style for selected role */
-  input[type="radio"]:checked + label.role-button {
-    background-color: #333;
-    color: white;
-  }
-  
-  input[type="checkbox"] {
-    transform: scale(1.2);
-    margin-right: 0.4rem;
-    cursor: pointer;
-  }
-  
-  label {
-    display: inline-block;
-    font-size: 0.95rem;
-    padding-right: 0px;
-    text-align: left;
-    margin-bottom: 0.3rem;
-    padding-top: 5px;
-    inline-size: none;
-  }
-  
-  .create-account {
-    margin-top: 1.5rem;
-    padding: 0.7rem 1.8rem;
-    border: 2px solid #333;
-    border-radius: 8px;
-    background: none;
-    font-size: 1rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background 0.3s ease, color 0.3s ease;
-  }
-  
-  .create-account:hover {
-    background-color: #333;
-    color: white;
-  }
-  
+  font-family: 'Segoe UI', sans-serif;
+  background: #f0f2f5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.form-container {
+  background: #fff;
+  padding: 2rem 3rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+}
+
+.form-container img {
+  width: 80px;
+  margin-bottom: 1rem;
+}
+
+.form-container h2 {
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.form-container p {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 0.8rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.checkbox-group {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.checkbox-group label {
+  font-size: 0.95rem;
+  color: #444;
+}
+
+.checkbox-group input {
+  margin-right: 0.4rem;
+}
+
+.radio-group {
+  font-size: 0.9rem;
+  color: #555;
+}
+.radio-group a {
+  color: #007bff;
+  text-decoration: none;
+}
+.radio-group a:hover {
+  text-decoration: underline;
+}
+
+button {
+  background: #007bff;
+  color: white;
+  padding: 0.8rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background: #0056b3;
+}
