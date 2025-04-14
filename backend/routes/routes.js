@@ -2,7 +2,7 @@ const { Router } = require('express');
 const router = Router();
 const controllers = require('../controller/controller');
 const passport = require('passport');
-const User = require('../api/database');
+const User = require('../api/mongoDB/User');
 
 
 router.get('/register', controllers.regPage);
@@ -25,13 +25,12 @@ router.get('/github', passport.authenticate('github', {
 router.get('/google/callback',
   passport.authenticate('google', { failureRedirect: '/auth/google' }),
   async (req, res) => {
-    const googleId = req.user.id;
+    const userID = req.user.id;
     try {
-      const userDoc = await User.collection('users').doc(googleId).get();
+      const userDoc = await User.findOne({ userID });
 
-      if (userDoc.exists) {
-        const userName = userDoc.data().userName;
-        // User already exists → redirect to welcome
+      if (userDoc) { 
+        const userName = userDoc.userName;
         res.render('welcome', { userName });
       } else {
         res.redirect('/g-profile');
@@ -46,12 +45,12 @@ router.get('/google/callback',
 router.get('/github/callback',
   passport.authenticate('github', { failureRedirect: '/auth/github' }),
   async (req, res) => {
-    const githubId = req.user.id;
+    const userID = req.user.id;
     try {
-      const userDoc = await User.collection('users').doc(githubId).get();
+      const userDoc = await User.findOne({ userID });
 
-      if (userDoc.exists) {
-        const userName = userDoc.data().userName;
+      if (userDoc) {
+        const userName = userDoc.userName;
         // User already exists → redirect to welcome
         res.render('welcome', { userName });
       } else {
