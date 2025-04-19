@@ -11,6 +11,7 @@ router.get('/submit-username', (req, res) => {
   res.redirect('/');
 });
 router.post('/submit-username', controllers.submitUsername);
+router.post('/submit-jobDetails', controllers.submitDetails);
 
 // -------- 3rd part IdP Authentication
 router.get('/google', passport.authenticate('google', {

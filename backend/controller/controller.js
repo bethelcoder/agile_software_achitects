@@ -1,5 +1,6 @@
 const passport = require('passport');
 const User = require('../api/mongoDB/User');
+const Client = require('../api/mongoDB/Client');
 //controllers for registration and login
 const regPage = (req, res) => {
     res.render('register');
@@ -8,6 +9,7 @@ const regPage = (req, res) => {
 const logPage = (req, res) => {
     res.render('login');
 };
+
 
 const submitUsername = async (req, res) => {
     const userName = req.body.username;
@@ -55,10 +57,44 @@ const submitUsername = async (req, res) => {
         console.error("Stack trace:", error.stack);
         res.status(500).json({ message: "Error saving user" });
     }
+
 };
+
+const submitDetails = async (req,res)=>{
+    const title = req.body.title;
+    const description = req.body.description;
+    const minPay = req.body.minPay;
+    const skills= req.body.skills;
+
+    const Clientlis={
+        clientID: req.body.clientID,
+        title: title,
+        description:description,
+        minPay: minPay,
+        applicableSkills:skills
+    }
+
+
+    let errors= [];
+    try{
+
+    const Listing = new Client(Clientlis);
+    await Listing.save();
+
+    }
+    catch (error){
+        res.status(500).json({ message: "Error adding Job Listing" }); 
+    }
+
+
+
+
+
+}
 
 module.exports = {
     regPage,
     logPage,
     submitUsername,
+    submitDetails
 }
