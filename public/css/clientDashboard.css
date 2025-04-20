@@ -1,0 +1,131 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+img {
+    width: 2.5rem;
+    height: 2.5rem;
+}
+  
+.top-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: white;
+    padding: 10px 20px;
+    border-bottom: 1px solid #ccc;
+}
+  
+.menu-icon {
+    font-size: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+.menu-icon:hover {
+    background-color: #d3d3d3;
+}
+  
+.logo {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 0 10px;
+}
+  
+.profile-info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.postProject {
+    background-color: #4D8DF4;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: .5rem;
+    font-size: 16px;
+}
+.postProject:hover {
+    border: black;
+    background-color: rgb(45, 45, 250);
+}
+  
+.main-layout {
+    display: flex;
+    height: calc(100vh - 60px);
+}
+  
+.aside {
+    width: 200px;
+    background-color: white;
+    padding: 10px 0;
+}
+  
+.aside ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+  
+.aside li {
+    margin: 2px 0;
+  }
+  
+.aside a {
+    display: block;
+    background: white;
+    padding: 10px;
+    text-decoration: none;
+    color: black;
+    font-size: 16px;
+}
+.aside a:hover {
+    background-color: #4D8DF4;
+    color: white;
+}
+.bottomNav {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+.switch,
+.logout {
+    margin: 10px;
+    padding: 10px;
+    font-size: 16px;
+    color: white;
+    border: none;
+    border-radius: .5rem;
+}
+.switch {
+    background-color: #4D8DF4;
+}
+.switch:hover {
+    background-color: rgb(45, 45, 250);
+}
+.logout {
+    background-color: #F44D4D;
+}
+.logout:hover {
+    background-color: red;
+}
+.content {
+    flex-grow: 1;
+    background: #d3d3d3;
+    padding: 20px;
+}
+  
+.section {
+    margin-bottom: 20px;
+}
+  
+.content-box {
+    background: #fff;
+    height: 150px;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+}
+  
+  
