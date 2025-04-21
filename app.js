@@ -9,7 +9,7 @@ const passport = require('passport');
 const session = require('express-session');
 const PORT = process.env.PORT || 4000;
 const description=  require('./backend/api/mongoDB/description');
-const project =  require('./backend/api/mongoDB/project');
+const Project =  require('./backend/api/mongoDB/project');
 const User=require('./backend/api/mongoDB/User')
 
 mongoose.connect(process.env.MONGO_URI, {
@@ -73,18 +73,20 @@ app.use(session({
 
     app.get('/submit-clientProfile',async(req, res)=>{
       const userID = req.query.userID;
+      const projects = await Project.find({});
       
+    
   
     try {
       const profile = await description.findOne({ userID })|| null;
       if (profile){
       res.render('clientProfile', {
         userID,
-        profile
+        profile,projects
       });
     }
     else{
-      res.render('clientProfile', { userID, profile });
+      res.render('clientProfile', { userID, profile,projects });
     }
     
     } catch (error) {
@@ -111,17 +113,21 @@ app.use(session({
         description:description,
         minPay: minPay,
         applicableSkills:skills,
+        deadline:deadline,
         status:"Active"
     }
+
+    const projects = await Project.find({});
+      
 
     let errors= [];
     try{
 
-    const Listing = new project(Clientlis);
+    const Listing = new Project(Clientlis);
     await Listing.save();
     const user = await User.findOne({ userID });
     const userName= user.userName; 
-    res.render('clientDashboard',{ userName  , userID})
+    res.render('clientDashboard',{ userName  , userID, projects})
     }
     catch (error){
         res.status(500).json({ message: "Error adding Project" }); 
@@ -130,7 +136,25 @@ app.use(session({
       
     })
 
-
+    app.get('/delete-project', async(req,res)=>{
+      const project = req.query.project;
+      const projects = await Project.find({});
+      try{
+        await Project.deleteOne(project);
+        
+        const userId=req.query.userId;
+        const userID=Number(userId);
+        const user = await User.findOne({ userID });
+        const userName= user.userName; 
+        res.render('clientDashboard',{ userName  , userID, projects})
+        
+        
+      }
+      catch(error){
+        res.status(500).json({ message: "Error removing Project" }); 
+        console.log(error);
+      }
+    })
 
     app.get('/logout', (req, res) => {
         req.logout(function(err) {

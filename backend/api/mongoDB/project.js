@@ -6,6 +6,7 @@ const userSchema = new mongoose.Schema({
     description: { type: String },
     minPay: {type:Number},
     applicableSkills:{type:String},
+    deadline:{type:String},
     status:{type:String}
 });
 

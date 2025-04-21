@@ -4,6 +4,8 @@ const controllers = require('../controller/controller');
 const passport = require('passport');
 const User = require('../api/mongoDB/User');
 const description= require('../api/mongoDB/description');
+const Project = require('../api/mongoDB/project');
+
 
 router.get('/register', controllers.regPage);
 router.get('/login', controllers.logPage);
@@ -35,7 +37,9 @@ router.get('/google/callback',
         const userName = userDoc.userName;
         const role=userDoc.roles;
         if (role.includes("client")){
-          res.render('clientDashboard',{ userName  , userID})
+          const projects = await Project.find({});
+      
+          res.render('clientDashboard',{ userName  , userID, projects});
         }else{
           res.render('welcome', { userName  , userID});
         }
@@ -65,7 +69,9 @@ router.get('/github/callback',
         const userName = userDoc.userName; 
         const role=userDoc.roles;
         if (role.includes("client")){
-          res.render('clientDashboard',{ userName  , userID})
+          const projects = await Project.find({});
+          
+          res.render('clientDashboard',{ userName  , userID, projects});
         }else{
           res.render('welcome', { userName  , userID});
         }

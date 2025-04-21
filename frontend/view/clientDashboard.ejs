@@ -38,21 +38,21 @@
         <section class="section">
           <h2>Active Projects</h2>
           <article
-            class="content-box"
-            aria-label="Active Projects area"
+          class="content-box"
+            id="activeP"
           ></article>
         </section>
 
         <section class="section">
           <h2>Recently Posted Projects</h2>
-          <article
-            class="content-box"
-            aria-label="Recently Posted area"
-          ></article>
+          <article class="content-box" id="AP"></article>
         </section>
       </article>
     </main>
     <%- include('partials/joblisting') %>
+    <script>
+      window.projectData = <%- JSON.stringify(projects) %>;
+    </script>
     <script type="module" src="/js/welcome.js"></script>
   </body>
 </html>

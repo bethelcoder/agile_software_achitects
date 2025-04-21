@@ -1,6 +1,6 @@
 const passport = require('passport');
 const User = require('../api/mongoDB/User');
-const project = require('../api/mongoDB/project');
+const Project = require('../api/mongoDB/project');
 const clientDes = require('../api/mongoDB/description');
 //controllers for registration and login
 const regPage = (req, res) => {
@@ -79,7 +79,7 @@ const submitDetails = async (req,res)=>{
     let errors= [];
     try{
 
-    const Listing = new project(Clientlis);
+    const Listing = new Project(Clientlis);
     await Listing.save();
 
     }
@@ -91,7 +91,9 @@ const submitDetails = async (req,res)=>{
 
 const clientProf = async (req, res) => {
     const { organisation, position, location, about, userID } = req.body;
-  
+    const projects = await Project.find({});
+      
+   
     const profile = {
       userID,
       Organisation: organisation,
@@ -100,7 +102,7 @@ const clientProf = async (req, res) => {
       About: about
     };
   
-    console.log('Ready to save profile data:', profile);
+    
     try {
         const updatedProfile = await clientDes.findOneAndUpdate(
           { userID },
@@ -114,7 +116,7 @@ const clientProf = async (req, res) => {
           return res.status(404).send("User not found");
         }
     
-        res.render('clientDashboard', { userName: user.userName, userID });
+        res.render('clientDashboard', { userName: user.userName, userID ,projects});
     } catch (error) {
       console.error("Error saving profile:", error);
       res.status(500).json({ message: "Error adding Client Profile" });
