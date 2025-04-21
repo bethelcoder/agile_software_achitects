@@ -33,7 +33,13 @@ router.get('/google/callback',
 
       if (userDoc) { 
         const userName = userDoc.userName;
-        res.render('welcome', { userName  , userID});
+        const role=userDoc.roles;
+        if (role.includes("client")){
+          res.render('clientDashboard',{ userName  , userID})
+        }else{
+          res.render('welcome', { userName  , userID});
+        }
+        
       } else {
         res.redirect('/g-profile');
       }
@@ -43,6 +49,7 @@ router.get('/google/callback',
     }
   }
 );
+
 
 
 
@@ -56,8 +63,13 @@ router.get('/github/callback',
       if (userDoc) {
        
         const userName = userDoc.userName; 
-        // User already exists → redirect to welcome
-        res.render('welcome', { userName , userID});
+        const role=userDoc.roles;
+        if (role.includes("client")){
+          res.render('clientDashboard',{ userName  , userID})
+        }else{
+          res.render('welcome', { userName  , userID});
+        }
+        
       } else {
         res.redirect('/github-profile');
       }

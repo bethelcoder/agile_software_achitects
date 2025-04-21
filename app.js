@@ -9,6 +9,8 @@ const passport = require('passport');
 const session = require('express-session');
 const PORT = process.env.PORT || 4000;
 const description=  require('./backend/api/mongoDB/description');
+const project =  require('./backend/api/mongoDB/project');
+const User=require('./backend/api/mongoDB/User')
 
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
@@ -67,6 +69,8 @@ app.use(session({
     });
 
 
+
+
     app.get('/submit-clientProfile',async(req, res)=>{
       const userID = req.query.userID;
       
@@ -89,6 +93,44 @@ app.use(session({
     }
       
     })
+
+
+
+
+    app.get('/post-project',async(req, res)=>{
+      const userID = req.query.userID;
+      const title = req.query.title;
+      const description = req.query.description;
+      const minPay = req.query.minPay;
+      const deadline = req.query.deadline;
+      const skills = req.query.skills;
+      
+      const Clientlis={
+        clientID: userID,
+        title: title,
+        description:description,
+        minPay: minPay,
+        applicableSkills:skills,
+        status:"Active"
+    }
+
+    let errors= [];
+    try{
+
+    const Listing = new project(Clientlis);
+    await Listing.save();
+    const user = await User.findOne({ userID });
+    const userName= user.userName; 
+    res.render('clientDashboard',{ userName  , userID})
+    }
+    catch (error){
+        res.status(500).json({ message: "Error adding Project" }); 
+        console.log(error);
+    }
+      
+    })
+
+
 
     app.get('/logout', (req, res) => {
         req.logout(function(err) {

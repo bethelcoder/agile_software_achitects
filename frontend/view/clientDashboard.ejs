@@ -4,15 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Client Dashboard</title>
+   
+   
     <link rel="stylesheet" href="/css/clientDashboard.css" />
   </head>
-  <body>
+  <body  data-userid="<%= userID %>">
     <header class="top-nav">
       <button class="menu-icon">☰</button>
       <h1 class="logo">Freelance-studio</h1>
-      <button class="postProject">Post a Project</button>
+      <button class="postProject" id="addProject">Post a Project</button>
       <section class="profile-info">
-        <img src="/images/profile-icon.jpg" alt="profile-pic" />
+        <button class="acc"><img src="/images/profile-icon.jpg" id="profile"/>
         <p><%= userName || "Guest" %></p>
       </section>
     </header>
@@ -50,5 +52,7 @@
         </section>
       </article>
     </main>
+    <%- include('partials/joblisting') %>
+    <script type="module" src="/js/welcome.js"></script>
   </body>
 </html>
