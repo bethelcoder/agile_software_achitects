@@ -8,6 +8,7 @@ app.use(express.json());
 const passport = require('passport');
 const session = require('express-session');
 const PORT = process.env.PORT || 4000;
+const description=  require('./backend/api/mongoDB/description');
 
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
@@ -64,6 +65,30 @@ app.use(session({
           };
         res.render('usernamepage');
     });
+
+
+    app.get('/submit-clientProfile',async(req, res)=>{
+      const userID = req.query.userID;
+      
+  
+    try {
+      const profile = await description.findOne({ userID })|| null;
+      if (profile){
+      res.render('clientProfile', {
+        userID,
+        profile
+      });
+    }
+    else{
+      res.render('clientProfile', { userID, profile });
+    }
+    
+    } catch (error) {
+      console.error('Error fetching profile:', error);
+      res.status(500).send('Server error');
+    }
+      
+    })
 
     app.get('/logout', (req, res) => {
         req.logout(function(err) {

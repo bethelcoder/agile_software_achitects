@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Freelance Studio</title>
+    <link rel="stylesheet" href="/css/welcome.css">
+</head>
+<body>
+    <main class="side">
+    
+<section>
+
+    </section>
+    <h2>Please fill in details about you and your organisation</h2>
+
+    
+  <section class="form-container">
+    <form action="/users/submit-clientProfile" method="POST">
+        
+
+        <input type="hidden" name="userID" value= <%= userID %> >
+      <label>*Name of organisation :</label>
+      <input type="text" 
+        name="organisation" 
+        placeholder="e.g Absa" 
+        value="<%= profile ? profile.Organisation : '' %>">
+    </br>
+    </br>
+    <label>Position :</label>
+      <input type="text" 
+      name="position" 
+      placeholder="*e.g Recruiter" 
+      value="<%= profile ? profile.Position : '' %>"
+      required>
+    </br>
+    </br>
+    <label>Location :</label>
+      <input type="text" 
+        name="location" 
+       
+        value="<%= profile ? profile.Location : '' %>"
+        >
+    </br>
+    </br>
+    <label for="about">About</label>
+  <textarea name="about"><%= profile ? profile.About : '' %></textarea>
+
+    
+        
+</br> </br> </br>
+        <button type="submit">Submit Profile</button>
+    </form>
+  </section>
+    </main>
+<p><a href="/logout">Logout</a></p>
+</body>
+</html>

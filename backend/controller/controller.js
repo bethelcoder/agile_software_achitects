@@ -1,6 +1,7 @@
 const passport = require('passport');
 const User = require('../api/mongoDB/User');
 const Client = require('../api/mongoDB/Client');
+const clientDes = require('../api/mongoDB/description');
 //controllers for registration and login
 const regPage = (req, res) => {
     res.render('register');
@@ -86,15 +87,45 @@ const submitDetails = async (req,res)=>{
         res.status(500).json({ message: "Error adding Job Listing" }); 
     }
 
-
-
-
-
 }
+
+const clientProf = async (req, res) => {
+    const { organisation, position, location, about, userID } = req.body;
+  
+    const profile = {
+      userID,
+      Organisation: organisation,
+      Position: position,
+      Location: location,
+      About: about
+    };
+  
+    console.log('Ready to save profile data:', profile);
+    try {
+        const updatedProfile = await clientDes.findOneAndUpdate(
+          { userID },
+          profile,
+          { new: true, upsert: true } // upsert = create if not exist
+        );
+    
+        const user = await User.findOne({ userID });
+    
+        if (!user) {
+          return res.status(404).send("User not found");
+        }
+    
+        res.render('welcome', { userName: user.userName, userID });
+    } catch (error) {
+      console.error("Error saving profile:", error);
+      res.status(500).json({ message: "Error adding Client Profile" });
+    }
+  };
+
 
 module.exports = {
     regPage,
     logPage,
     submitUsername,
-    submitDetails
+    submitDetails,
+    clientProf
 }

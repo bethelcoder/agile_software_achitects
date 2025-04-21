@@ -3,7 +3,7 @@ const router = Router();
 const controllers = require('../controller/controller');
 const passport = require('passport');
 const User = require('../api/mongoDB/User');
-
+const description= require('../api/mongoDB/description');
 
 router.get('/register', controllers.regPage);
 router.get('/login', controllers.logPage);
@@ -12,6 +12,7 @@ router.get('/submit-username', (req, res) => {
 });
 router.post('/submit-username', controllers.submitUsername);
 router.post('/submit-jobDetails', controllers.submitDetails);
+router.post('/submit-clientProfile', controllers.clientProf);
 
 // -------- 3rd part IdP Authentication
 router.get('/google', passport.authenticate('google', {
@@ -32,7 +33,7 @@ router.get('/google/callback',
 
       if (userDoc) { 
         const userName = userDoc.userName;
-        res.render('welcome', { userName });
+        res.render('welcome', { userName  , userID});
       } else {
         res.redirect('/g-profile');
       }
@@ -43,6 +44,8 @@ router.get('/google/callback',
   }
 );
 
+
+
 router.get('/github/callback',
   passport.authenticate('github', { failureRedirect: '/auth/github' }),
   async (req, res) => {
@@ -51,9 +54,10 @@ router.get('/github/callback',
       const userDoc = await User.findOne({ userID });
 
       if (userDoc) {
-        const userName = userDoc.userName;
+       
+        const userName = userDoc.userName; 
         // User already exists → redirect to welcome
-        res.render('welcome', { userName });
+        res.render('welcome', { userName , userID});
       } else {
         res.redirect('/github-profile');
       }
