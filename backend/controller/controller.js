@@ -1,6 +1,9 @@
 const passport = require('passport');
 const User = require('../api/mongoDB/User');
-//controllers for registration and login
+const Project = require('../api/mongoDB/Project');
+const Application = require('../api/mongoDB/Application');
+
+
 const regPage = (req, res) => {
     res.render('register');
 };
@@ -23,16 +26,15 @@ const submitUsername = async (req, res) => {
     }
 
     const userData = {
-        userID: googleId, // Ensure it's an INT for MongoDB
+        userID: googleId,
         userName,
-        roles: Array.isArray(roles) ? roles : [roles], // Always an array
+        roles: Array.isArray(roles) ? roles : [roles],
     };
 
     console.log('Ready to save user data:', userData);
 
     let errors = [];
     try {
-        // Check if username already exists in the db
         const existingUser = await User.findOne({ userName: userData.userName });
         if (existingUser) {
             errors.push({ message: "Username already exists. Please come up with a new one" });
@@ -43,7 +45,6 @@ const submitUsername = async (req, res) => {
             });
         }
 
-        // Save user data to MongoDB
         const newUser = new User(userData);
         await newUser.save();
         console.log('User data successfully saved to MongoDB.');
@@ -57,8 +58,66 @@ const submitUsername = async (req, res) => {
     }
 };
 
+
+
+
+
+
+const getProjectsByStatus = async (req, res) => {
+    try {
+        const projects = await Project.find({ status: req.params.status });
+        res.json(projects);
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to get projects' });
+    }
+};
+const getPostedProjectsByClients = async (req, res) => {
+    try {
+        const projects = await Project.find({ status: 'posted' });
+        res.json(projects);
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to get posted projects' });
+    }
+};
+
+
+const createProject = async (req, res) => {
+    try {
+        const project = await Project.create(req.body);
+        res.status(201).json(project);
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to create project' });
+    }
+};
+
+
+const getApplicationsByFreelancer = async (req, res) => {
+    const apps = await Application.find({ "freelancerId.userID": req.params.freelancerId })
+      .populate('projectId', 'title status description');
+    res.json(apps);
+  };
+
+const createApplication = async (req, res) => {
+    try {
+        const app = await Application.create(req.body);
+        res.status(201).json(app);
+    } catch (err) {
+        res.status(500).json({ error: 'Failed to create application' });
+    }
+};
+
 module.exports = {
+  
     regPage,
     logPage,
     submitUsername,
-}
+
+
+
+    getProjectsByStatus,
+    createProject,
+
+    getPostedProjectsByClients,
+    getApplicationsByFreelancer,
+    createApplication
+};
