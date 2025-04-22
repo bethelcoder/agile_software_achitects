@@ -117,8 +117,12 @@ module.exports = {
     regPage,
     logPage,
     submitUsername,
+
+
+
     getProjectsByStatus,
     createProject,
+
     getPostedProjectsByClients,
     getApplicationsByFreelancer,
     createApplication
