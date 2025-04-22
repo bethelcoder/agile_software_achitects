@@ -1,15 +1,13 @@
-const { Router } = require('express');
-const router = Router();
-const controllers = require('../controller/controller');
+const express = require('express');
+const router = express.Router();
 const passport = require('passport');
+const controller = require('../controller/controller');
 const User = require('../api/mongoDB/User');
 const middleware = require('../middlewares');
 
 
 router.get('/register', controllers.regPage);
 router.get('/login', controllers.logPage);
-
-
 
 router.get('/dashboard', async (req, res) => {
   const userID = req.user.profile.id;
@@ -27,23 +25,23 @@ router.get('/dashboard', async (req, res) => {
 });
 
 router.post('/submit-username', controllers.submitUsername);
+router.get('/submit-username', (req, res) => {
+  res.redirect('/');
+});
 
-// -------- 3rd part IdP Authentication
+
+// 3rd Party Login: Google
 router.get('/google', passport.authenticate('google', {
-    scope: ['profile', 'email'] // These are the data we want access to from the user
-  })); 
+  scope: ['profile', 'email']
+}));
 
-router.get('/github', passport.authenticate('github', {
-  scope: ['profile', 'email'] // These are the data we want access to from the user
-})); 
-
-// -------- 3rd party IdP Callbacks
 router.get('/google/callback',
   passport.authenticate('google', { failureRedirect: '/auth/google' }),
   async (req, res) => {
     const userID = req.user.profile.id;
     try {
       const userDoc = await User.findOne({ userID });
+
 
       if (userDoc) { 
           const userName = userDoc.userName;
@@ -62,11 +60,16 @@ router.get('/google/callback',
         res.redirect('/g-profile');
       }
     } catch (error) {
-        console.error('Error checking user existence:', error);
-        res.status(500).send("Error!");
+      console.error('Error checking user existence:', error);
+      res.status(500).send("Error!");
     }
   }
 );
+
+// 3rd Party Login: GitHub
+router.get('/github', passport.authenticate('github', {
+  scope: ['profile', 'email']
+}));
 
 router.get('/github/callback',
   passport.authenticate('github', { failureRedirect: '/auth/github' }),
@@ -74,6 +77,7 @@ router.get('/github/callback',
     const userID = req.user.profile.id;
     try {
       const userDoc = await User.findOne({ userID });
+
 
       if (userDoc) { 
           const userName = userDoc.userName;
@@ -91,12 +95,16 @@ router.get('/github/callback',
         res.redirect('/github-profile');
       }
     } catch (error) {
-        console.error('Error checking user existence:', error);
-        res.status(500).send("Error!");
+      console.error('Error checking user existence:', error);
+      res.status(500).send("Error!");
     }
   }
 );
 
-
+router.get('/projects/:status', controller.getProjectsByStatus);
+router.post('/projects', controller.createProject);
+router.get('/applications/:freelancerId', controller.getApplicationsByFreelancer);
+router.post('/applications', controller.createApplication);
+router.get('/projects/clients',controller.getPostedProjectsByClients)
 
 module.exports = router;
