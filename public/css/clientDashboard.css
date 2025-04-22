@@ -27,10 +27,14 @@ img {
 }
   
 .logo {
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin: 0 10px;
-}
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0px 10px;
+  }
+
+  .logo span {
+    color: #0967FC;
+  }
   
 .profile-info {
     display: flex;

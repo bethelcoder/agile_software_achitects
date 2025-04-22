@@ -1,5 +1,7 @@
 const passport = require('passport');
 const User = require('../api/mongoDB/User');
+
+
 //controllers for registration and login
 const regPage = (req, res) => {
     res.render('register');
@@ -47,8 +49,11 @@ const submitUsername = async (req, res) => {
         const newUser = new User(userData);
         await newUser.save();
         console.log('User data successfully saved to MongoDB.');
-
-        res.status(200).render('welcome', { userName });
+        if(roles.length == 1 && roles[0] == 'Client'){
+            return res.status(200).render('clientDashboard', {userName: userData.userName});
+        }
+        
+        // res.status(200).render('welcome', { userName });
 
     } catch (error) {
         console.error("Error saving user:", error.message);

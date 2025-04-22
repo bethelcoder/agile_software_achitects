@@ -3,13 +3,29 @@ const router = Router();
 const controllers = require('../controller/controller');
 const passport = require('passport');
 const User = require('../api/mongoDB/User');
+const middleware = require('../middlewares');
 
 
 router.get('/register', controllers.regPage);
 router.get('/login', controllers.logPage);
-router.get('/submit-username', (req, res) => {
-  res.redirect('/');
+
+
+
+router.get('/dashboard', async (req, res) => {
+  const userID = req.user.profile.id;
+  const userDoc = await User.findOne({ userID });
+  const userName = userDoc.userName;
+  const userRole = userDoc.roles;
+
+  if (userRole.length == 1 && userRole[0] == "client") {
+    res.render('clientDashboard', { userName });
+  } else if (userRole.length > 1) {
+    res.render('welcome', { userName });
+  } else {
+    res.send('Something went wrong with user roles.');
+  }
 });
+
 router.post('/submit-username', controllers.submitUsername);
 
 // -------- 3rd part IdP Authentication
@@ -25,13 +41,23 @@ router.get('/github', passport.authenticate('github', {
 router.get('/google/callback',
   passport.authenticate('google', { failureRedirect: '/auth/google' }),
   async (req, res) => {
-    const userID = req.user.id;
+    const userID = req.user.profile.id;
     try {
       const userDoc = await User.findOne({ userID });
 
       if (userDoc) { 
-        const userName = userDoc.userName;
-        res.render('welcome', { userName });
+          const userName = userDoc.userName;
+          const userRole = userDoc.roles;
+          if(userRole.length == 1){
+              if(userRole[0] == "client") {
+                // res.render('clientDashboard', { userName });
+                res.redirect('/users/dashboard');
+              } else {
+                res.json({message: "Landend here instead"});
+              }
+          } else {
+              res.render('welcome', { userName });
+          }
       } else {
         res.redirect('/g-profile');
       }
@@ -45,14 +71,22 @@ router.get('/google/callback',
 router.get('/github/callback',
   passport.authenticate('github', { failureRedirect: '/auth/github' }),
   async (req, res) => {
-    const userID = req.user.id;
+    const userID = req.user.profile.id;
     try {
       const userDoc = await User.findOne({ userID });
 
-      if (userDoc) {
-        const userName = userDoc.userName;
-        // User already exists → redirect to welcome
-        res.render('welcome', { userName });
+      if (userDoc) { 
+          const userName = userDoc.userName;
+          const userRole = userDoc.roles;
+          if(userRole.length == 1){
+              if(userRole[0] == "client") {
+                res.redirect('/users/dashboard');
+              } else {
+                res.json({message: "Landend here instead"});
+              }
+          } else {
+              res.render('welcome', { userName });
+          }
       } else {
         res.redirect('/github-profile');
       }

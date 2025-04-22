@@ -3,16 +3,14 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
+const MongoStore = require('connect-mongo');
 const path = require('path');
 app.use(express.json());
 const passport = require('passport');
 const session = require('express-session');
 const PORT = process.env.PORT || 4000;
 
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
+mongoose.connect(process.env.MONGO_URI)
 .then(() => console.log("✅ MongoDB connected successfully"))
 .catch((err) => console.error("❌ MongoDB connection error:", err));
 
@@ -28,8 +26,17 @@ require('./backend/api/passport');
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
   }));
+// app.use(session({
+//   secret: process.env.SESSION_SECRET,
+//   resave: false,
+//   saveUninitialized: false,
+//   store: MongoStore.create({ mongoUrl: process.env.MONGO_URI }),
+//   cookie: {
+//     maxAge: 2 * 60 * 60 * 1000, // 2 hours
+//   },
+// }));
   
   // Initialize passport and session
   app.use(passport.initialize());
@@ -47,7 +54,7 @@ app.use(session({
 
     app.get('/g-profile', (req, res) => {
 
-        const googleId = req.user.id;
+        const googleId = req.user.profile.id;
 
         req.session.tempUser = {
             userId: googleId,
@@ -57,7 +64,7 @@ app.use(session({
 
     app.get('/github-profile', (req, res) => {
 
-        const githubId = req.user.id;
+        const githubId = req.user.profile.id;
         console.log(req.user);
         req.session.tempUser = {
             userId: githubId,
@@ -84,7 +91,7 @@ app.use(session({
       
 
 app.get('/', (req, res) => {
-    res.render('index');
+    res.render('landingPage');
 });
 
   
