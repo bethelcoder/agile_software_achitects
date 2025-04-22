@@ -6,8 +6,8 @@ const User = require('../api/mongoDB/User');
 const middleware = require('../middlewares');
 
 
-router.get('/register', controllers.regPage);
-router.get('/login', controllers.logPage);
+router.get('/register', controller.regPage);
+router.get('/login', controller.logPage);
 
 router.get('/dashboard', async (req, res) => {
   const userID = req.user.profile.id;
@@ -24,7 +24,7 @@ router.get('/dashboard', async (req, res) => {
   }
 });
 
-router.post('/submit-username', controllers.submitUsername);
+router.post('/submit-username', controller.submitUsername);
 router.get('/submit-username', (req, res) => {
   res.redirect('/');
 });
