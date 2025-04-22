@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Freelance Studio</title>
+  <link rel="stylesheet" href="freelancer_dashboard.css">
+</head>
+<body>
+
+  <aside>
+    <nav>
+      <button>Home</button>
+      <button>Active Projects</button>
+      <button>My Applications</button>
+      <button>Recently Posted</button>
+      <button>Completed Projects</button>
+    </nav>
+    <button class="switch-button">Switch to Client</button>
+  </aside>
+
+  <main>
+    <header>
+      <label for="searchbox">🔍</label>
+      <form>
+        <input id="searchbox" type="text" placeholder="Search jobs">
+      </form>
+      <label><%= userName%>👤</label>
+    </header>
+
+    <section>
+      <article>
+        <label>Overview</label>
+        <section style="display: flex; gap: 20px; margin-top: 10px;">
+          <article style="text-align: center; background-color: #fff; padding: 10px; border: 1px solid gray; flex: 1;">
+            <label>Posted Projects</label>
+          </article>
+          <article style="text-align: center; background-color: #fff; padding: 10px; border: 1px solid gray; flex: 1;">
+            <label>Active Projects</label>
+          </article>
+          <article style="text-align: center; background-color: #fff; padding: 10px; border: 1px solid gray; flex: 1;">
+            <label>My Applications</label>
+          </article>
+          <article style="text-align: center; background-color: #fff; padding: 10px; border: 1px solid gray; flex: 1;">
+            <label>Completed Projects</label>
+          </article>
+        </section>
+      </article>
+
+      <article>
+        <label>Active Projects</label>
+        <!-- Active projects go here -->
+      </article>
+
+      <article>
+        <label>Advertise your skills</label><br><br>
+        <button type="button" onclick="toggleJobForm()">Add Job</button><br><br>
+
+        <form id="jobForm" style="display: none;">
+          <label for="jobTitle">Job Title:</label><br>
+          <input type="text" id="jobTitle" placeholder=""><br><br>
+
+          <label for="jobDescription">Description:</label><br>
+          <textarea id="jobDescription" rows="3" placeholder="."></textarea><br><br>
+
+          <label for="jobBudget">Budget:</label><br>
+          <input type="text" id="jobBudget" placeholder=""><br><br>
+
+          <button type="button" onclick="submitJob()">Post Job</button>
+        </form>
+      </article>
+
+      <article>
+        <label>My Applications</label>
+      </article>
+
+      <article>
+        <label>Completed Projects</label>
+      </article>
+    </section>
+  </main>
+
+  <script src="freelancer_dashboard.js"></script>
+</body>
+</html>
