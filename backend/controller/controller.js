@@ -31,7 +31,7 @@ const submitUsername = async (req, res) => {
         roles: Array.isArray(roles) ? roles : [roles],
     };
 
-    console.log('Ready to save user data:', userData);
+    //console.log('Ready to save user data:', userData);
 
     let errors = [];
     try {
@@ -47,13 +47,13 @@ const submitUsername = async (req, res) => {
 
         const newUser = new User(userData);
         await newUser.save();
-        console.log('User data successfully saved to MongoDB.');
+        //console.log('User data successfully saved to MongoDB.');
 
         res.status(200).render('welcome', { userName });
 
     } catch (error) {
-        console.error("Error saving user:", error.message);
-        console.error("Stack trace:", error.stack);
+        //console.error("Error saving user:", error.message);
+        //console.error("Stack trace:", error.stack);
         res.status(500).json({ message: "Error saving user" });
     }
 };
