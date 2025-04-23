@@ -1,11 +1,5 @@
-const express = require("express");
-const session = require("express-session");
-const request = require("supertest");
-
-// My own files
 const controller = require('../controller/controller');
 const application = require('../api/mongoDB/Application');
-const app = express();
 
 /**
  * Mocks for:
