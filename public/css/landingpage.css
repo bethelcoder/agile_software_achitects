@@ -1,0 +1,207 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background-color: #fff;
+    color: #000;
+  }
+
+  header {
+    background: url("/images/Wireframe-2.jpg") no-repeat;
+    /* background-position: center; */
+    background-size: cover;
+    padding: 2rem;
+    color: white;
+    position: relative;
+    height: 40rem;
+  }
+
+  .header-content {
+    max-width: 1200px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .logo {
+    font-size: 2rem;
+    font-weight: 700;
+  }
+
+  .logo span {
+    color: #0967FC;
+  }
+
+  .nav-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .nav-buttons button {
+    padding: .7rem 2.0rem;
+    font-weight: 700;
+    border-radius: 30px;
+    border: 2px solid white;
+    background-color: transparent;
+    color: white;
+    cursor: pointer;
+  }
+
+  .nav-buttons .signup {
+    background: white;
+    color: #5EB4DC;
+    border: none;
+  }
+
+  .hero {
+    max-width: 1200px;
+    margin: 3.5rem auto 2rem;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .left-sec {
+    margin-top: 2.0rem;
+  }
+  .hero h2 {
+    font-size: 3.0rem;
+    line-height: 1.4;
+  }
+
+  .hero p {
+    margin-top: 1.5rem;
+    font-size: 1rem;
+    color: #f1f1f1;
+    max-width: 600px;
+  }
+
+  .hero button {
+    margin-top: 2rem;
+    padding: 1rem 2.0rem;
+    border-radius: 30px;
+    background-color: #0967FC;
+    color: white;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+  }
+
+  .hero img {
+    width: 27rem;
+    height: 27rem;
+  }
+
+
+  /* ------- main section -------- */
+  .services {
+    padding: 5rem 0rem;
+    background-color: #fff;
+    text-align: center;
+  }
+
+  .services h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+  }
+
+  .services h2 span {
+    color: #27585D;
+  }
+
+  .profile-img {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    max-width: 1200px;
+    margin: auto;
+  }
+
+  .card {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 10px;
+  }
+
+  .disp-img {
+    width: 15rem;
+    height: 11.5rem;
+  }
+
+  .description {
+    margin-top: 1.2rem;
+  }
+  .description .credentials {
+    display: flex;
+    gap: .6rem;
+  }
+ 
+  .card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+  }
+
+  .card p {
+    font-size: 0.8rem;
+    color: #666;
+    text-align: left;
+  }
+
+  .card .price {
+    margin-top: 1rem;
+    font-weight: 600;
+  }
+
+  .top-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: first baseline;
+    padding: 0rem 12rem;
+  }
+
+  .top-group button {
+    padding: 0.75rem 2rem;
+    border-radius: 30px;
+    background-color: #9F9E9E;
+    color: white;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+  }
+
+  .footer {
+    background-color: #27585D;
+    padding: 3rem 3rem;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  @media (max-width: 768px) {
+    .hero h1 {
+      font-size: 2rem;
+    }
+
+    .nav-buttons {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }

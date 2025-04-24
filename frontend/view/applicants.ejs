@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Applicants for <%= applications.title %></title>
+    <!-- <link rel="stylesheet" href="/css/applicants.css" /> -->
+  </head>
+  <body>
+    <header class="top-nav">
+      <button class="menu-icon">☰</button>
+      <h1 class="logo">Freelance-studio</h1>
+      <section class="profile-info">
+        <p><%= applications.userName %></p>
+      </section>
+    </header>
+
+    <main class="main-layout">
+      <h2>Applicants for Project: <%= applications.title %></h2>
+
+      <section class="applicants-list">
+        <% if (applications.length === 0) { %>
+          <p>No freelancers have applied yet.</p>
+        <% } else { %>
+          <ul>
+            <% applications.forEach(app => { %>
+              <li class="applicant-item">
+                <strong><%= app.title %></strong>
+                <p><%= app.Message %></p>
+              </li>
+            <% }) %>
+          </ul>
+        <% } %>
+      </section>
+
+      <button class="back-to-projects">Back to Projects</button>
+    </main>
+    
+    <script src="/js/applicants.js"></script>
+  </body>
+</html>

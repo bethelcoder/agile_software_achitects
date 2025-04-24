@@ -11,8 +11,13 @@ const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
         callbackURL: 'https://freelancestudio-hzafgne9ethfgfb0.southafricanorth-01.azurewebsites.net/auth/google/callback',
     }, (accessToken, refreshToken, profile, done) => {
-        return done(null, profile);
-    }
+        const user = {
+          profile,
+          accessToken,
+          refreshToken
+        };
+        return done(null, user);
+      }
     )
   );
   passport.use(
@@ -22,8 +27,13 @@ const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
       callbackURL:'http://localhost:4000/auth/github/callback',
     },
     (accessToken, refreshToken, profile, done) => {
-      return done(null, profile);
-    })
+        const user = {
+          profile,
+          accessToken,
+          refreshToken
+        };
+        return done(null, user);
+      })
   );
 
   passport.serializeUser((user, done) => done(null, user));

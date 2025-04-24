@@ -1,7 +1,11 @@
 const passport = require('passport');
 const User = require('../api/mongoDB/User');
-const Project = require('../api/mongoDB/Project');
-const Application = require('../api/mongoDB/Application');
+const clientProject = require('../api/mongoDB/project');
+const clientDes = require('../api/mongoDB/description');
+
+//controllers for registration and login
+const Project = require('../api/mongoDB/Freelancer_Project');
+const Application = require('../api/mongoDB/Freelancer_Application');
 
 
 const regPage = (req, res) => {
@@ -31,7 +35,7 @@ const submitUsername = async (req, res) => {
         roles: Array.isArray(roles) ? roles : [roles],
     };
 
-    //console.log('Ready to save user data:', userData);
+    console.log('Ready to save user data:', userData);
 
     let errors = [];
     try {
@@ -47,19 +51,83 @@ const submitUsername = async (req, res) => {
 
         const newUser = new User(userData);
         await newUser.save();
-        //console.log('User data successfully saved to MongoDB.');
 
-        res.status(200).render('welcome', { userName });
-
+        req.session.user = {
+            userID: userData.userID,
+            userName: userData.userName,
+            roles: userData.roles
+        };
+        delete req.session.tempUser;
+        console.log('User data successfully saved to MongoDB.');
+        res.status(200).redirect('/users/dashboard');
     } catch (error) {
-        //console.error("Error saving user:", error.message);
-        //console.error("Stack trace:", error.stack);
+        console.error("Error saving user:", error.message);
+        console.error("Stack trace:", error.stack);
         res.status(500).json({ message: "Error saving user" });
     }
 };
 
+const submitDetails = async (req,res)=>{
+    const title = req.body.title;
+    const description = req.body.description;
+    const minPay = req.body.minPay;
+    const skills= req.body.skills;
+
+    const Clientlis={
+        clientID: req.body.clientID,
+        title: title,
+        description:description,
+        minPay: minPay,
+        applicableSkills:skills
+    }
 
 
+    let errors= [];
+    try{
+
+    const Listing = new Project(Clientlis);
+    await Listing.save();
+
+    }
+    catch (error){
+        res.status(500).json({ message: "Error adding Project" }); 
+    }
+
+};
+
+const clientProf = async (req, res) => {
+    const { organisation, position, location, about, userID } = req.body;
+    const projects = await Project.find({});
+      
+   
+    const profile = {
+      userID,
+      Organisation: organisation,
+      Position: position,
+      Location: location,
+      About: about
+    };
+  
+    
+    try {
+        const updatedProfile = await clientDes.findOneAndUpdate(
+          { userID },
+          profile,
+          { new: true, upsert: true } // upsert = create if not exist
+        );
+    
+        const user = await User.findOne({ userID });
+    
+        if (!user) {
+          return res.status(404).send("User not found");
+        }
+    
+        res.render('clientDashboard', { userName: user.userName, userID ,projects});
+    } catch (error) {
+      console.error("Error saving profile:", error);
+      res.status(500).json({ message: "Error adding Client Profile" });
+    }
+  };
 
 
 
@@ -91,10 +159,8 @@ const createProject = async (req, res) => {
 };
 
 
-const getApplicationsByFreelancer = async (req, res) => {
-    const apps = await Application.find({ "freelancerId.userID": req.params.freelancerId })
-      .populate('projectId', 'title status description');
-    res.json(apps);
+const getApplicationsByFreelancer = (req, res) => {
+    res.render('freelancer_applications')
   };
 
 const createApplication = async (req, res) => {
@@ -111,13 +177,11 @@ module.exports = {
     regPage,
     logPage,
     submitUsername,
-
-
-
     getProjectsByStatus,
     createProject,
-
     getPostedProjectsByClients,
     getApplicationsByFreelancer,
-    createApplication
+    createApplication,
+    clientProf,
+    submitDetails
 };
