@@ -4,24 +4,29 @@ const passport = require('passport');
 const controller = require('../controller/controller');
 const User = require('../api/mongoDB/User');
 const middleware = require('../middlewares');
-
+const description= require('../api/mongoDB/description');
+const Project = require('../api/mongoDB/project');
 
 router.get('/register', controller.regPage);
 router.get('/login', controller.logPage);
+router.post('/submit-username', controller.submitUsername);
+router.post('/submit-jobDetails', controller.submitDetails);
+router.post('/submit-clientProfile', controller.clientProf);
 
-router.get('/dashboard', async (req, res) => {
+router.get('/dashboard', middleware.ensureAuth, async (req, res) => {
   const userID = req.user.profile.id;
   const userDoc = await User.findOne({ userID });
   const userName = userDoc.userName;
   const userRole = userDoc.roles;
-
+  const allProjects = await Project.find({});
   if (userRole.length == 1 && userRole[0] == "client") {
-    res.render('clientDashboard', { userName });
-  } else if (userRole.length > 1) {
-    res.render('welcome', { userName });
-  } else {
-    res.send('Something went wrong with user roles.');
-  }
+    // ✅ Fetch projects before rendering
+    const clientID = req.user.clientID; // or however you store it
+    const projects = await Project.find({ clientID: userID });
+    res.render('clientDashboard', { userName, userID, projects });
+  } else if (userRole.length == 1 && userRole[0] == "freelancer") {
+    res.render('freelancer_dashboard', { userName, allProjects, userID });
+  } 
 });
 
 router.post('/submit-username', controller.submitUsername);
@@ -41,21 +46,19 @@ router.get('/google/callback',
     const userID = req.user.profile.id;
     try {
       const userDoc = await User.findOne({ userID });
-
-
       if (userDoc) { 
           const userName = userDoc.userName;
           const userRole = userDoc.roles;
-          if(userRole.length == 1){
-              if(userRole[0] == "client") {
-                // res.render('clientDashboard', { userName });
-                res.redirect('/users/dashboard');
-              } else {
-                res.json({message: "Landend here instead"});
-              }
-          } else {
-              res.render('welcome', { userName });
-          }
+          // ✅ Store user in session (so your custom middleware can access it)
+          req.session.user = {
+            userID: userDoc.userID,
+            username: userDoc.userName,
+            roles: userDoc.roles,
+          };
+
+          req.session.save(() => {
+            res.redirect('/users/dashboard');
+          });
       } else {
         res.redirect('/g-profile');
       }
@@ -82,15 +85,16 @@ router.get('/github/callback',
       if (userDoc) { 
           const userName = userDoc.userName;
           const userRole = userDoc.roles;
-          if(userRole.length == 1){
-              if(userRole[0] == "client") {
-                res.redirect('/users/dashboard');
-              } else {
-                res.json({message: "Landend here instead"});
-              }
-          } else {
-              res.render('welcome', { userName });
-          }
+          // ✅ Store user in session (so your custom middleware can access it)
+          req.session.user = {
+            userID: userDoc.userID,
+            username: userDoc.userName,
+            roles: userDoc.roles,
+          };
+
+          req.session.save(() => {
+            res.redirect('/users/dashboard');
+          });
       } else {
         res.redirect('/github-profile');
       }

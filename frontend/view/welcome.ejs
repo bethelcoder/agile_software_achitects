@@ -6,11 +6,12 @@
     <title>Freelance Studio</title>
     <link rel="stylesheet" href="/css/welcome.css">
 </head>
-<body>
+<body data-userid="<%= userID %>">
     <main class="side">
-    
+        
 <section>
     <p><a href="/logout">Logout</a></p>
+    <button id="dash">DashBoard</button>
     <img src="/images/welcome page picture.jpg">
     <p>Find skilled freelancers or connect with </p><br>
         <p>  clients looking to bring exciting ideas to life.</p>
@@ -20,6 +21,8 @@
         <h2>Welcome to Freelancify.</h2>
     </section>
     </main>
-
+    
+    <button id="profile">Edit profile</button>
+    <script type="module" src="/js/welcome.js"></script>
 </body>
 </html>

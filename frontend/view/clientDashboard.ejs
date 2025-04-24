@@ -5,50 +5,184 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Client Dashboard</title>
     <link rel="stylesheet" href="/css/clientDashboard.css" />
+    <style>
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f9;
+      }
+
+      .dashboard {
+        display: flex;
+        min-height: 100vh;
+      }
+
+      aside {
+        background-color: #2c3e50;
+        color: white;
+        width: 220px;
+        padding: 20px;
+      }
+
+      aside h2 {
+        font-size: 1.5em;
+        margin-bottom: 1em;
+      }
+
+      aside nav ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      aside nav ul li {
+        margin: 1em 0;
+      }
+
+      aside nav ul li a {
+        color: white;
+        text-decoration: none;
+        display: block;
+        padding: 0.5em 1em;
+        border-radius: 8px;
+        transition: background 0.3s;
+      }
+
+      aside nav ul li a:hover {
+        background-color: #34495e;
+      }
+
+      main {
+        flex: 1;
+        padding: 40px;
+      }
+
+      .grid-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 20px;
+      }
+
+      .card {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .card h2 {
+        margin: 0;
+        font-size: 2em;
+        color: #4e54c8;
+      }
+
+      .card p {
+        margin-top: 10px;
+        font-weight: bold;
+        font-size: 1.1em;
+      }
+
+      .project-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+      }
+
+      .project-item, .active-project-item {
+        padding: 20px;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      }
+
+      .top-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+      }
+
+      .post-project-btn {
+        padding: 10px 20px;
+        font-size: 1em;
+        background-color: #4e54c8;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+
+      .post-project-btn:hover {
+        background-color: #3b40a4;
+      }
+    </style>
   </head>
-  <body>
-    <header class="top-nav">
-      <button class="menu-icon">☰</button>
-      <h1 class="logo">Freelance <span>Studio.</span></h1>
-      <button class="postProject">Post a Project</button>
-      <section class="profile-info">
-        <img src="/images/profile-icon.jpg" alt="profile-pic" />
-        <p><%= userName || "Guest" %></p>
-      </section>
-    </header>
-
-    <main class="main-layout">
-      <nav class="aside">
-        <ul>
-          <li><a href="#">Home</a></li>
-          <li><a href="#">Active Projects</a></li>
-          <li><a href="#">Recently Posted</a></li>
-          <li><a href="#">Completed Projects</a></li>
-        </ul>
-
+  <body data-userid="<%= userID %>">
+    <div class="dashboard">
+      <aside>
+        <h2>Client Panel</h2>
+        <nav>
+          <ul>
+            <li><a href="#">🏠 Home</a></li>
+            <li><a href="#">📁 My Projects</a></li>
+            <li><a href="/application/applicants/<%= projects._id %>">📄 Applicants</a></li>
+            <li><a href="/submit-clientProfile?userID=<%= userID %>">📄 Profile</a></li>
+            
+          </ul>
+        </nav>
         <section class="bottomNav">
           <button class="switch">Switch to Freelancer</button>
-          <button class="logout"><a href="/logout">Logout</a></button>
+          <button class="logout">Log-out</button>
         </section>
-      </nav>
+      </aside>
 
-      <article class="content">
-        <section class="section">
-          <h2>Active Projects</h2>
-          <article
-            class="content-box"
-            aria-label="Active Projects area"
-          ></article>
+      <main>
+        <article class="top-header">
+          <section style="background: linear-gradient(135deg, #4e54c8, #8f94fb); padding: 30px; border-radius: 12px; color: white; box-shadow: 0 4px 15px rgba(0,0,0,0.2); flex: 1;">
+            <h1 style="margin: 0;">Welcome back, <%= userName || "Guest" %> 👋</h1>
+            <p style="margin-top: 10px; font-size: 1.1em;">Manage your posted projects, track applicants, and stay organized.</p>
+          </section>
+          <button class="postProject post-project-btn" id="addProject">Post a Project</button>
+        </article>
+
+        <section class="grid-cards" style="margin-top: 30px;">
+          <article class="card">
+            <h2>📁</h2>
+            <p>Posted Projects</p>
+            <p><%= projects.length || 0 %></p>
+          </article>
+          <article class="card">
+            <h2>📄</h2>
+            <p>Applicants</p>
+            <p>-</p>
+          </article>
         </section>
 
-        <section class="section">
+        <section style="margin-top: 40px;">
           <h2>Recently Posted Projects</h2>
-          <article
-            class="content-box"
-            aria-label="Recently Posted area"
-          ></article>
+          <article class="content-box project-grid" id="AP">
+            <% projects.forEach(project => { %>
+              <section class="project-item">
+                <h3><%= project.title %></h3>
+                <p><%= project.description %></p>
+                <a href="/application/applicants/<%= project._id %>" style="text-decoration: none; color: #007bff;">View Applicants</a>
+                <form action="/delete-project?<%= project._id %>" method="GET">
+                  <button class="btn" type="submit">Delete Project</button>
+                </form>
+              </section>
+            <% }) %>
+          </article>
         </section>
-      </article>
-    </main>
+      </main>
+    </div>
+
+    <%- include('joblisting') %>
+
+    <script>
+      window.projectData = <%- JSON.stringify(projects) %>;
+    </script>
+    <script type="module" src="/js/welcome.js"></script>
   </body>
 </html>
