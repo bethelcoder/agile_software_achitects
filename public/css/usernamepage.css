@@ -1,0 +1,86 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #f0f2f5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.form-container {
+  background: #fff;
+  padding: 2rem 3rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+}
+
+.form-container img {
+  width: 80px;
+  margin-bottom: 1rem;
+}
+
+.form-container h2 {
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.form-container p {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 0.8rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.checkbox-group {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.checkbox-group label {
+  font-size: 0.95rem;
+  color: #444;
+}
+
+.checkbox-group input {
+  margin-right: 0.4rem;
+}
+
+.radio-group {
+  font-size: 0.9rem;
+  color: #555;
+}
+.radio-group a {
+  color: #007bff;
+  text-decoration: none;
+}
+.radio-group a:hover {
+  text-decoration: underline;
+}
+
+button {
+  background: #007bff;
+  color: white;
+  padding: 0.8rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background: #0056b3;
+}

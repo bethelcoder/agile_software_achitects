@@ -1,0 +1,87 @@
+
+h1 {
+    text-align: left;
+    padding-top: 15vh; /* responsive vertical spacing */
+    font-size: 60px;
+    font-weight: lighter;
+    padding-right: 10px;
+    max-width: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 0.6;
+}
+
+h2 {
+    text-align: center;
+    font-size: 48px;
+    font-weight: lighter;
+    font-style: normal;
+    max-width: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.1;
+}
+
+
+img {
+    align-items: flex-start;
+    width: 100%;
+    max-width: 530px;
+    height: auto;
+    padding: 50px 0px 0px 0px;
+    padding-right: 60px;
+}
+
+
+p { 
+    text-align: left;
+    font-size: 25px;
+    padding: 0;
+    margin: 0 0 4px 0;
+    padding-left: 20px; 
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: lighter;
+    line-height: 0.5;
+}
+
+
+.side {
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 10rem;
+    padding: 80px;
+    justify-content: center;
+    align-items: center;
+    padding-top: 20px;
+}
+
+/* RESPONSIVE TWEAKS */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 36px;
+        padding-top: 80px;
+    }
+
+    h2 {
+        font-size: 30px;
+    }
+
+    p {
+        font-size: 16px;
+        line-height: 1.3;
+        padding-left: 10px;
+    }
+
+    img {
+        max-width: 90%;
+        padding-left: 0;
+    }
+
+    .side {
+        gap: 1.5rem;
+        padding: 20px;
+        flex-direction: column;
+    }
+}
+#about{
+    width:80%;
+    height: 50px;
+}

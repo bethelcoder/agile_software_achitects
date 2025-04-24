@@ -1,0 +1,114 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    background-color: #d1d5db;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+h1, h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 2rem;;
+}
+p {
+    font-family: 'Montserrat', sans-serif;
+    font-size: .8rem;
+    color: #6b7280;
+}
+.form-container {
+    background-color: #fff;
+    height: 80vh;
+    border-radius: 10px;
+    width: 140vh;
+    margin-top: 10vh;
+    display: flex;
+}
+.header-texts {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-left: 2.6rem;
+}
+a {
+    text-decoration: none;
+    color: #009acc;
+}
+.col {
+    flex: 1;
+    padding: 3rem 1.5rem;
+}
+.left-col {
+    background-image: url('/images/vhuthu.jpg');
+    background-position: 0px 50px ;
+    /* background-image: linear-gradient(135deg, #ff4e50, #f9d423); */
+    color: #fff;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.accounts {
+    margin-top: 5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.acc {
+    width: 80%;
+    height: 5vh;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    background-color: transparent;
+    font-size: .9rem;
+    font-weight:500;
+    padding-top: 1.3rem;
+    padding-bottom: 1.3rem;
+    padding-right: 2rem;
+    transition: .3s;
+    cursor: pointer;
+}
+.acc:hover {
+    background-color: #f3f4f6;
+}
+#google-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+#ms-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+}
+#fb-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+#twitter-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+.accounts p {
+    font-weight: bold;
+    color: #6b7280;
+    font-size: .8rem;
+}
+.acc p {
+    color: #374151;
+}
+.sm-accounts {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.sm-accounts .acc {
+    width: 100%;
+}
