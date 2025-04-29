@@ -5,11 +5,7 @@ const Application = require('../api/mongoDB/Freelancer_Application');
 const Project = require('../api/mongoDB/Freelancer_Project');
 const middleware = require('../middlewares');
 // Middleware to check if freelancer is logged in
-// function isFreelancer(req, res, next) {
-//     console.log("Session check:", req.session.user);
-//     if (req.session.user && req.session.user.roles === 'freelancer') return next();
-//     return res.redirect('/users/login');
-//   }
+
 function isFreelancer(req, res, next) {
     const roles = req.session?.user?.roles;
 
@@ -23,7 +19,7 @@ function isFreelancer(req, res, next) {
 
 // POST /apply
 router.post('/apply', async (req, res) => {
-  const { projectId, freelancerId, projectTitle, message } = req.body;
+  const { projectId, freelancerId, userName, projectTitle, message, skills, portfolioLink } = req.body;
 
   try {
     // Check if the freelancer already applied to this project
@@ -31,7 +27,7 @@ router.post('/apply', async (req, res) => {
       'freelancerId.userID': freelancerId,
       projectId
     });
-
+    console.log(projectId);
     if (existingApplication) {
       req.flash('error_msg', 'You have already applied for this job.');
       return res.redirect('/users/dashboard'); // Or wherever your projects are listed
@@ -41,8 +37,10 @@ router.post('/apply', async (req, res) => {
     const newApplication = new Application({
       projectId,
       title: projectTitle, // Store title at time of application
-      freelancerId: { userID: freelancerId },
-      Message: message
+      freelancerId: { userID: freelancerId, userName: userName },
+      Message: message,
+      Skills: skills,
+      links: portfolioLink? portfolioLink: ""
     });
 
     await newApplication.save();

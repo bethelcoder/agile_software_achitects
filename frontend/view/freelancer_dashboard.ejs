@@ -100,6 +100,27 @@
       border-radius: 12px;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
     }
+
+    textarea.application-message,
+    input.application-skills,
+    input.application-link {
+      width: 95%;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    button.applyBtn {
+      margin-top: 10px;
+      padding: 10px 20px;
+      background-color: #4e54c8;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
   </style>
 </head>
 
@@ -159,15 +180,33 @@
                   <h3>Title: <%= project.title %></h3>
                   <p><strong>Description: </strong> <%= project.description %></p>
                   <p><strong>Required Skills: </strong> <%= project.applicableSkills %></p>
-                  <p><strong>Budget: </strong><%= project.minPay %></p>
+                  <p><strong>Budget: </strong>R<%= project.minPay %></p>
                   <p><strong>Deadline: </strong> <%= project.deadline %></p>
                   <form action="/application/apply" method="POST">
                     <input type="hidden" name="projectId" value="<%= project._id %>">
                     <input type="hidden" name="freelancerId" value="<%= userID %>">
                     <input type="hidden" name="projectTitle" value="<%= project.title %>">
+                    <input type="hidden" name="userName" value="<%= userName %>">
+                  
+                    <textarea class="application-message" name="message" placeholder="Write your application message" required></textarea>
+                  
+                    <input class="application-skills" type="text" name="skills" 
+                           placeholder="Your relevant skills (e.g. React, Node.js)" required>
+                  
+                    <input class="application-link" type="url" name="portfolioLink" 
+                           placeholder="Link to related past project (optional)">
+                  
+                    <button type="submit" class="applyBtn">Apply for gig</button>
+                  </form>
+                  
+                  <!-- <form action="/application/apply" method="POST">
+                    <input type="hidden" name="projectId" value="<%= project._id %>">
+                    <input type="hidden" name="freelancerId" value="<%= userID %>">
+                    <input type="hidden" name="projectTitle" value="<%= project.title %>">
+                    <input type="hidden" name="userName" value="<%= userName %>">
                     <textarea name="message" placeholder="Write your message" style="width: 95%; padding: 10px; margin-top: 10px; border-radius: 8px; border: 1px solid #ccc;"></textarea>
                     <button type="submit" class="applyBtn" style="margin-top: 10px; padding: 10px 20px; background-color: #4e54c8; color: white; border: none; border-radius: 8px; cursor: pointer;">Apply for gig</button>
-                  </form>
+                  </form> -->
                 </section>
               <% }) %>
             <% } %>

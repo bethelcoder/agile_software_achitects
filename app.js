@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 4000;
 require('dotenv').config();
 const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo');
@@ -49,10 +49,12 @@ app.use((req, res, next) => {
 require('./backend/api/passport');
 const userRoutes = require('./backend/routes/routes');
 const applicationRoute = require('./backend/routes/application');
+const projectRoute = require('./backend/routes/projects');
 
 app.use('/auth', userRoutes);       
 app.use('/users', userRoutes);      
 app.use('/application', applicationRoute);
+app.use('/projects', projectRoute);
 
 app.get('/g-profile', (req, res) => {
   const googleId = req.user.profile.id;
@@ -75,9 +77,6 @@ app.get('/github-profile', (req, res) => {
 app.get('/submit-clientProfile',async(req, res)=>{
   const userID = req.query.userID;
   const projects = await Project.find({});
-  
-
-
   try {
     const profile = await description.findOne({ userID })|| null;
     if (profile){

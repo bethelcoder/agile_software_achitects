@@ -1,5 +1,5 @@
 const controller = require('../controller/controller');
-const application = require('../api/mongoDB/Application');
+const application = require('../api/mongoDB/Freelancer_Application');
 
 /**
  * Mocks for:
