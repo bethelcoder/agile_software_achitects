@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Applicants for <%= applications.title %></title>
-    <!-- <link rel="stylesheet" href="/css/applicants.css" /> -->
+    <link rel="stylesheet" href="/css/applicants.css" />
   </head>
   <body>
     <header class="top-nav">
@@ -22,20 +22,35 @@
         <% if (applications.length === 0) { %>
           <p>No freelancers have applied yet.</p>
         <% } else { %>
-          <ul>
+          <article class="displayApplicant">
             <% applications.forEach(app => { %>
-              <li class="applicant-item">
+              <section class="applicant-item">
                 <strong><%= app.title %></strong>
+                <h4>Freelancer username: <%= app.freelancerId.userName %></h4>
                 <p><%= app.Message %></p>
-              </li>
+                
+
+                <button 
+                  class="view-details-btn" 
+                  data-username="<%= app.freelancerId.userName %>"
+                  data-message="<%= app.Message %>"
+                  data-skills="<%= app.Skills %>"
+                  data-links="<%= app.links %>"
+                >
+                  View Application Details
+                </button>
+              </section>
             <% }) %>
-          </ul>
+            </article>
         <% } %>
       </section>
 
-      <button class="back-to-projects">Back to Projects</button>
+      <a href="/users/dashboard" class="back-button">← Back to Dashboard</a>
     </main>
     
     <script src="/js/applicants.js"></script>
+
+    <%- include('applicationModal') %>
+    <script src="/js/modalHandler.js"></script>
   </body>
 </html>
