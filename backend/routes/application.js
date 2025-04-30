@@ -1,6 +1,7 @@
 // routes/applications.js
 const express = require('express');
 const router = express.Router();
+const ClientProject = require('../api/mongoDB/Project');
 const Application = require('../api/mongoDB/Freelancer_Application');
 const Project = require('../api/mongoDB/Freelancer_Project');
 const middleware = require('../middlewares');
@@ -67,6 +68,32 @@ router.get('/applications', isFreelancer, async (req, res) => {
       res.render('freelancer_applications', { applications: [], error_msg: 'Could not fetch your applications.' });
     }
   });
+
+  router.get('/applicants', middleware.ensureAuth, async (req, res) => {
+  const clientId = req.session.user.userID;
+
+  try {
+    // Fetch all projects created by this client
+    const clientProjects = await ClientProject.find({ 'clientID': clientId });
+    const projectIds = clientProjects.map(p => p._id);
+
+    if (projectIds.length === 0) {
+      return res.render('applicants', { applications: [] });
+    }
+
+    // Fetch all applications for those projects
+    const applications = await Application.find({ projectId: { $in: projectIds } })
+      .populate('freelancerId', 'userName')
+      .populate('projectId', 'title');
+
+    res.render('applicants', { applications });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error fetching applicants.");
+  }
+});
+
 
   router.get('/applicants/:projectId', middleware.ensureAuth, async (req, res) => {
     const projectId = req.params.projectId;
