@@ -50,11 +50,15 @@ require('./backend/api/passport');
 const userRoutes = require('./backend/routes/routes');
 const applicationRoute = require('./backend/routes/application');
 const projectRoute = require('./backend/routes/projects');
+const Milestone = require('./backend/api/mongoDB/Milestone');
+const Task = require('./backend/api/mongoDB/Tasks');
+const Review = require('./backend/api/mongoDB/Reviews');
 
 app.use('/auth', userRoutes);       
 app.use('/users', userRoutes);      
 app.use('/application', applicationRoute);
-app.use('/projects', projectRoute);
+app.use('/', userRoutes);  
+
 
 app.get('/g-profile', (req, res) => {
   const googleId = req.user.profile.id;
