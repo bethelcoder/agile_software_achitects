@@ -2,6 +2,8 @@ const passport = require('passport');
 const User = require('../api/mongoDB/User');
 const clientProject = require('../api/mongoDB/project');
 const clientDes = require('../api/mongoDB/description');
+const milestone = require('../api/mongoDB/milestone');
+const reviews= require('../api/mongoDB/reviews');
 
 //controllers for registration and login
 const Project = require('../api/mongoDB/Freelancer_Project');
@@ -172,6 +174,47 @@ const createApplication = async (req, res) => {
     }
 };
 
+const viewMilestones = async(req, res)=>{
+    const projectId= req.body.projectId;
+    try{
+        const milestone= await milestone.findOne({projectId: projectId});
+        res.send(milestone);
+
+    }
+    catch(err){
+        res.status(500).json({ error: 'Failed to fetch milestone' });
+    }
+};
+
+
+const markProjectasCompleted = async(req, res)=>{
+    const projectId= req.body.projectID;
+
+    try{
+        await Project.updateOne({projectID: projectID},{$set: {status:"completed"}});
+        res.send("Updated project status");
+    }
+    catch(err){
+        res.status(500).json({ error: 'Failed to update project status' });
+    }
+}
+
+const review = async(req, res)=>{
+    const rev={ 
+        clientID: req.body.clientID,
+        userID: req.body.userID,
+        title: req.body.title,
+        details: req.body.details}
+
+    try{
+        const revs= new reviews(rev);
+        await revs.save();
+    }
+    catch(err){
+        res.status(500).json({ error: 'Failed to create review' });
+    }
+}
+
 module.exports = {
   
     regPage,
@@ -183,5 +226,8 @@ module.exports = {
     getApplicationsByFreelancer,
     createApplication,
     clientProf,
-    submitDetails
+    submitDetails,
+    viewMilestones,
+    markProjectasCompleted,
+    review
 };
