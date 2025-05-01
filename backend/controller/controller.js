@@ -2,6 +2,9 @@ const passport = require('passport');
 const User = require('../api/mongoDB/User');
 const clientProject = require('../api/mongoDB/project');
 const clientDes = require('../api/mongoDB/description');
+const Milestone = require('../api/mongoDB/Milestone');
+const Task = require('../api/mongoDB/Tasks');
+const Review = require('../api/mongoDB/Reviews');
 
 //controllers for registration and login
 const Project = require('../api/mongoDB/Freelancer_Project');
@@ -171,6 +174,62 @@ const createApplication = async (req, res) => {
         res.status(500).json({ error: 'Failed to create application' });
     }
 };
+const getAssignedProjects = async (req, res) => {
+    try {
+      if (!req.session || !req.session.user) {
+        return res.status(401).json({ success: false, error: 'Unauthorized: Session not found.' });
+      }
+  
+      const freelancerId = req.session.user.userID;
+      const projects = await Project.find({ 'freelancerId.userID': freelancerId });
+  
+      res.json({ success: true, projects });
+    } catch (err) {
+      console.error('Error fetching assigned projects:', err);
+      res.status(500).json({ success: false, error: 'Unable to fetch projects.' });
+    }
+  };
+  
+  
+  const getProjectMilestones = async (req, res) => {
+    try {
+      const { projectId } = req.params;
+      const milestones = await Milestone.find({ projectId });
+  
+      if (!milestones || milestones.length === 0) {
+        return res.status(404).json({ milestones: [], error_msg: 'No milestones found.' });
+      }
+  
+      res.status(200).json({ milestones });
+    } catch (err) {
+      console.error('Error fetching milestones:', err);
+      res.status(500).json({ milestones: [], error_msg: 'Unable to fetch milestones.' });
+    }
+  };
+
+  const submitMilestoneWork = async (req, res) => {
+    const milestoneId = req.params.milestoneId;
+  
+    try {
+      const milestone = await Milestone.findById(milestoneId);
+  
+      if (!milestone) {
+        return res.status(404).json({ error: 'Milestone not found.' });
+      }
+  
+      // Update milestone status to 'submitted'
+      milestone.status = 'submitted';
+      await milestone.save();
+  
+      res.status(200).json({ message: 'Milestone submitted for review.', milestone });
+    } catch (err) {
+      console.error('Error submitting milestone:', err);
+      res.status(500).json({ error: 'Failed to submit milestone.' });
+    }
+  };
+  
+ 
+  
 
 module.exports = {
   
@@ -183,5 +242,10 @@ module.exports = {
     getApplicationsByFreelancer,
     createApplication,
     clientProf,
-    submitDetails
+    submitDetails,
+    getAssignedProjects,
+    getProjectMilestones,
+    submitMilestoneWork,
+    
+  
 };

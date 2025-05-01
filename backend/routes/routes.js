@@ -109,6 +109,11 @@ router.get('/projects/:status', controller.getProjectsByStatus);
 router.post('/projects', controller.createProject);
 router.get('/applications/:freelancerId', controller.getApplicationsByFreelancer);
 router.post('/applications', controller.createApplication);
-router.get('/projects/clients',controller.getPostedProjectsByClients)
+router.get('/projects/clients',controller.getPostedProjectsByClients);
+
+router.get('/projects', controller.getAssignedProjects);
+router.get('/projects/:projectId/milestones',controller.getProjectMilestones);
+router.patch('/milestones/:milestoneId/submit', controller.submitMilestoneWork);
+
 
 module.exports = router;
