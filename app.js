@@ -54,7 +54,7 @@ const projectRoute = require('./backend/routes/projects');
 app.use('/auth', userRoutes);       
 app.use('/users', userRoutes);      
 app.use('/application', applicationRoute);
-app.use('/projects', projectRoute);
+app.use( projectRoute);
 
 app.get('/g-profile', (req, res) => {
   const googleId = req.user.profile.id;
