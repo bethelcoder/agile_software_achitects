@@ -1,0 +1,263 @@
+<section class="modal hidden">
+  <section class="modal-content">
+    <span class="close">&times;</span>
+    <h1>Milestone Tracker</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Milestone</th>
+          <th>Due date</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="table-body"></tbody>
+    </table>
+    <button class="new-milestone-btn">+ new milestone</button>
+    <section class="end-project">
+      <button class="project-completed">Mark Complete</button>
+    </section>
+  </section>
+</section>
+
+<!-- Add a new milestone -->
+<section class="new-milestone hidden">
+  <section class="milestone-content">
+    <span class="cancel-milestone">&times;</span>
+    <h1>Add Milestone</h1>
+    <label for="milestone">Milestone Name</label>
+    <input id="milestone" type="text" placeholder="Enter milestone name" />
+
+    <label for="milestone-descript">Milestone Description</label>
+    <textarea id="milestone-descript"></textarea>
+
+    <label for="due-date">Due Date</label>
+    <input id="due-date" type="date" placeholder="choose due-date" />
+
+    <button class="sub" type="button" id="submit-mile">Submit</button>
+  </section>
+</section>
+
+<!-- Milestone Details -->
+<section class="Milestone-details hidden">
+  <section class="Milestone-details-content">
+    <span class="close-approval">&times;</span>
+    <h1>Milestone Name</h1>
+
+    <label for="milestone">Description</label>
+    <textarea class="inp" id="milestone"></textarea>
+
+    <label for="files">Submitted Files</label>
+    <textarea class="inp" id="files"></textarea>
+
+    <section class="milestone-approval">
+      <button id="reject">Reject</button>
+      <button id="approve">Approve</button>
+    </section>
+  </section>
+</section>
+<script type="module" src="/js/milestoneTracker.js"></script>
+
+<style>
+  .hidden {
+    display: none;
+  }
+  table {
+    width: 90%;
+  }
+  th {
+    text-align: left;
+  }
+  h1 {
+    text-align: center;
+    margin: 10px;
+  }
+  table,
+  th,
+  td {
+    font-size: 16px;
+    padding: 10px;
+    border: 1px solid black;
+    border-collapse: collapse;
+  }
+  #table-body tr:hover {
+    background-color: #f0f0f0;
+    cursor: pointer;
+  }
+
+  .open:hover {
+    cursor: pointer;
+    color: #2563eb;
+  }
+  .Milestone-detail {
+    display: flex;
+    flex-direction: row;
+  }
+  .new-milestone-btn {
+    width: 90%;
+    text-align: left;
+    border-top: 0;
+    font-size: 16px;
+    padding: 10px;
+  }
+  .new-milestone-btn:hover {
+    background-color: rgb(209, 202, 202);
+  }
+  .close {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #888;
+    transition: color 0.3s;
+  }
+
+  .close:hover {
+    color: #000;
+  }
+  .end-project {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+  .end-project button {
+    background-color: #3b82f6; /* Tailwind blue-500 */
+    color: white;
+    border: none;
+    padding: 0.6em 1.2em;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 0.5rem;
+    width: fit-content;
+  }
+
+  .end-project button:hover {
+    background-color: #2563eb; /* Tailwind blue-600 */
+  }
+  /* Milestone Tracker */
+  .new-milestone {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    border: 1px solid #ccc;
+    padding: 20px;
+    z-index: 1000;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+    width: 400px;
+    border-radius: 8px;
+  }
+
+  .milestone-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .milestone-content input {
+    border: 1px solid black;
+    font-size: 16px;
+    padding: 10px;
+  }
+  .milestone-content.inp {
+    border: 1px solid black;
+    font-size: 16px;
+    padding: 10px;
+  }
+  .cancel-milestone {
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  .milestone-content #submit-mile {
+    font-size: 16px;
+    background-color: #2563eb;
+    padding: 10px;
+    color: white;
+  }
+  .milestone-content #submit-mile:hover {
+    background-color: #1d4ed8;
+  }
+
+  /* Milestone Details */
+  .Milestone-details {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    border: 1px solid #ccc;
+    padding: 20px;
+    z-index: 1000;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+    width: 60%;
+    border-radius: 8px;
+  }
+
+  .Milestone-details-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 90%;
+  }
+  .Milestone-details-content .inp {
+    border: 1px solid black;
+    font-size: 16px;
+    padding: 10px;
+  }
+  .close-approval {
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  .milestone-approval {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .Milestone-details-content #approve {
+    font-size: 16px;
+    background-color: #2563eb;
+    padding: 10px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    margin: 10px;
+    width: 20%;
+  }
+  .Milestone-details-content #approve:hover {
+    background-color: #1d4ed8;
+  }
+  .Milestone-details-content #reject {
+    font-size: 16px;
+    background-color: rgb(230, 97, 97);
+    padding: 10px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    margin: 10px;
+    width: 20%;
+  }
+  .Milestone-details #reject:hover {
+    background-color: rgb(233, 48, 48);
+  }
+
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+  }
+</style>
