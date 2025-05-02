@@ -1,0 +1,123 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+  }
+  
+  header {
+    background-color: #282a3f;
+    color: white;
+    text-align: center;
+    padding: 20px;
+  }
+  
+  h1 {
+    margin: 0;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  button {
+    background-color: #55a3f0;
+    color: white;
+    border: none;
+    padding: 5px 20px;
+    cursor: pointer;
+    border-radius: 3px;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+  }
+  
+  button:hover {
+    background-color: #005f73;
+  }
+  
+  .add-task-btn {
+    margin-top: 10px;
+  }
+  
+  .mark-done-text {
+    color: #13ac6c;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-top: 10px;
+    font-weight: bold;
+  }
+  
+  .mark-done-text:hover {
+    text-decoration: underline;
+  }
+  
+  /* Task List and Styling */
+  .task-list {
+    list-style-type: none;
+    padding-left: 0;
+  }
+  
+  .task-list li {
+    background-color: #fff;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .task-done {
+    text-decoration: line-through;
+    color: gray;
+  }
+  
+  .task-action-btn {
+    background-color: #000000;
+    margin-top: 5px;
+  }
+  
+  .task-action-btn:hover {
+    background-color: #000000;
+  }
+  
+  /* Input styling */
+  .task-input {
+    padding: 10px;
+    margin-top: 10px;
+    width: calc(100% - 20px);
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  /* Review Section Styling */
+.review-input {
+    width: 100%;
+    height: 100px;
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    resize: vertical;
+    font-size: 1rem;
+  }
+  
+  .submit-review-btn {
+    background-color: #4CAF50;
+    margin-top: 10px;
+  }
+  
+  .submit-review-btn:hover {
+    background-color: #388e3c;
+  }
+  
+  .submitted-review {
+    background-color: #e0ffe0;
+    padding: 10px;
+    margin-top: 10px;
+    border-left: 4px solid #4CAF50;
+    border-radius: 4px;
+    font-style: italic;
+  }
+  
