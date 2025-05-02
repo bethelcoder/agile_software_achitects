@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Leave a Review</title>
+    <link rel="stylesheet" href="/css/review.css" />
+    <style>
+      body {
+        font-family: "Segoe UI", sans-serif;
+        background-color: #f4f4f9;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+
+      .review-container {
+        background: white;
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        max-width: 500px;
+        width: 100%;
+      }
+
+      .review-container h2 {
+        margin-bottom: 20px;
+        color: #4e54c8;
+      }
+
+      .freelancer-info {
+        margin-bottom: 20px;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background-color: #fafafa;
+      }
+
+      .rating-stars main {
+        display: flex;
+        gap: 10px;
+        position: relative;
+        margin-bottom: 20px;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background-color: #fafafa;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
+        direction: rtl;
+        flex-direction: row; /* reverse label order so 5 is on the right */
+        justify-content: center;
+      }
+      .rating-stars input {
+        display: none;
+      }
+
+      .rating-stars label {
+        font-size: 2em;
+        color: #ccc;
+        cursor: pointer;
+        transition: color 0.3s;
+      }
+
+      .rating-stars input:checked ~ label,
+      .rating-stars input:checked + label,
+      .rating-stars label:hover,
+      .rating-stars label:hover ~ label {
+        color: #f5b301;
+      }
+
+      textarea {
+        width: 100%;
+        min-height: 120px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 10px;
+        resize: vertical;
+        font-size: 1em;
+      }
+
+      .submit-btn {
+        margin-top: 20px;
+        padding: 12px 20px;
+        background-color: #4e54c8;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 1em;
+        cursor: pointer;
+      }
+
+      .submit-btn:hover {
+        background-color: #3b40a4;
+      }
+    </style>
+  </head>
+  <body>
+    <form class="review-container" action="/submit-review" method="POST">
+      <h2>Leave a Review</h2>
+
+      <section class="freelancer-info">
+        <p><strong>Freelancer:</strong> Freelancer name</p>
+        <p><strong>Project:</strong> project title</p>
+      </section>
+
+      <section class="rating-stars">
+        <header><h3>Rate you experience working with freelancer</h3></header>
+        <main>
+          <% for (let i = 5; i >= 1; i--) { %>
+          <input
+            type="radio"
+            name="rating"
+            id="star<%= i %>"
+            value="<%= i %>"
+          />
+          <label for="star<%= i %>">&#9733;</label>
+          <% } %>
+        </main>
+      </section>
+
+      <textarea
+        name="feedback"
+        placeholder="Write your feedback here..."
+        required
+      ></textarea>
+
+      <input type="hidden" name="freelancerId" value=" " />
+      <input type="hidden" name="projectId" value=" " />
+
+      <button class="submit-btn" type="button" id="submit-review">
+        Submit Review
+      </button>
+    </form>
+    <%- include('milestoneTracker') %>
+  </body>
+</html>

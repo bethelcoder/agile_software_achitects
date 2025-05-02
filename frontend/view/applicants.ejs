@@ -20,34 +20,33 @@
 
       <section class="applicants-list">
         <% if (applications.length === 0) { %>
-          <p>No freelancers have applied yet.</p>
+        <p>No freelancers have applied yet.</p>
         <% } else { %>
-          <article class="displayApplicant">
-            <% applications.forEach(app => { %>
-              <section class="applicant-item">
-                <strong><%= app.title %></strong>
-                <h4>Freelancer username: <%= app.freelancerId.userName %></h4>
-                <p><%= app.Message %></p>
-                
+        <article class="displayApplicant">
+          <% applications.forEach(app => { %>
+          <section class="applicant-item">
+            <strong><%= app.title %></strong>
+            <h4>Freelancer username: <%= app.freelancerId.userName %></h4>
+            <p><%= app.Message %></p>
 
-                <button 
-                  class="view-details-btn" 
-                  data-username="<%= app.freelancerId.userName %>"
-                  data-message="<%= app.Message %>"
-                  data-skills="<%= app.Skills %>"
-                  data-links="<%= app.links %>"
-                >
-                  View Application Details
-                </button>
-              </section>
-            <% }) %>
-            </article>
+            <button
+              class="view-details-btn"
+              data-username="<%= app.freelancerId.userName %>"
+              data-message="<%= app.Message %>"
+              data-skills="<%= app.Skills %>"
+              data-links="<%= app.links %>"
+            >
+              View Application Details
+            </button>
+          </section>
+          <% }) %>
+        </article>
         <% } %>
       </section>
 
       <a href="/users/dashboard" class="back-button">← Back to Dashboard</a>
     </main>
-    
+
     <script src="/js/applicants.js"></script>
 
     <%- include('applicationModal') %>
