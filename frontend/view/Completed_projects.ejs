@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Completed Projects</title>
+  <link rel="stylesheet" href="Freelancer_milestone.css" />
+</head>
+<body>
+
+  <header>
+    <h1>Freelance Studio - Completed Projects</h1>
+  </header>
+
+  <section>
+    <h2>Project Title</h2>
+    <button onclick="toggleReview()">Leave Review</button>
+
+    <section id="review-section" style="display: none;">
+      <textarea id="review-input" placeholder="Write a review " class="review-input"></textarea>
+      <button class="submit-review-btn" onclick="submitReview()">Submit Review</button>
+      <article id="review-output"></article>
+    </section>
+  </section>
+
+  <script src="Completed_projects.js"></script>
+</body>
+</html>
