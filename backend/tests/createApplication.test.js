@@ -1,6 +1,6 @@
 const controller = require('../controller/controller');
 const application = require('../api/mongoDB/Freelancer_Application');
-
+const res = require('./helper');
 /**
  * Mocks for:
  * Application Model
@@ -8,12 +8,12 @@ const application = require('../api/mongoDB/Freelancer_Application');
  * route testing
  */
 
-jest.mock('../api/mongoDB/Application');
+jest.mock('../api/mongoDB/Freelancer_Application');
 
 
 
 describe ('These are tests for createApplication', () =>{
-  let req, res;
+  let req;
 
   beforeEach(() =>{
     req ={
@@ -21,10 +21,6 @@ describe ('These are tests for createApplication', () =>{
         freelanceId: 'f2025',
         projectId: 'p2025'
       }
-    };
-    res = {
-      json: jest.fn(),
-      status: jest.fn().mockReturnThis()
     };
   });
 
