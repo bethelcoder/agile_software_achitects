@@ -120,13 +120,13 @@
     </style>
   </head>
   <body data-userid="<%= userID %>">
-    <div class="dashboard">
+    <section class="dashboard">
       <aside>
         <h2>Client Panel</h2>
         <nav>
           <ul>
-            <li><a href="#">🏠 Home</a></li>
-            <li><a href="#">📁 Active Projects</a></li>
+            <li><a href="/">🏠 Home</a></li>
+            <li><a href="/projects/activeProjects">📁 Active Projects</a></li>
             <li><a href="/application/applicants/<%= projects._id %>">📄 Applicants</a></li>
             <li><a href="/submit-clientProfile?userID=<%= userID %>">📄 Profile</a></li>
             
@@ -156,7 +156,7 @@
           <article class="card">
             <h2>📄</h2>
             <p>Applicants</p>
-            <p>-</p>
+            <p><%= projects.length || 0 %></p>
           </article>
         </section>
 
@@ -176,7 +176,7 @@
           </article>
         </section>
       </main>
-    </div>
+    </section>
 
     <%- include('joblisting') %>
 

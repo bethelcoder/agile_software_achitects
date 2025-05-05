@@ -132,7 +132,7 @@
         <ul>
           <li><a href="/users/dashboard" >🏠 Home</a></li>
           <li><a href="/application/applications" >📄 My Applications</a></li>
-          <li><a href="#" onclick="showSection('projects')">🚀 My Projects</a></li>
+          <li><a href="/projects/active-projects/<%= userName %>">🚀 My Projects</a></li>
           <li><a href="#" onclick="showSection('profile')">👤 My Profile</a></li>
         </ul>
       </nav>
@@ -199,14 +199,6 @@
                     <button type="submit" class="applyBtn">Apply for gig</button>
                   </form>
                   
-                  <!-- <form action="/application/apply" method="POST">
-                    <input type="hidden" name="projectId" value="<%= project._id %>">
-                    <input type="hidden" name="freelancerId" value="<%= userID %>">
-                    <input type="hidden" name="projectTitle" value="<%= project.title %>">
-                    <input type="hidden" name="userName" value="<%= userName %>">
-                    <textarea name="message" placeholder="Write your message" style="width: 95%; padding: 10px; margin-top: 10px; border-radius: 8px; border: 1px solid #ccc;"></textarea>
-                    <button type="submit" class="applyBtn" style="margin-top: 10px; padding: 10px 20px; background-color: #4e54c8; color: white; border: none; border-radius: 8px; cursor: pointer;">Apply for gig</button>
-                  </form> -->
                 </section>
               <% }) %>
             <% } %>

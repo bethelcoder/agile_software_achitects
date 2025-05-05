@@ -110,11 +110,11 @@
       <p>You haven't applied for any jobs yet.</p>
     <% } else { %>
       <% applications.forEach(app => { %>
-        <div class="application-item">
-          <p><strong>Project ID:</strong> <code><%= app.projectId %></code></p>
+        <section class="application-item">
+          <p><strong>Project ID:</strong> <code><%= app.projectId._id %></code></p>
           <p><strong>Freelancer ID:</strong> <code><%= app.freelancerId.userID %></code></p>
           <p class="application-message"><strong>Status: </strong> "<%= app.Status %>"</p>
-        </div>
+        </section>
       <% }) %>
     <% } %>
 

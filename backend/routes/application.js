@@ -1,8 +1,10 @@
 // routes/applications.js
 const express = require('express');
+const mongoose = require('mongoose');
 const router = express.Router();
+const User = require('../api/mongoDB/User');
 const Application = require('../api/mongoDB/Freelancer_Application');
-const Project = require('../api/mongoDB/Freelancer_Project');
+const project = require('../api/mongoDB/project');
 const middleware = require('../middlewares');
 // Middleware to check if freelancer is logged in
 
@@ -22,12 +24,12 @@ router.post('/apply', async (req, res) => {
   const { projectId, freelancerId, userName, projectTitle, message, skills, portfolioLink } = req.body;
 
   try {
+    const projectObjectId = new mongoose.Types.ObjectId(projectId);
     // Check if the freelancer already applied to this project
     const existingApplication = await Application.findOne({
       'freelancerId.userID': freelancerId,
-      projectId
+      projectId: projectObjectId,
     });
-    console.log(projectId);
     if (existingApplication) {
       req.flash('error_msg', 'You have already applied for this job.');
       return res.redirect('/users/dashboard'); // Or wherever your projects are listed
@@ -35,7 +37,7 @@ router.post('/apply', async (req, res) => {
 
     // Save new application
     const newApplication = new Application({
-      projectId,
+      projectId: projectObjectId,
       title: projectTitle, // Store title at time of application
       freelancerId: { userID: freelancerId, userName: userName },
       Message: message,
@@ -72,17 +74,25 @@ router.get('/applications', isFreelancer, async (req, res) => {
     const projectId = req.params.projectId;
   
     try {
-      // Fetch the applicants for the given project
-      const applications = await Application.find({ projectId })
-        .populate('freelancerId', 'userName')  // Populate the freelancer's details
-        .populate('projectId', 'title'); // Optional: to get project details
-      
+      // Fetch applications for this project where Status is not 'Active'
+      const applications = await Application.find({ 
+          projectId, 
+          Status: { $ne: 'Hired' } // $ne means "not equal"
+        })
+        .populate('freelancerId', 'userName')
+        .populate('projectId', 'title');
+    
+      const projects = await project.findById(projectId); 
+      const userID = projects.clientID;
+    
+      const userDoc = await User.findOne({ userID });
+      const clientName = userDoc.userName;
+    
       if (applications.length === 0) {
-        // return res.render('no_applicants', { message: "No freelancers have applied yet." });
         return res.redirect('/users/dashboard');
       }
-
-      res.render('applicants', { applications });
+    
+      res.render('applicants', { applications, projectId, clientName });
     } catch (err) {
       console.error(err);
       res.status(500).send("Error fetching applicants.");
