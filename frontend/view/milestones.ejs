@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Set Project Milestones</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5f7fa;
+      margin: 0;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    form {
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 500px;
+    }
+
+    .milestone-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .milestone-group input {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+
+    .btn {
+      padding: 12px 20px;
+      margin-right: 10px;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-add {
+      background-color: #5c67f2;
+      color: white;
+    }
+
+    .btn-add:hover {
+      background-color: #4a54e1;
+    }
+
+    .btn-submit {
+      background-color: #2ecc71;
+      color: white;
+    }
+
+    .btn-submit:hover {
+      background-color: #27ae60;
+    }
+  </style>
+</head>
+<body>
+  <h1>Set Milestones for Project <%= projectId %></h1>
+
+  <form action="/projects/<%= projectId %>/milestones" method="POST">
+    <section class="milestone-group" id="milestones-container">
+      <input type="text" name="milestones[]" placeholder="Milestone name" required>
+    </section>
+
+    <button type="button" class="btn btn-add" onclick="addMilestone()">+ Add Milestone</button>
+    <button type="submit" class="btn btn-submit">✅ Save Milestones</button>
+  </form>
+
+  <script>
+    function addMilestone() {
+      const container = document.getElementById('milestones-container');
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.name = 'milestones[]';
+      input.placeholder = 'Milestone name';
+      input.required = true;
+      container.appendChild(input);
+    }
+  </script>
+</body>
+</html>

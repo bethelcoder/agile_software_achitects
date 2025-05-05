@@ -1,0 +1,27 @@
+<!-- views/milestonesModal.ejs -->
+
+<!-- View Milestones Button -->
+<button class="milestone-btn" onclick="openModal('<%= project.projectId %>')">View Milestones</button>
+
+
+<!-- Modal -->
+<article id="modal-<%= project.projectId %>" class="modal">
+  <section class="modal-content">
+    <span class="close" onclick="closeModal('<%= project.projectId %>')">&times;</span>
+    <h2>Milestones for <%= project.title %></h2>
+
+    <% if (milestoneObj && milestoneObj.milestones.length > 0) { %>
+      <% milestoneObj.milestones.forEach((milestone, index) => { %>
+        <form action="/projects/<%= project.projectId %>/milestone/submit" method="POST" class="milestone-form">
+          <input type="hidden" name="projectId" value="<%= project.projectId %>">
+          <input type="hidden" name="milestoneIndex" value="<%= index %>">
+          <label><%= milestone.name %></label><br>
+          <input type="url" name="link" placeholder="Enter link to your work" required>
+          <button type="submit" class="submit-btn">Submit</button>
+        </form>
+      <% }) %>
+    <% } else { %>
+      <p>No milestones found for this project.</p>
+    <% } %>
+    </section>
+</article>
