@@ -1,10 +1,10 @@
 const passport = require('passport');
 const User = require('../api/mongoDB/User');
-const clientProject = require('../api/mongoDB/project');
+const clientProject = require('../api/mongoDB/Project');
 const clientDes = require('../api/mongoDB/description');
 
 //controllers for registration and login
-const Project = require('../api/mongoDB/Freelancer_Project');
+const ProjectModel = require('../api/mongoDB/Freelancer_Project');
 const Application = require('../api/mongoDB/Freelancer_Application');
 
 
@@ -97,7 +97,7 @@ const submitDetails = async (req,res)=>{
 
 const clientProf = async (req, res) => {
     const { organisation, position, location, about, userID } = req.body;
-    const projects = await Project.find({});
+    const projects = await ProjectModel.find({});
       
    
     const profile = {
@@ -141,7 +141,7 @@ const getProjectsByStatus = async (req, res) => {
 };
 const getPostedProjectsByClients = async (req, res) => {
     try {
-        const projects = await Project.find({ status: 'posted' });
+        const projects = await ProjectModel.find({ status: 'posted' });
         res.json(projects);
     } catch (err) {
         res.status(500).json({ error: 'Failed to get posted projects' });
@@ -151,7 +151,7 @@ const getPostedProjectsByClients = async (req, res) => {
 
 const createProject = async (req, res) => {
     try {
-        const project = await Project.create(req.body);
+        const project = await ProjectModel.create(req.body);
         res.status(201).json(project);
     } catch (err) {
         res.status(500).json({ error: 'Failed to create project' });

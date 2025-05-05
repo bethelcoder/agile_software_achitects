@@ -5,7 +5,7 @@ const controller = require('../controller/controller');
 const User = require('../api/mongoDB/User');
 const middleware = require('../middlewares');
 const description= require('../api/mongoDB/description');
-const Project = require('../api/mongoDB/project');
+const Project = require('../api/mongoDB/Project');
 
 router.get('/register', controller.regPage);
 router.get('/login', controller.logPage);
