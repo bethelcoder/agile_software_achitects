@@ -27,7 +27,7 @@ app.use(session({
   saveUninitialized: false,
 }));
 const User=require('./backend/api/mongoDB/User')
-const Project =  require('./backend/api/mongoDB/project');
+const Project =  require('./backend/api/mongoDB/Project');
 const description=  require('./backend/api/mongoDB/description');
 const Application = require('./backend/api/mongoDB/Freelancer_Application');
 
