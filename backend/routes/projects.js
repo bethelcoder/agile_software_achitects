@@ -6,7 +6,7 @@ const clientProject = require('../api/mongoDB/project');
 const Project = require('../api/mongoDB/Freelancer_Project');
 const Milestone = require('../api/mongoDB/Milestone');
 const middleware = require('../middlewares');
-
+const controller = require('../controller/controller');
 // Middleware to check if freelancer is logged in
 function isFreelancer(req, res, next) {
     const roles = req.session?.user?.roles;
@@ -163,5 +163,12 @@ router.post("/:projectId/milestone/submit", async (req, res) => {
   
   res.redirect('/users/dashboard');
 });
+
+
+
+router.get('/milestones/:milestoneId/tasks', controller.viewMilestones);
+router.get('/projects/:projectId/complete',controller.markProjectasCompleted);
+router.get('/reviews', controller.review);
+
 
 module.exports = router;
