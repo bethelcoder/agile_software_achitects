@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Milestone Page</title>
+  <link rel="stylesheet" href="/css/Freelancer_milestone.css" />
+</head>
+<body>
+
+  <header>
+    <h1>Freelance Studio - Active Projects</h1>
+  </header>
+
+  <section>
+    <h2>Project Title</h2>
+    <button onclick="toggle()">See Milestones</button>
+
+    <section id="milestones" style="display:none;">
+      <article id="m1">
+        <p><strong>Milestone 1: Initial Design</strong></p>
+        
+        <!-- Button to add tasks -->
+        <button class="add-task-btn" onclick="toggleTaskInput('m1')">Set Tasks</button>
+
+        <!-- Task list and input -->
+        <ul id="task-list-m1" class="task-list"></ul>
+        <input type="text" id="task-input-m1" placeholder="Enter a task..." class="task-input" style="display:none;" />
+        <button class="task-action-btn" onclick="addTask('m1')" style="display:none;">Add</button>
+
+        <!-- Mark as done for milestone -->
+        <p class="mark-done-text" onclick="toggleMilestoneDone('m1')">Mark milestone as done</p>
+      </article>
+
+    </section>
+  </section>
+
+  <script src="/js/Freelancer_milestones.js"></script>
+</body>
+</html>
