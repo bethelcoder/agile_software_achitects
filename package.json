@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node app.js",
-    "test": "node app.js"
+    "test": "jest --coverage"
   },
   "keywords": [],
   "author": "agile_software_achitects",
