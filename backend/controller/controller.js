@@ -1,6 +1,6 @@
 const passport = require('passport');
 const User = require('../api/mongoDB/User');
-const clientProject = require('../api/mongoDB/project');
+const clientProject = require('../api/mongoDB/Project');
 const clientDes = require('../api/mongoDB/description');
 
 //controllers for registration and login
