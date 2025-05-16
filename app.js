@@ -10,6 +10,9 @@ const passport = require('passport');
 const session = require('express-session');
 const path = require('path');
 const flash = require('connect-flash');
+const puppeteer = require('puppeteer');
+const ejs = require('ejs');
+const html_to_pdf = require('html-pdf-node');
 mongoose.connect(process.env.MONGO_URI)
 .then(() => console.log("✅ MongoDB connected successfully"))
 .catch((err) => console.error("❌ MongoDB connection error:", err));
@@ -134,13 +137,13 @@ catch (error){
   
 });
 
-app.get('/delete-project', async(req,res) => {
-  const project = req.query.projects_id;
+app.post('/delete-project', async(req,res) => {
+  const project = new mongoose.Types.ObjectId(req.body.projectID);
   const projects = await Project.find({});
   
   try{
-    await Project.deleteOne(project);
-    await Application.deleteMany({ project }); 
+    await Project.deleteOne(project._id);
+  //  await Application.deleteMany({ project }); 
     //const userId=req.quer;
     const userID=req.session.user.userID;
     const user = await User.findOne({ userID });
@@ -152,6 +155,149 @@ app.get('/delete-project', async(req,res) => {
   }
 });
 
+app.post('/delete-user', async(req,res)=>{
+  const user= new mongoose.Types.ObjectId(req.body.userID);
+
+  try{
+    
+    await User.deleteOne(user._id);
+    res.redirect('/users/dashboard');
+  }
+  catch(error){
+    res.status(500).json({ message: "Error removing User" }); 
+    console.log(error);
+  }
+
+});
+
+app.post('/reports/', async(req, res) => {
+  const userID = parseInt(req.body.userID);
+  
+
+  const application= await Application.find({'freelancerId.userID': userID, Status:'Hired'});
+  let projects = [];
+  let payments=[];
+  let n= application.length;
+  let m=0;
+  for (const item of application) {
+    const projectid = item.projectId;
+    const project = await Project.findById(projectid);
+    
+    const obj = {
+      name: item.title,
+      status: project?.status
+    };
+
+  //  projects.push(obj);
+
+   
+
+    let paymentStatus="Pending";
+    if (project?.status!="Active"){
+      paymentStatus="Received";
+      m++;
+    }
+
+    const user= await User.findOne({userID: project.clientID});
+    const obj2={
+      client:user.userName,
+      project: item.title,
+      amount: project?.minPay,
+      status: paymentStatus
+    };
+
+    if(req.body.status){
+      
+        if (req.body.status=="Completed" && project?.status=="Complete"){
+          projects.push(obj);
+          payments.push(obj2);
+        }
+        else if(req.body.status=="Active" && project?.status=="Active"){
+            projects.push(obj);
+            payments.push(obj2);
+        }
+        else if (req.body.status=="All"){
+          projects.push(obj);
+          payments.push(obj2);
+        }
+    }
+    else{
+       projects.push(obj);
+       payments.push(obj2);
+    }
+    
+    
+   
+  }
+  
+  let rate=m/n *100;
+  
+
+  res.render('reports', { projects, payments ,rate, userID});
+});
+
+
+
+
+app.post('/generateReport/', async (req, res) => {
+  const userID = parseInt(req.body.userID);
+
+  
+  // 1. Fetch your data (reuse your logic or import it from your controller)
+  const application = await Application.find({ 'freelancerId.userID': userID, Status: 'Hired' });
+  let projects = [];
+  let payments = [];
+  let n = application.length;
+  let m = 0;
+
+  for (const item of application) {
+    const projectid = item.projectId;
+    const project = await Project.findById(projectid);
+    
+    const obj = {
+      name: item.title,
+      status: project?.status
+    };
+    let paymentStatus="Pending";
+    if (project?.status!="Active"){
+      paymentStatus="Received";
+      m++;
+    }
+    const user= await User.findOne({userID: project.clientID});
+    const obj2={
+      client:user.userName,
+      project: item.title,
+      amount: project?.minPay,
+      status: paymentStatus
+    };
+    projects.push(obj);
+    payments.push(obj2);
+   
+  }
+
+  const rate = n > 0 ? ((m / n) * 100).toFixed(1) : 0;
+
+  // 2. Render the EJS to HTML string
+  const html = await ejs.renderFile(path.join(__dirname, '/frontend/view', 'reports.ejs'), {
+   projects, payments ,rate, userID
+  });
+
+
+  // 3. Generate PDF using Puppeteer
+ // const browser = await puppeteer.launch();
+  
+ let options = { format: 'A4' };
+let file={ content:html};
+html_to_pdf.generatePdf(file, options).then(pdfBuffer => {
+  res.set({
+    'Content-Type': 'application/pdf',
+    'Content-Disposition': 'attachment; filename="report.pdf"',
+    'Content-Length': pdfBuffer.length
+  });
+
+  res.send(pdfBuffer);
+});
+});
 
 
 app.get('/logout', (req, res) => {
