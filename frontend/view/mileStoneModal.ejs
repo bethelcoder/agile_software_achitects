@@ -1,5 +1,3 @@
-<!-- views/milestonesModal.ejs -->
-
 <!-- View Milestones Button -->
 <button class="milestone-btn" onclick="openModal('<%= project.projectId %>')">View Milestones</button>
 
@@ -15,8 +13,11 @@
         <form action="/projects/<%= project.projectId %>/milestone/submit" method="POST" class="milestone-form">
           <input type="hidden" name="projectId" value="<%= project.projectId %>">
           <input type="hidden" name="milestoneIndex" value="<%= index %>">
+          <input type="hidden" name="userName" value="<%= userName %>">
+          <input type="hidden" name="userID" value="<%= userID %>">
+          <input type="hidden" name="milestoneId" value="<%= milestone._id %>">
           <label><%= milestone.name %></label><br>
-          <input type="url" name="link" placeholder="Enter link to your work" required>
+          <input type="url" name="submittedWorkLink" placeholder="Enter link to your work" required>
           <button type="submit" class="submit-btn">Submit</button>
         </form>
       <% }) %>

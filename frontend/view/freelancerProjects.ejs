@@ -167,7 +167,7 @@
               </section>
           
               <% const milestoneObj = milestones.find(m => m.projectId.toString() === project.projectId.toString()); %>
-              <%- include('mileStoneModal', { project, milestoneObj }) %>
+              <%- include('mileStoneModal', { project, milestoneObj, userName, userID }) %>
             </article>
           <% }) %>
     <% } %>

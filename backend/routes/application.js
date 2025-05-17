@@ -100,4 +100,5 @@ router.get('/applications', isFreelancer, async (req, res) => {
 });
 
 
+
 module.exports = router;

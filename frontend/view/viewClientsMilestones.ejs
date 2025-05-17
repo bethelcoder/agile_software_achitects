@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Project Milestones</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 20px;
+      background-color: #f0f4f8;
+      color: #333;
+    }
+    header, main, section, article, footer {
+      display: block;
+    }
+    h1 {
+      color: #222;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+    .milestone {
+      border: 1px solid #d1d9e6;
+      padding: 15px;
+      margin-bottom: 12px;
+      border-radius: 12px;
+      cursor: pointer;
+      background-color: #fff;
+      box-shadow: 0 2px 6px rgb(0 0 0 / 0.08);
+      transition: background-color 0.25s ease, box-shadow 0.25s ease;
+    }
+    .milestone:hover,
+    .milestone:focus {
+      background-color: #e6f2ff;
+      outline: none;
+      box-shadow: 0 6px 15px rgb(0 102 204 / 0.25);
+    }
+    .status {
+      font-weight: 600;
+      color: #4caf50;
+    }
+    .status.incomplete {
+      color: #f44336;
+    }
+
+    /* Modal styles */
+    dialog#modal {
+      border: none;
+      border-radius: 16px;
+      padding: 0;
+      max-width: 460px;
+      width: 90%;
+      box-shadow:
+        0 12px 24px rgba(0, 0, 0, 0.2),
+        0 0 0 1px rgba(0, 0, 0, 0.05);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    dialog::backdrop {
+      background: rgba(0, 0, 0, 0.35);
+      backdrop-filter: blur(4px);
+    }
+    .modal-header {
+      background-color: #0366d6;
+      color: white;
+      padding: 20px 24px;
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+    .modal-body {
+      padding: 24px;
+      font-size: 1rem;
+      color: #333;
+      line-height: 1.5;
+    }
+    .modal-body p {
+      margin-bottom: 1em;
+    }
+    .modal-body a#submittedLink {
+      display: inline-block;
+      word-break: break-word;
+      color: #0366d6;
+      text-decoration: none;
+      font-weight: 600;
+      border-bottom: 2px solid transparent;
+      transition: border-color 0.3s ease;
+    }
+    .modal-body a#submittedLink:hover,
+    .modal-body a#submittedLink:focus {
+      border-color: #0366d6;
+      outline: none;
+    }
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      padding: 20px 24px;
+      border-top: 1px solid #e2e8f0;
+      border-bottom-left-radius: 16px;
+      border-bottom-right-radius: 16px;
+      background-color: #f9fafb;
+    }
+    button {
+      min-width: 90px;
+      font-weight: 600;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.25s ease;
+      font-size: 1rem;
+    }
+    button.approve {
+      background-color: #2ea44f;
+      color: white;
+    }
+    button.approve:hover,
+    button.approve:focus {
+      background-color: #22863a;
+      outline: none;
+    }
+    button.reject {
+      background-color: #d73a49;
+      color: white;
+    }
+    button.reject:hover,
+    button.reject:focus {
+      background-color: #b31d28;
+      outline: none;
+    }
+    button.close {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: transparent;
+      border: none;
+      color: white;
+      font-size: 1.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      line-height: 1;
+      padding: 0;
+      user-select: none;
+      transition: color 0.2s ease;
+    }
+    button.close:hover,
+    button.close:focus {
+      color: #cdd9e5;
+      outline: none;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Milestones for Project: <%= projectId %></h1>
+  </header>
+
+  <main>
+    <% if (milestones.length === 0) { %>
+      <p>No milestones found for this project.</p>
+    <% } else { %>
+      <section aria-label="Project milestones">
+        <% milestones.forEach((milestone, milestoneIndex) => { %>
+          <% milestone.milestones.forEach((task, taskIndex) => { %>
+            <!-- <article
+              class="milestone"
+              role="button"
+              tabindex="0"
+              aria-pressed="false"
+              data-milestone-index="<%= milestoneIndex %>"
+              data-task-index="<%= taskIndex %>"
+              data-task-name="<%= task.name %>"
+              data-task-status="<%= task.status %>"
+              data-task-link="<%= task.submittedWorkLink || '' %>"
+            >
+              <h2><%= task.name %></h2>
+              <p class="status <%= task.status ? '' : 'incomplete' %>">
+                Status: <%= task.status ? 'Completed' : 'Incomplete' %>
+              </p>
+            </article> -->
+            <article
+                class="milestone"
+                role="button"
+                tabindex="0"
+                aria-pressed="false"
+                data-milestone-index="<%= milestoneIndex %>"
+                data-task-index="<%= taskIndex %>"
+                data-task-name="<%= task.name %>"
+                data-task-status="<%= task.status %>"
+                data-task-link="<%= task.submittedWorkLink || '' %>"
+                >
+                <h2><%= task.name %></h2>
+                <p class="status <%= task.status === 'approved' ? '' : 'incomplete' %>">
+                    Status: <%= task.status %>
+                </p>
+                <% if (task.submittedWorkLink) { %>
+                    <p>
+                    <a href="<%= task.submittedWorkLink %>" target="_blank" rel="noopener noreferrer">
+                        View Submitted Work
+                    </a>
+                    </p>
+                <% } %>
+            </article>
+
+          <% }) %>
+        <% }) %>
+      </section>
+    <% } %>
+  </main>
+
+  <!-- Modal -->
+  <dialog id="modal" aria-modal="true" role="dialog" aria-labelledby="modalTaskName" aria-hidden="true">
+    <button class="close" id="modalClose" aria-label="Close modal">&times;</button>
+    <header class="modal-header" id="modalTaskName">Milestone Name</header>
+    <section class="modal-body">
+      <p><strong>Submitted Work Link:</strong></p>
+      <a href="#" id="submittedLink" rel="noopener noreferrer">No link submitted yet.</a>
+    </section>
+    <footer class="modal-footer">
+      <button class="approve" id="approveBtn">Approve</button>
+      <button class="reject" id="rejectBtn">Reject</button>
+    </footer>
+  </dialog>
+
+  <script>
+    const modal = document.getElementById('modal');
+    const modalTaskName = document.getElementById('modalTaskName');
+    const submittedLink = document.getElementById('submittedLink');
+    const approveBtn = document.getElementById('approveBtn');
+    const rejectBtn = document.getElementById('rejectBtn');
+    const modalClose = document.getElementById('modalClose');
+
+    function openModal(taskName, taskLink) {
+      modalTaskName.textContent = taskName;
+
+      if (taskLink) {
+        submittedLink.href = taskLink;
+        submittedLink.textContent = taskLink;
+      } else {
+        submittedLink.href = '#';
+        submittedLink.textContent = 'No link submitted yet.';
+      }
+
+      modal.setAttribute('aria-hidden', 'false');
+      modal.showModal();
+    }
+
+    function closeModal() {
+      modal.setAttribute('aria-hidden', 'true');
+      modal.close();
+    }
+
+    document.querySelectorAll('.milestone').forEach(milestone => {
+      milestone.addEventListener('click', () => {
+        openModal(
+          milestone.getAttribute('data-task-name'),
+          milestone.getAttribute('data-task-link')
+        );
+      });
+      milestone.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          openModal(
+            milestone.getAttribute('data-task-name'),
+            milestone.getAttribute('data-task-link')
+          );
+        }
+      });
+    });
+
+    modalClose.addEventListener('click', closeModal);
+
+    approveBtn.addEventListener('click', () => {
+      alert('You approved the work for: ' + modalTaskName.textContent);
+      closeModal();
+    });
+
+    rejectBtn.addEventListener('click', () => {
+      alert('You rejected the work for: ' + modalTaskName.textContent);
+      closeModal();
+    });
+
+    modal.addEventListener('click', e => {
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
+
+    window.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && modal.open) {
+        closeModal();
+      }
+    });
+  </script>
+</body>
+</html>

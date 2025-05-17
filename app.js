@@ -50,11 +50,13 @@ require('./backend/api/passport');
 const userRoutes = require('./backend/routes/routes');
 const applicationRoute = require('./backend/routes/application');
 const projectRoute = require('./backend/routes/projects');
+const aiApplication = require('./backend/routes/aiApplication');
 
 app.use('/auth', userRoutes);       
 app.use('/users', userRoutes);      
 app.use('/application', applicationRoute);
 app.use('/projects', projectRoute);
+app.use('/api', aiApplication);
 
 app.get('/g-profile', (req, res) => {
   const googleId = req.user.profile.id;

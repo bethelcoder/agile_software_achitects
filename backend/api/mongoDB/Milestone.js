@@ -9,14 +9,21 @@ const milestoneSchema = new mongoose.Schema({
   milestones: [
     {
       name: { type: String, required: true },
-      // description: { type: String, required: true },
-      status: { type: Boolean, default: false }
+      submittedWorkLink: { type: String, default: "" },
+      status: {
+                type: String,
+                enum: ['pending', 'approved', 'rejected'],
+                default: 'pending'
+              },
     }
   ],
   projectStatus: {
     type: Boolean,
     default: false // overall project completion status
-  }
+  },
+  // dueDate: {
+    
+  // }
 }, { timestamps: true });
 
 module.exports = mongoose.model('Milestone', milestoneSchema);
