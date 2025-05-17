@@ -5,6 +5,7 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo');
 app.use(express.json());
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const cors = require('cors');
 const passport = require('passport');
 const session = require('express-session');
@@ -176,6 +177,56 @@ app.get('/', (req, res) => {
   res.render('landingPage');
 });
 
+app.post('/checkout', async (req, res) => {
+    try {
+        const amount = parseFloat(req.body.amount);
+        if (!amount || amount <= 0) {
+            return res.status(400).send("Invalid amount.");
+        }
+
+        const session = await stripe.checkout.sessions.create({
+            line_items: [
+                {
+                    price_data: {
+                        currency: 'zar',
+                        product_data: {
+                            name: 'Custom Payment'
+                        },
+                        unit_amount: Math.round(amount * 100),
+                    },
+                    quantity: 1
+                }
+            ],
+            mode: 'payment',
+            success_url: `${process.env.BASE_URL}/complete?session_id={CHECKOUT_SESSION_ID}`,
+            cancel_url: `${process.env.BASE_URL}/cancel`
+        });
+
+        res.redirect(303, session.url);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Something went wrong.");
+    }
+});
+
+app.get('/complete', async (req, res) => {
+    try {
+        const session = await stripe.checkout.sessions.retrieve(req.query.session_id, {
+            expand: ['payment_intent.payment_method']
+        });
+        const lineItems = await stripe.checkout.sessions.listLineItems(req.query.session_id);
+        console.log(session);
+        console.log(lineItems);
+        res.redirect('/users/dashboard');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Error retrieving session details");
+    }
+});
+
+app.get('/cancel', (req, res) => {
+    res.redirect('/');
+});
 
 app.listen(PORT, () => console.log(`🚀 Server running on http://localhost:${PORT}`));
 

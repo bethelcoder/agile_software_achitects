@@ -1,7 +1,6 @@
 <!-- View Milestones Button -->
 <button class="milestone-btn" onclick="openModal('<%= project.projectId %>')">View Milestones</button>
 
-
 <!-- Modal -->
 <article id="modal-<%= project.projectId %>" class="modal">
   <section class="modal-content">
@@ -16,13 +15,73 @@
           <input type="hidden" name="userName" value="<%= userName %>">
           <input type="hidden" name="userID" value="<%= userID %>">
           <input type="hidden" name="milestoneId" value="<%= milestone._id %>">
-          <label><%= milestone.name %></label><br>
+
+          <label>
+            <%= milestone.name %>
+            <% if (milestone.message && milestone.message.trim() !== '') { %>
+              <span style="display: block; margin-top: 5px; color: #555; font-style: italic;">
+                Message: <%= milestone.message %>
+              </span>
+            <% } %>
+          </label><br>
+
           <input type="url" name="submittedWorkLink" placeholder="Enter link to your work" required>
           <button type="submit" class="submit-btn">Submit</button>
+          <p class="submission-message" style="margin-top: 5px; color: green;"></p>
         </form>
       <% }) %>
     <% } else { %>
       <p>No milestones found for this project.</p>
     <% } %>
-    </section>
+  </section>
 </article>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll(".milestone-form").forEach(form => {
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const messageEl = form.querySelector('.submission-message');
+        messageEl.style.color = "green";
+        messageEl.textContent = "Submitting...";
+
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries());
+        const action = form.getAttribute("action");
+
+        try {
+          const res = await fetch(action, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+          });
+
+          const result = await res.json();
+
+          if (res.ok) {
+            messageEl.textContent = result.message || "Submitted successfully!";
+            form.reset();
+          } else {
+            messageEl.textContent = result.error || "An error occurred.";
+            messageEl.style.color = "red";
+          }
+        } catch (err) {
+          console.error("Submission failed:", err);
+          messageEl.textContent = "An error occurred while submitting.";
+          messageEl.style.color = "red";
+        }
+      });
+    });
+  });
+
+  function openModal(projectId) {
+    document.getElementById('modal-' + projectId).style.display = 'block';
+  }
+
+  function closeModal(projectId) {
+    document.getElementById('modal-' + projectId).style.display = 'none';
+  }
+</script>

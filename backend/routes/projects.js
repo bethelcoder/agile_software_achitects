@@ -187,6 +187,56 @@ router.get('/reviewForm', (req, res) => {
   res.render('reviewForm');
 });
 
+// PUT route to approve a milestone
+router.get('/:projectId/milestones/:milestoneId/approve-and-pay', async (req, res) => {
+  try {
+    const { projectId, milestoneId } = req.params;
+
+    const milestoneDoc = await Milestone.findOne({ projectId });
+    if (!milestoneDoc) return res.status(404).send('Milestone document not found');
+
+    const milestone = milestoneDoc.milestones.id(milestoneId);
+    if (!milestone) return res.status(404).send('Milestone not found');
+
+    milestone.status = 'approved';
+    milestone.name = milestone.name.replace(/ - (Approved and Paid|Rejected)/g, '') + ' - Approved and Paid';
+
+    await milestoneDoc.save();
+
+    // Render payment.ejs and pass the milestone data
+    res.render('payment', { projectId, milestone });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server error: ' + err.message);
+  }
+});
+
+router.put('/:projectId/milestones/:milestoneId/reject', async (req, res) => {
+  try {
+    const { projectId, milestoneId } = req.params;
+    const { message } = req.body;
+
+    const milestoneDoc = await Milestone.findOne({ projectId });
+    if (!milestoneDoc) return res.status(404).json({ message: 'Milestone document not found' });
+
+    const milestone = milestoneDoc.milestones.id(milestoneId);
+    if (!milestone) return res.status(404).json({ message: 'Milestone not found' });
+
+    milestone.status = 'rejected';
+    milestone.name = milestone.name.replace(/ - (Approved and Paid|Rejected)/g, '') + ' - Rejected';
+    milestone.message = message?.trim() || 'No reason provided'; // <-- Store the message
+
+    await milestoneDoc.save();
+    res.json({ message: 'Milestone rejected', milestone });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server error', error: err.message });
+  }
+});
+
+
+
+
 router.post("/:projectId/milestone/submit", async (req, res) => {
    const { projectId } = req.params;
   const { submittedWorkLink, userName, userID, milestoneId } = req.body;
