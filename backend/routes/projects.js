@@ -2,10 +2,10 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const Application = require('../api/mongoDB/Freelancer_Application');
-const clientProject = require('../api/mongoDB/project');
+const clientProject = require('../api/mongoDB/Project');
 const Project = require('../api/mongoDB/Freelancer_Project');
 const Milestone = require('../api/mongoDB/Milestone');
-const middleware = require('../middlewares');
+const middleware = require('../middlewares'); 
 const Submission = require('../api/mongoDB/Submission');
 const User = require('../api/mongoDB/User');
 
@@ -178,7 +178,9 @@ router.get('/activeProjects/:projectId', middleware.ensureAuth, async (req, res)
       return res.render('viewClientsMilestones', { milestones: [], projectId });
     }
 
-    res.render('viewClientsMilestones', { milestones, projectId });
+    milestones.projectStatus = true;
+    const overallStatus = milestones.projectStatus;
+    res.render('viewClientsMilestones', { milestones, projectId, overallStatus });
 
   } catch (err) {
     console.error(err);
