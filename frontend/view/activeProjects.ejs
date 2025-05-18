@@ -14,23 +14,22 @@
       <section class="projects-list">
         <% if (clientProjects.length === 0) { %>
         <p>You don't have any active projects.</p>
-        <% } else { %>
-        <article class="displayProject">
-          <% clientProjects.forEach(app => { %>
-          <section class="project-item">
-            <strong><%= app.title %></strong>
-            <p><%= app.description %></p>
-            <button class="add-milestone-btn" data-project-id="<%= app._id %>">Create Milestones</button>
-            <button class="view-milestone-btn" data-project-id="<%= app._id %>">View Milestones</button>
-          </section>
-          <% }) %>
-        </article>
-        <% } %>
+        <% } else { %> <% clientProjects.forEach(app => { %>
+        <section class="project-item">
+          <strong><%= app.title %></strong>
+          <p><%= app.description %></p>
+          <button class="add-milestone-btn" data-project-id="<%= app._id %>">
+            Create Milestones
+          </button>
+          <button class="view-milestone-btn" data-project-id="<%= app._id %>">
+            View Milestones
+          </button>
+        </section>
+        <% }) %> <% } %>
       </section>
       <a href="/users/dashboard" class="back-button">← Back to Dashboard</a>
     </main>
-    <%- include('milestoneTracker') %>
-    <%- include('viewMilestones') %>
+    <%- include('milestoneTracker') %> <%- include('viewMilestones') %>
     <script type="module" src="/js/milestoneTracker.js"></script>
   </body>
 </html>
