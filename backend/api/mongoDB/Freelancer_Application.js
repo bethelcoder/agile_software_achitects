@@ -4,7 +4,8 @@ const applicationSchema = new mongoose.Schema({
   projectId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'clientProjects', // this should match the model name you passed to mongoose.model()
-    required: true
+    required: true,
+    unique: false
   },
   title: { type: String, required: true },
   freelancerId: { 
@@ -19,5 +20,6 @@ const applicationSchema = new mongoose.Schema({
 });
 
 const Application = mongoose.model('Application', applicationSchema);
+
 
 module.exports = Application;

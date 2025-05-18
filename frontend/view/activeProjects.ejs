@@ -20,7 +20,8 @@
           <section class="project-item">
             <strong><%= app.title %></strong>
             <p><%= app.description %></p>
-            <button class="add-milestone-btn" data-project-id="<%= app._id %>">Create/View Milestones</button>
+            <button class="add-milestone-btn" data-project-id="<%= app._id %>">Create Milestones</button>
+            <button class="view-milestone-btn" data-project-id="<%= app._id %>">View Milestones</button>
           </section>
           <% }) %>
         </article>
@@ -29,6 +30,7 @@
       <a href="/users/dashboard" class="back-button">← Back to Dashboard</a>
     </main>
     <%- include('milestoneTracker') %>
+    <%- include('viewMilestones') %>
     <script type="module" src="/js/milestoneTracker.js"></script>
   </body>
 </html>

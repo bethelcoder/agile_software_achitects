@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     const modal = document.querySelector(".modal");
     const openBtns = document.querySelectorAll(".add-milestone-btn");
+    const viewBtns = document.querySelectorAll(".view-milestone-btn");
     const closeBtn = document.querySelector(".modal .close");
     const openMilestoneDetails = document.querySelector(".open");
     //Milestone Tracker
@@ -35,6 +36,18 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
     
+      viewBtns.forEach(btn => {
+      btn.addEventListener("click", async () => {
+        const projectId = btn.getAttribute("data-project-id");
+        
+        try{
+           window.location.href=`/projects/activeProjects/${projectId}`;
+        } catch(err) {
+          console.error(err);
+        }
+       
+    });
+  });
 
     closeBtn.addEventListener("click", () => {
       modal.classList.add("hidden");

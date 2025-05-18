@@ -2,20 +2,29 @@ const mongoose = require('mongoose');
 
 const milestoneSchema = new mongoose.Schema({
   projectId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'clientProjects', // this should match the model name you passed to mongoose.model()
-      required: true
-    },
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'clientProjects',
+    required: true
+  },
   milestones: [
     {
       name: { type: String, required: true },
-      // description: { type: String, required: true },
-      status: { type: Boolean, default: false }
+      submittedWorkLink: { type: String, default: "" },
+      status: {
+        type: String,
+        enum: ['pending', 'approved', 'rejected'],
+        default: 'pending'
+      },
+      message: { type: String, default: "" }  // ✅ Added message field
     }
   ],
   projectStatus: {
     type: Boolean,
-    default: false // overall project completion status
+    default: false
+  },
+  pricePerMilestone: {
+    type: Number,
+    default: 0.00
   }
 }, { timestamps: true });
 

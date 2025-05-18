@@ -84,20 +84,20 @@ router.get('/applications', isFreelancer, async (req, res) => {
     
       const projects = await project.findById(projectId); 
       const userID = projects.clientID;
-    
+      const budget = projects.minPay;
       const userDoc = await User.findOne({ userID });
       const clientName = userDoc.userName;
-    
       if (applications.length === 0) {
         return res.redirect('/users/dashboard');
       }
     
-      res.render('applicants', { applications, projectId, clientName });
+      res.render('applicants', { applications, projectId, clientName, budget });
     } catch (err) {
       console.error(err);
       res.status(500).send("Error fetching applicants.");
     }
 });
+
 
 
 module.exports = router;
