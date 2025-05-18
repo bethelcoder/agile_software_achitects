@@ -4,9 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "node app.js",
     "start": "node app.js",
-    "dev": "nodemon app.js"
+    "test": "jest --coverage"
   },
   "keywords": [],
   "author": "agile_software_achitects",

@@ -10,6 +10,6 @@ const userSchema = new mongoose.Schema({
     status:{type:String}
 });
 
-const project = mongoose.model('clientProjects', userSchema);
+const project =  mongoose.models.clientProjects || mongoose.model('clientProjects', userSchema);
 
 module.exports = project;

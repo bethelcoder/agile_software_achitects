@@ -8,7 +8,7 @@ const project = require('../api/mongoDB/Freelancer_Project');
  * route testing
  */
 
-jest.mock('../api/mongoDB/Project');
+jest.mock('../api/mongoDB/Freelancer_Project');
 
 
 

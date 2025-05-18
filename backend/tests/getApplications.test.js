@@ -7,7 +7,7 @@ const application = require('../api/mongoDB/Freelancer_Application');
  * route testing
  */
 
-jest.mock('../api/mongoDB/Application');
+jest.mock('../api/mongoDB/Freelancer_Application');
 
 
 
