@@ -135,18 +135,99 @@
 </html> -->
 
 <section class="modal" id="jobModal">
-    <section class="modal-content">
-      <span class="close">&times;</span>
-      <section class="header-texts">
-        <p class="form-subtext" id="pjname">Project</p>
+  <section class="modal-content">
+    <span class="close">&times;</span>
+    <section class="header-texts">
+      <h1 class="form-subtext" id="pjname">Post a Project</h1>
+    </section>
+    <section class="accounts">
+      <label for="title"><b>Project Title</b></label>
+      <input class="inp" id="title" type="text" required />
+
+      <label for="description"><b>Project Description</b></label>
+      <textarea class="inp" id="description" required></textarea>
+
+      <section class="deadline-budget">
+        <section class="input-group">
+          <label for="minPay"><b>Estimated Budget</b></label>
+          <input class="inp" id="minPay" type="number" />
+        </section>
+
+        <section class="input-group">
+          <label for="deadline"><b>Deadline</b></label>
+          <input class="inp" id="deadline" type="date" />
+        </section>
       </section>
-      <section class="accounts">
-        <p>*Title: <input class="inp" id="title" type="text"></p>
-        <p>*Description: <input class="inp" id="description" type="text"></p>
-        <p>*Skills: <input class="inp" id="skills" type="text"></p>
-        <p>*Min Pay (R): <input class="inp" id="minPay" type="number"></p>
-        <p>*Deadline: <input class="inp" id="deadline" type="date"></p>
-        <button class="switch" id="sub"><p>Submit</p></button>
-      </section>
+
+      <label for="skills"><b>Required Skills</b></label>
+      <textarea class="inp" id="skills" required></textarea>
+
+      <button class="switch" id="sub"><p>Post project</p></button>
     </section>
   </section>
+  <style>
+    .modal-content {
+      max-height: 80vh;
+      overflow-y: auto;
+      padding: 20px;
+      border-radius: 10px;
+      background-color: white;
+    }
+    .accounts {
+      display: flex;
+      flex-direction: column;
+    }
+    h1 {
+      text-align: center;
+    }
+    input[type="text"] {
+      width: 90%;
+      padding: 15px;
+      margin: 5px 0px 22px 0px;
+      display: inline-block;
+      border: none;
+      background-color: whitesmoke;
+    }
+    textarea {
+      width: 90%;
+      height: 25px;
+      padding: 15px;
+      margin: 5px 0px 22px 0px;
+      border: none;
+      background-color: whitesmoke;
+      resize: vertical;
+    }
+
+    .deadline-budget {
+      display: flex;
+      gap: 20px;
+      width: 90%;
+      margin-bottom: 22px;
+      flex-wrap: wrap;
+    }
+
+    .input-group {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 200px;
+    }
+
+    .input-group label {
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    .input-group input {
+      padding: 15px;
+      border: none;
+      background-color: whitesmoke;
+    }
+
+    /* Responsive adjustment */
+    @media (max-width: 600px) {
+      .deadline-budget {
+        flex-direction: column; /* Stack vertically when screen is small */
+      }
+    }
+  </style>
+</section>
