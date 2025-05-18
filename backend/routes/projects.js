@@ -82,11 +82,15 @@ const { milestones } = req.body;
 
 const formattedMilestones = milestones.map(name => ({ name }));
 
+const project = await clientProject.findById(projectId);
+
+const pricePerMilestone = project.minPay/formattedMilestones.length;
 try {
     const newMilestone = new Milestone({
     projectId,
     milestones: formattedMilestones,
-    projectStatus: false
+    projectStatus: false,
+    pricePerMilestone: pricePerMilestone
     });
 
     await newMilestone.save();
@@ -169,7 +173,7 @@ router.get('/activeProjects/:projectId', middleware.ensureAuth, async (req, res)
   try {
     // Fetch all milestones associated with this projectId
     const milestones = await Milestone.find({ projectId: projectId });
-
+    const pricePerMilestone = milestones.pricePerMilestone;
     if (milestones.length === 0) {
       return res.render('viewClientsMilestones', { milestones: [], projectId });
     }
@@ -194,7 +198,7 @@ router.get('/:projectId/milestones/:milestoneId/approve-and-pay', async (req, re
 
     const milestoneDoc = await Milestone.findOne({ projectId });
     if (!milestoneDoc) return res.status(404).send('Milestone document not found');
-
+    const pricePerMilestone = milestoneDoc.pricePerMilestone;
     const milestone = milestoneDoc.milestones.id(milestoneId);
     if (!milestone) return res.status(404).send('Milestone not found');
 
@@ -204,7 +208,7 @@ router.get('/:projectId/milestones/:milestoneId/approve-and-pay', async (req, re
     await milestoneDoc.save();
 
     // Render payment.ejs and pass the milestone data
-    res.render('payment', { projectId, milestone });
+    res.render('payment', { projectId, milestone, pricePerMilestone });
   } catch (err) {
     console.error(err);
     res.status(500).send('Server error: ' + err.message);

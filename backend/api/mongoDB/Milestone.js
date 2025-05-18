@@ -21,6 +21,10 @@ const milestoneSchema = new mongoose.Schema({
   projectStatus: {
     type: Boolean,
     default: false
+  },
+  pricePerMilestone: {
+    type: Number,
+    default: 0.00
   }
 }, { timestamps: true });
 

@@ -13,14 +13,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const ClientName = document.getElementById("clientName").value;
     const freelancerName = viewButtons[0].getAttribute("data-username");
     const projectId = document.getElementById("projectId").value;
-
+    const budget = viewButtons[0].getAttribute("data-budget");
     viewButtons.forEach((btn) => {
       btn.addEventListener("click", () => {
         const username = btn.getAttribute("data-username");
         const skills = btn.getAttribute("data-skills");
         const links = btn.getAttribute("data-links");
         const message = btn.getAttribute("data-message");
-
+        
         
         
         modalUsername.textContent = username;
@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
       })
       .then(res => res.json())
       .then(data => {
-        alert("Freelancer hired!");
+        alert(`Freelancer Hired! Budget is ${budget}`);
         modal.classList.add("hidden");
         window.location.href = data.redirectTo;
       })
