@@ -5,7 +5,7 @@ const Application = require('../api/mongoDB/Freelancer_Application');
 const clientProject = require('../api/mongoDB/project');
 const Project = require('../api/mongoDB/Freelancer_Project');
 const Milestone = require('../api/mongoDB/Milestone');
-const middleware = require('../middlewares');
+const middleware = require('../middlewares'); 
 const Submission = require('../api/mongoDB/Submission');
 const User = require('../api/mongoDB/User');
 
