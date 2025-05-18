@@ -170,6 +170,11 @@
         <% }) %>
       </section>
     <% } %>
+    
+    <% if (overallStatus === true) { %>
+      <button class="projectStatus">Mark Project as Complete</button>
+    <% } %>
+
   </main>
 
   <dialog id="modal">
@@ -211,6 +216,10 @@
       submittedLink.textContent = taskLink || 'No link submitted yet.';
       selectedMilestoneId = milestoneId;
 
+      if(submittedLink.textContent == 'No link submitted yet.'){
+        approveBtn.disabled = true;
+      }
+
       rejectionMessageContainer.style.display = 'none';
       rejectionMessageInput.value = '';
       approveBtn.style.display = 'inline-block';
@@ -224,17 +233,18 @@
       modal.close();
       selectedMilestoneId = null;
     }
-
+    
     document.querySelectorAll('.milestone').forEach(milestone => {
+      if(milestone.getAttribute('data-task-status')=="pending"){
       milestone.addEventListener('click', () => {
         openModal(
           milestone.getAttribute('data-task-name'),
           milestone.getAttribute('data-task-link'),
           milestone.getAttribute('data-milestone-id')
         );
-      });
+      });}
     });
-
+  
     modalClose.addEventListener('click', closeModal);
 
     rejectBtn.addEventListener('click', () => {

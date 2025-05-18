@@ -4,9 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "node app.js",
     "start": "node app.js",
-    "dev": "nodemon app.js"
+    "test": "jest --coverage"
   },
   "keywords": [],
   "author": "agile_software_achitects",
@@ -22,6 +21,7 @@
     "express": "^5.1.0",
     "express-session": "^1.18.1",
     "firebase-admin": "^13.2.0",
+    "html-pdf-node": "^1.0.8",
     "mongodb": "^6.15.0",
     "mongoose": "^8.13.2",
     "mysql2": "^3.14.0",
@@ -30,6 +30,7 @@
     "passport-github": "^1.1.0",
     "passport-github2": "^0.1.12",
     "passport-google-oauth20": "^2.0.0",
+    "puppeteer": "^24.8.2",
     "stripe": "^18.1.0"
   },
   "devDependencies": {

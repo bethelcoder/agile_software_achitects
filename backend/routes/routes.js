@@ -5,7 +5,8 @@ const controller = require('../controller/controller');
 const User = require('../api/mongoDB/User');
 const middleware = require('../middlewares');
 const description= require('../api/mongoDB/description');
-const Project = require('../api/mongoDB/project');
+const Project = require('../api/mongoDB/Project');
+const Application = require('../api/mongoDB/Freelancer_Application');
 
 router.get('/register', controller.regPage);
 router.get('/login', controller.logPage);
@@ -19,6 +20,15 @@ router.get('/dashboard', middleware.ensureAuth, async (req, res) => {
   const userName = userDoc.userName;
   const userRole = userDoc.roles;
   const allProjects = await Project.find({});
+  const applications= await Application.find({});
+  const users= await User.find({});
+  userRole.forEach((role)=>{
+    if (role=="admin"){
+      const projects=allProjects;
+    
+      res.render('admin',{userName,userID,projects,users, applications});
+    }
+  })
   if (userRole.length == 1 && userRole[0] == "client") {
     // ✅ Fetch projects before rendering
     const clientID = req.user.clientID; // or however you store it
@@ -27,6 +37,7 @@ router.get('/dashboard', middleware.ensureAuth, async (req, res) => {
   } else if (userRole.length == 1 && userRole[0] == "freelancer") {
     res.render('freelancer_dashboard', { userName, allProjects, userID });
   } 
+  
 });
 
 router.post('/submit-username', controller.submitUsername);
@@ -104,6 +115,21 @@ router.get('/github/callback',
     }
   }
 );
+
+router.get('/admin-page', async(req, res)=>{
+  const userID = req.user.profile.id;
+  const userDoc = await User.findOne({ userID });
+  const userName = userDoc.userName;
+  const userRole = userDoc.roles;
+  const allProjects = await Project.find({});
+  const users= await User.find({});
+  const applications= await Application.find({});
+  const projects=allProjects;
+  res.render('admin',{userName,userID,projects,users, applications});
+  
+  
+  
+});
 
 router.get('/projects/:status', controller.getProjectsByStatus);
 router.post('/projects', controller.createProject);

@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const router = express.Router();
 const User = require('../api/mongoDB/User');
 const Application = require('../api/mongoDB/Freelancer_Application');
-const project = require('../api/mongoDB/project');
+const project = require('../api/mongoDB/Project');
 const middleware = require('../middlewares');
 // Middleware to check if freelancer is logged in
 
