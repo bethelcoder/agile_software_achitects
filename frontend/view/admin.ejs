@@ -125,12 +125,17 @@
         <h2>Admin Panel <img src="https://as2.ftcdn.net/v2/jpg/02/28/27/15/1000_F_228271553_LUViPak2OFPun53UgvkE21BlTr7uC3KO.jpg" style="width: 60px; height: auto;border-radius: 55%;"></h2>
         <nav>
           <ul>
-            <li><a href="#/admin/getUsers">->Users</a></li>
-            <li><a href="#/admin/getApplications/">->Applications</a></li>
-            <li><a href="#/admin/getProjects/">->Projects</a></li>
+            <li><a href="/admin/getUsers">->Users</a></li>
+            <li><a href="/admin/getApplications">->Applications</a></li>
           </ul>
         </nav>
-     
+      <section class="bottomNav">
+        <form action="/users/dashboard/client" method="GET">
+          <input type="hidden" name="userID" value="<%= userID %>">
+          <button class="switch">Switch to Client</button>
+        </form>
+          
+        </section>
       </aside>
 
       <main>
@@ -188,7 +193,7 @@
         
                 <form action="/delete-form" method="POST">
                     <input type="hidden" name="formID" value="<%= form._id%>">
-                  <button class="btn" type="submit">Delete Application</button>
+                  <button  type="submit">Delete Application</button>
                 </form>
                 <button class="btn" type="submit">Mark as Suspicious</button>
               </section>

@@ -143,7 +143,10 @@
           </ul>
         </nav>
         <section class="bottomNav">
+        <form action="/users/dashboard/freelancer" method="GET">
+          <input type="hidden" name="userID" value="<%= userID %>">
           <button class="switch">Switch to Freelancer</button>
+        </form>
           <button class="logout">Log-out</button>
         </section>
       </aside>

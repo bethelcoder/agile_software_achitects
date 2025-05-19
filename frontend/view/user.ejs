@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>All Users</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    h1 { margin-bottom: 10px; }
+    .report-section { margin-bottom: 40px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { padding: 10px; border: 1px solid #ccc; text-align: left; }
+    .export-buttons { margin-top: 10px; }
+    .filter { margin-bottom: 20px; }
+  </style>
+</head>
+<body>
+  <header> <h1> Users Dashboard:</h1></header>
+  <main>
+     <div class="filter">
+    <form method="GET" action="/admin/getUsers">
+      <label>Search by User Name:</label>
+        <input name="Search">
+      <button type="submit">Search</button>
+    </form>
+    
+
+  
+  <div class="report-section">
+    
+    <table>
+      <thead>
+        <tr>
+          <th>User Name</th>
+          <th>Role</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% users.forEach(user => { %>
+          <tr>
+            <td><%= user.userName %></td>
+            <td><%= user.roles.join(', ') %></td>
+            <td>
+                <form action="/delete-user" method="POST">
+                    <input type="hidden" name="userID" value="<%= user._id%>">
+                  <button class="btn" type="submit">Delete User</button>
+                </form>
+                
+                  <form action="/users/mark-As-Admin" method="POST">
+                    <input type="hidden" name="userID" value="<%= user._id%>">
+                  <button class="btn" type="submit">Mark as Admin</button>
+                </form>
+            </td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+    
+   
+      
+    </div>
+  
+
+  
+  </main>
+</body>
+</html>

@@ -7,6 +7,7 @@ const middleware = require('../middlewares');
 const description= require('../api/mongoDB/description');
 const Project = require('../api/mongoDB/Project');
 const Application = require('../api/mongoDB/Freelancer_Application');
+const mongoose = require('mongoose');
 
 router.get('/register', controller.regPage);
 router.get('/login', controller.logPage);
@@ -39,6 +40,52 @@ router.get('/dashboard', middleware.ensureAuth, async (req, res) => {
   } 
   
 });
+
+router.get('/dashboard/client', async(req,res)=>{
+  const userID = parseInt(req.query.userID);
+  const userDoc = await User.findOne({ userID });
+  const userName = userDoc.userName;
+  const userRole = userDoc.roles;
+  const projects = await Project.find({ clientID: userID });
+  userRole.forEach((role)=>{
+   
+    if (role=="client"){
+      res.render('clientDashboard', { userName, userID, projects });
+    }
+  })
+
+});
+router.get('/dashboard/freelancer', async (req, res, next) => {
+  try {
+    const userID = parseInt(req.query.userID);
+    const userDoc = await User.findOne({ userID });
+
+    if (!userDoc) {
+      return res.status(404).send("User not found");
+    }
+
+    const userName = userDoc.userName;
+    const userRole = userDoc.roles;
+    const allProjects = await Project.find({});
+
+    if (!userRole.includes("freelancer")) {
+      userRole.push("freelancer");
+      await User.updateOne({ userID: userID }, { $set: { roles: userRole } });
+    }
+
+    
+    if (userRole.includes("freelancer")) {
+      return res.render('freelancer_dashboard', { userName, allProjects, userID });
+    }
+
+   
+    
+  } catch (err) {
+      console.error('Error checking user existence:', err);
+      res.status(500).send("Error!");
+  }
+});
+
 
 router.post('/submit-username', controller.submitUsername);
 router.get('/submit-username', (req, res) => {
@@ -126,9 +173,23 @@ router.get('/admin-page', async(req, res)=>{
   const applications= await Application.find({});
   const projects=allProjects;
   res.render('admin',{userName,userID,projects,users, applications});
-  
-  
-  
+
+});
+
+router.post('/mark-As-Admin', async(req,res)=>{
+  const user= new mongoose.Types.ObjectId(req.body.userID);
+  const userDoc = await User.findOne({ _id : user._id });
+  try{
+    userRole=userDoc.roles;
+    userRole.push("admin");
+    await User.updateOne({_id:user._id}, { $set: { roles: userRole } });
+    res.redirect('/users/dashboard');
+  }
+  catch(error){
+    res.status(500).json({ message: "Error removing User" }); 
+    console.log(error);
+  }
+
 });
 
 router.get('/projects/:status', controller.getProjectsByStatus);

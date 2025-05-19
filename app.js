@@ -173,6 +173,21 @@ app.post('/delete-user', async(req,res)=>{
 
 });
 
+app.post('/delete-form', async(req,res)=>{
+  const app= new mongoose.Types.ObjectId(req.body.formID);
+
+  try{
+    
+    await Application.deleteOne(app._id);
+    res.redirect('/users/dashboard');
+  }
+  catch(error){
+    res.status(500).json({ message: "Error removing Application" }); 
+    console.log(error);
+  }
+
+});
+
 app.post('/reports/', async(req, res) => {
   const userID = parseInt(req.body.userID);
   
@@ -232,9 +247,10 @@ app.post('/reports/', async(req, res) => {
     
    
   }
-  
-  let rate=m/n *100;
-  
+  let rate=0;
+  if (n!=0){
+    rate=m/n *100;
+  } 
 
   res.render('reports', { projects, payments ,rate, userID});
 });
@@ -302,6 +318,57 @@ html_to_pdf.generatePdf(file, options).then(pdfBuffer => {
 });
 });
 
+app.get('/admin/getUsers', async(req, res)=>{
+ // const userID = req.session.user.userID;
+  let users= await User.find({});
+  try{
+    if (req.query.Search){
+      let userz=[];
+      users.forEach((user)=>{
+        if (user.userName==req.query.Search){
+          userz.push(user);
+        }
+      })
+      users=userz;
+      res.render('user',{users});
+    }
+    else{
+      res.render('user',{users});
+    }
+    
+  }
+  catch(error){
+    console.error('Error checking user existence:', error);
+      res.status(500).send("Error!");
+  }
+
+});
+
+app.get('/admin/getApplications', async(req, res)=>{
+ // const userID = req.session.user.userID;
+  let applications= await Application.find({});
+  try{
+    if (req.query.Search){
+      let appz=[];
+      applications.forEach((app)=>{
+        if (app.title==req.query.Search){
+          appz.push(app);
+        }
+      })
+      applications=appz;
+      res.render('allapps',{applications});
+    }
+    else{
+      res.render('allapps',{applications});
+    }
+    
+  }
+  catch(error){
+    console.error('Error checking user existence:', error);
+      res.status(500).send("Error!");
+  }
+
+});
 
 app.get('/logout', (req, res) => {
   req.logout(function(err) {
