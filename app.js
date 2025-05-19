@@ -411,8 +411,8 @@ app.post('/checkout', async (req, res) => {
                 }
             ],
             mode: 'payment',
-            success_url: `${process.env.BASE_URL}/complete?session_id={CHECKOUT_SESSION_ID}`,
-            cancel_url: `${process.env.BASE_URL}/cancel`
+            success_url: "https://freelancestudioweb-f3dpbqgcf2d9dxdr.southafricanorth-01.azurewebsites.net/complete?session_id={CHECKOUT_SESSION_ID}",
+            cancel_url: "https://freelancestudioweb-f3dpbqgcf2d9dxdr.southafricanorth-01.azurewebsites.net/cancel"
         });
 
         res.redirect("thank-you");
