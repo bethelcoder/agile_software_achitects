@@ -7,11 +7,8 @@ const middleware = require('../middlewares');
 const description= require('../api/mongoDB/description');
 const Project = require('../api/mongoDB/Project');
 const Application = require('../api/mongoDB/Freelancer_Application');
-<<<<<<< HEAD
 const Milestone = require('../api/mongoDB/Milestone');
-=======
 const mongoose = require('mongoose');
->>>>>>> c65320e5620cb93144eab720168c18452964ef95
 
 router.get('/register', controller.regPage);
 router.get('/login', controller.logPage);
