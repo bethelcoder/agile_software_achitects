@@ -20,85 +20,89 @@
 
       <section class="applicants-list">
         <% if (applications.length === 0) { %>
-          <p>No freelancers have applied yet.</p>
-        <% } else { %>
-          <article class="displayApplicant">
-            <% applications.forEach(app => { %>
-              <section class="applicant-item">
-                <strong><%= app.title %></strong>
-                <h4>Freelancer username: <%= app.freelancerId.userName %></h4>
-                <p><%= app.Message %></p>
-                
+        <p>No freelancers have applied yet.</p>
+        <% } else { %> <% applications.forEach(app => { %>
+        <section class="applicant-item">
+          <strong><%= app.title %></strong>
+          <h4>Freelancer username: <%= app.freelancerId.userName %></h4>
+          <p><%= app.Message %></p>
 
-                <button 
-                  class="view-details-btn" 
-                  data-username="<%= app.freelancerId.userName %>"
-                  data-message="<%= app.Message %>"
-                  data-skills="<%= app.Skills %>"
-                  data-links="<%= app.links %>"
-                  data-budget="<%= budget %>"
-                >
-                  View Application Details
-                </button>
-                <button 
-                  class="ai-details-btn" 
-                  data-id="<%= app._id %>"
-                  data-username="<%= app.freelancerId.userName %>"
-                  data-message="<%= app.Message %>"
-                  data-skills="<%= app.Skills %>"
-                  data-links="<%= app.links %>"
-                  data-budget="<%= budget %>"
-                >
-                  Hire By AI
-                </button>
-
-              </section>
-            <% }) %>
-            </article>
-        <% } %>
+          <button
+            class="view-details-btn"
+            data-username="<%= app.freelancerId.userName %>"
+            data-message="<%= app.Message %>"
+            data-skills="<%= app.Skills %>"
+            data-links="<%= app.links %>"
+            data-budget="<%= budget %>"
+          >
+            View Application Details
+          </button>
+          <button
+            class="ai-details-btn"
+            data-id="<%= app._id %>"
+            data-username="<%= app.freelancerId.userName %>"
+            data-message="<%= app.Message %>"
+            data-skills="<%= app.Skills %>"
+            data-links="<%= app.links %>"
+            data-budget="<%= budget %>"
+          >
+            Hire By AI
+          </button>
+        </section>
+        <% }) %> <% } %>
       </section>
-      <input type="hidden" id = "clientName" name="clientName" value="<%= clientName %>">
-      <input type="hidden" id = "projectId" name="projectId" value="<%= projectId %>">
-
+      <input
+        type="hidden"
+        id="clientName"
+        name="clientName"
+        value="<%= clientName %>"
+      />
+      <input
+        type="hidden"
+        id="projectId"
+        name="projectId"
+        value="<%= projectId %>"
+      />
 
       <a href="/users/dashboard" class="back-button">← Back to Dashboard</a>
     </main>
-    
+
     <!-- <script src="/js/applicants.js"></script> -->
 
     <%- include('applicationModal') %>
     <script src="/js/modalHandler.js"></script>
 
     <!-- For AI Hirring -->
-     <script>
-      document.querySelectorAll('.ai-details-btn').forEach(button => {
-        button.addEventListener('click', async () => {
-          const appId = button.getAttribute('data-id'); // This should be application ID
+    <script>
+      document.querySelectorAll(".ai-details-btn").forEach((button) => {
+        button.addEventListener("click", async () => {
+          const appId = button.getAttribute("data-id"); // This should be application ID
 
           try {
-            const response = await fetch('http://localhost:4000/api/hire-by-ai', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify({ applicationId: appId })
-            });
+            const response = await fetch(
+              "http://localhost:4000/api/hire-by-ai",
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ applicationId: appId }),
+              }
+            );
 
             const data = await response.json();
-            alert(data.message);  // Or update DOM dynamically
+            alert(data.message); // Or update DOM dynamically
 
-            if (data.message === 'Freelancer hired successfully by AI.') {
+            if (data.message === "Freelancer hired successfully by AI.") {
               // ✅ Redirect after successful hiring
-              window.location.href = '/users/dashboard';
+              window.location.href = "/users/dashboard";
             }
-
           } catch (err) {
-            console.error('AI hire failed:', err);
-            alert('An error occurred while hiring.');
+            console.error("AI hire failed:", err);
+            alert("An error occurred while hiring.");
           }
         });
       });
     </script>
-
   </body>
 </html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>All Users</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    h1 { margin-bottom: 10px; }
+    .report-section { margin-bottom: 40px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { padding: 10px; border: 1px solid #ccc; text-align: left; }
+    .export-buttons { margin-top: 10px; }
+    .filter { margin-bottom: 20px; }
+  </style>
+</head>
+<body>
+  <header> <h1> Applications Dashboard:</h1></header>
+  <main>
+     <div class="filter">
+    <form method="GET" action="/admin/getApplications">
+      <label>Search by Application Title:</label>
+        <input name="Search">
+      <button type="submit">Search</button>
+    </form>
+    
+
+  
+  <div class="report-section">
+    
+    <table>
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Freelancer</th>
+          <th>Skills</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% applications.forEach(app => { %>
+          <tr>
+            <td><%= app.title %></td>
+            <td><%= app.freelancerId.userName %></td>
+            <td><%= app.Skills %></td>
+            <td><%= app.Status %></td>
+            <td>
+                <form action="/delete-form" method="POST">
+                    <input type="hidden" name="formID" value="<%= app._id%>">
+                  <button class="btn" type="submit">Delete Application</button>
+                </form>
+            </td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+    
+   
+      
+    </div>
+  
+
+  
+  </main>
+</body>
+</html>

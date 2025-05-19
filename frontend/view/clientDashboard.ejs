@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/css/clientDashboard.css" />
     <style>
       body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
         margin: 0;
         padding: 0;
         background-color: #f4f4f9;
@@ -64,7 +64,7 @@
       }
 
       .card {
-        background: white;
+        background: linear-gradient(135deg, #8f94fb, #b8bbf1);
         padding: 20px;
         border-radius: 10px;
         text-align: center;
@@ -89,9 +89,14 @@
         gap: 20px;
       }
 
-      .project-item, .active-project-item {
+      .project-item,
+      .active-project-item {
         padding: 20px;
-        background: #fff;
+        background-image: radial-gradient(
+          circle,
+          rgb(201, 247, 255) 0%,
+          #f9f9f9 100%
+        );
         border-radius: 12px;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
       }
@@ -120,30 +125,65 @@
     </style>
   </head>
   <body data-userid="<%= userID %>">
-    <section class="dashboard">
+    <div class="dashboard">
       <aside>
         <h2>Client Panel</h2>
         <nav>
           <ul>
-            <li><a href="/">🏠 Home</a></li>
+            <li><a href="#">🏠 Home</a></li>
             <li><a href="/projects/activeProjects">📁 Active Projects</a></li>
+<<<<<<< HEAD
             <li><a href="/projects/inactiveProjects">📂Past Projects</a></li>
             <li><a href="/submit-clientProfile?userID=<%= userID %>">📄 Profile</a></li>
             
           </ul>
         </nav>
+=======
+            <li>
+              <a href="/application/applicants">📄 Applicants</a>
+            </li>
+            <li>
+              <a href="/submit-clientProfile?userID=<%= userID %>"
+                >📄 Profile</a
+              >
+            </li>
+          </ul>
+        </nav>
+        <section class="bottomNav">
+        <form action="/users/dashboard/freelancer" method="GET">
+          <input type="hidden" name="userID" value="<%= userID %>">
+          <button class="switch">Switch to Freelancer</button>
+        </form>
+          <button class="logout">Log-out</button>
+        </section>
+>>>>>>> c65320e5620cb93144eab720168c18452964ef95
       </aside>
 
       <main>
         <article class="top-header">
-          <section style="background: linear-gradient(135deg, #4e54c8, #8f94fb); padding: 30px; border-radius: 12px; color: white; box-shadow: 0 4px 15px rgba(0,0,0,0.2); flex: 1;">
-            <h1 style="margin: 0;">Welcome back, <%= userName || "Guest" %> 👋</h1>
-            <p style="margin-top: 10px; font-size: 1.1em;">Manage your posted projects, track applicants, and stay organized.</p>
+          <section
+            style="
+              background: linear-gradient(135deg, #4e54c8, #8f94fb);
+              padding: 30px;
+              border-radius: 12px;
+              color: white;
+              box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+              flex: 1;
+            "
+          >
+            <h1 style="margin: 0">
+              Welcome back, <%= userName || "Guest" %> 👋
+            </h1>
+            <p style="margin-top: 10px; font-size: 1.1em">
+              Manage your posted projects, track applicants, and stay organized.
+            </p>
           </section>
-          <button class="postProject post-project-btn" id="addProject">Post a Project</button>
+          <button class="postProject post-project-btn" id="addProject">
+            Post a Project
+          </button>
         </article>
 
-        <section class="grid-cards" style="margin-top: 30px;">
+        <section class="grid-cards" style="margin-top: 30px">
           <article class="card">
             <h2>📁</h2>
             <p>Posted Projects</p>
@@ -156,23 +196,27 @@
           </article>
         </section>
 
-        <section style="margin-top: 40px;">
+        <section style="margin-top: 40px">
           <h2>Recently Posted Projects</h2>
           <article class="content-box project-grid" id="AP">
             <% projects.forEach(project => { %>
-              <section class="project-item">
-                <h3><%= project.title %></h3>
-                <p><%= project.description %></p>
-                <a href="/application/applicants/<%= project._id %>" style="text-decoration: none; color: #007bff;">View Applicants</a>
-                <form action="/delete-project?<%= project._id %>" method="GET">
-                  <button class="btn" type="submit">Delete Project</button>
-                </form>
-              </section>
+            <section class="project-item">
+              <h3><%= project.title %></h3>
+              <p><%= project.description %></p>
+              <a
+                href="/application/applicants/<%= project._id %>"
+                style="text-decoration: none; color: #007bff"
+                >View Applicants</a
+              >
+              <form action="/delete-project?<%= project._id %>" method="GET">
+                <button class="btn" type="submit">Delete Project</button>
+              </form>
+            </section>
             <% }) %>
           </article>
         </section>
       </main>
-    </section>
+    </div>
 
     <%- include('joblisting') %>
 
