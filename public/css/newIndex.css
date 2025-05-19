@@ -1,0 +1,223 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Inter", sans-serif;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.9rem 5rem;
+}
+
+.nav-links ul {
+    display: flex;
+    list-style-type: none;
+    gap: 20px;
+}
+
+.nav-links ul li a {
+    text-decoration: none;
+    font-size: 1.0rem;
+    font-weight: 600;
+    color: #000;
+}
+
+
+.nav-center-logo {
+    margin-left: -60px;
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.nav-center-logo span {
+    color: #0967FC;
+  }
+
+
+.nav-cta button {
+    background-color: #000;
+    color: #fff;
+    padding: .8rem 1rem;
+    outline: none;
+    border: none;
+    border-radius: 20px;
+    font-size: .7rem;
+}
+
+.hero {
+  height: 90vh;
+  max-height: 90vh;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+                    url('/images/faizur-rehman-pHPzdEHN6Os-unsplash.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  color: white;
+  padding-top: 25vh;
+  padding-left: 10vh;
+}
+
+.hero-text {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.hero-text .headline {
+    font-size: 2.8rem;
+}
+
+.hero-text .subline {
+    font-size: .9rem;
+    font-weight: 300;
+    line-height: 1.5rem;
+}
+
+.CTA {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.CTA .cta-buttons {
+    padding: .8rem 1.3rem;
+    outline: none;
+    border-radius: 20px;
+}
+.btn-primary {
+    color: #000;
+    border: none;
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: #fff;
+    border: 1px solid #fff;
+}
+
+/* ------- main -------- */
+.section-1 {
+    display: flex;
+    flex-direction: column;
+    padding-top: 4rem;
+    gap: 9rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.section-1 h1 {
+    font-size: 2rem;
+    text-align: center;
+}
+.section-1 .services {
+    margin-top: -4rem;
+  display: flex;
+  gap: 50px; /* space between cards */
+  justify-content: space-between;
+  /* align-items: stretch; make cards equal height */
+  padding: 1rem; /* wraps on smaller screens */
+}
+
+.card {
+  flex: 1 1 550px; /* grow, shrink, base width */
+  width: 20rem;
+  max-width: 800px;
+  background-color: transparent;
+  border-radius: 12px;
+  /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); */
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.feature-icon img{
+    width: 20rem;
+    height: 12rem;
+    border-radius: 5px;
+    margin-bottom: 1.5rem;
+}
+
+.content h4 {
+    font-weight: 500;
+    font-size: 1.1rem;
+    margin-bottom: 1.4rem;
+}
+
+.content p {
+    font-size: .8rem;
+    margin-bottom: 1.2rem;
+}
+
+.content a {
+    text-decoration: none;
+    color: #1f1e1e;
+}
+
+/* ------ SECTION-2 */
+
+.section-2 {
+    display: flex;
+    padding: 5.5rem;
+    gap: 30px;
+    background-color: #f7f7f7;
+    justify-content: space-between;
+}
+
+.article {
+    flex: 2;
+}
+
+.left-article .top-text{
+    padding-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.top-text .top {
+    font-weight: 500;
+}
+
+.top-text h1 {
+    font-size:2.3rem;
+    font-weight: 600;
+}
+
+.top-text .bottom {
+    font-size:.9rem;
+    line-height: 1.5rem;
+    color: #292828;
+    font-weight: 400;
+}
+#banner{
+    width: 30rem;
+    height: 28.5rem;
+    border-radius: 5px;
+}
+
+.lists ul {
+    padding-left: 1.2rem;
+}
+
+.lists ul li p {
+    color: #292828;
+    font-weight: .5rem;
+}
+.cta {
+    margin-top: 1.5rem;
+}
+.cta .sign-up {
+    padding: .8rem 1.3rem;
+    outline: none;
+    border-radius: 20px;
+    color: #fff;
+    background-color: #292828;
+    border: none;
+}

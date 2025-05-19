@@ -7,6 +7,7 @@ const middleware = require('../middlewares');
 const description= require('../api/mongoDB/description');
 const Project = require('../api/mongoDB/Project');
 const Application = require('../api/mongoDB/Freelancer_Application');
+const Milestone = require('../api/mongoDB/Milestone');
 
 router.get('/register', controller.regPage);
 router.get('/login', controller.logPage);
@@ -33,9 +34,17 @@ router.get('/dashboard', middleware.ensureAuth, async (req, res) => {
     // ✅ Fetch projects before rendering
     const clientID = req.user.clientID; // or however you store it
     const projects = await Project.find({ clientID: userID });
-    res.render('clientDashboard', { userName, userID, projects });
+    const applications = await Application.find();
+    const applicants = applications.length;
+    res.render('clientDashboard', { userName, userID, projects, applicants });
   } else if (userRole.length == 1 && userRole[0] == "freelancer") {
-    res.render('freelancer_dashboard', { userName, allProjects, userID });
+     const noOfApplications=applications.length;
+     const projectCount = await Application.find({
+  Status: "Hired"
+});
+const myprojects=projectCount.length;
+
+    res.render('freelancer_dashboard', { userName, allProjects, userID, noOfApplications, myprojects });
   } 
   
 });

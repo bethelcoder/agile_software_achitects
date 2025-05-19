@@ -320,7 +320,7 @@ app.get('/logout', (req, res) => {
 
 
 app.get('/', (req, res) => {
-  res.render('landingPage');
+  res.render('landingPage2');
 });
 
 app.post('/checkout', async (req, res) => {
