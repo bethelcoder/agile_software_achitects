@@ -51,6 +51,7 @@
   }
 
   .project-item {
+    margin-bottom: 20px;
     padding: 1rem 1.5rem;
     background: #fafafa;
     border: 1px solid #ddd;

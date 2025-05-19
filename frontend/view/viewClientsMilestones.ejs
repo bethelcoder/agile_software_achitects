@@ -132,6 +132,11 @@
     #rejectionSubmitBtn:hover {
       background-color: #b31d28;
     }
+    .projectStatus {
+      margin-top: 20px;
+      background-color: #0366d6;
+      color: white;
+    }
   </style>
 </head>
 <body>
@@ -172,7 +177,7 @@
     <% } %>
     
     <% if (overallStatus === true) { %>
-      <button class="projectStatus">Mark Project as Complete</button>
+      <button class="projectStatus" id= "completeBtn" data-projectId="<%= projectId %>">Mark Project as Complete</button>
     <% } %>
 
   </main>
@@ -206,7 +211,7 @@
     const rejectionMessageContainer = document.getElementById('rejectionMessageContainer');
     const rejectionMessageInput = document.getElementById('rejectionMessage');
     const rejectionSubmitBtn = document.getElementById('rejectionSubmitBtn');
-
+    const completeProjBtn = document.getElementById("completeBtn");
     let selectedMilestoneId = null;
     let selectedProjectId = "<%= projectId %>";
 
@@ -292,6 +297,48 @@
     modal.addEventListener('click', e => {
       if (e.target === modal) closeModal();
     });
+
+    completeProjBtn.addEventListener("click", () => {
+      const projectId = completeProjBtn.getAttribute("data-projectId");
+      fetch(`/projects/${projectId}/complete-project`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+      .then(res => res.json())
+      .then(data => {
+        if(data.success_msg) {
+          // Redirect to review page with projectId as param
+          window.location.href = `/projects/${projectId}/write-review`;
+        } else if (data.error) {
+          alert(data.error);
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        alert("Something went wrong!");
+      });
+    });
+
+    // completeProjBtn.addEventListener("click", () => {
+    //   const projectId = completeProjBtn.getAttribute("data-projectId");
+    //   fetch(`/projects/${projectId}/complete-project`, {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json"
+    //     }
+    //   })
+    //   .then(res => res.json())
+    //   .then(data => {
+    //     alert(data.success_msg);
+    //   })
+    //   .catch(err => {
+    //     console.error(err.error);
+    //     alert(err.error);
+    //   });
+    // });
+
   </script>
 </body>
 </html>
