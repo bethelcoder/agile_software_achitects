@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Active Projects</title>
+    <link rel="stylesheet" href="/css/activeProjects.css" />
+  </head>
+  <body>
+    <header class="top-nav"><h1 class="logo">Freelance-studio</h1></header>
+    <main class="main-layout">
+      <h2>📂Past Projects</h2>
+
+      <section class="projects-list">
+        <% if (clientProjects.length === 0) { %>
+        <p>You don't have any 📂Past projects.</p>
+        <% } else { %>
+        <article class="displayProject">
+          <% clientProjects.forEach(app => { %>
+          <section class="project-item">
+            <strong><%= app.title %></strong>
+            <p><%= app.description %></p>
+          </section>
+          <% }) %>
+        </article>
+        <% } %>
+      </section>
+      <a href="/users/dashboard" class="back-button">← Back to Dashboard</a>
+    </main>
+  </body>
+</html>

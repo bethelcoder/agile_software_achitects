@@ -8,7 +8,7 @@ const Milestone = require('../api/mongoDB/Milestone');
 const middleware = require('../middlewares'); 
 const Submission = require('../api/mongoDB/Submission');
 const User = require('../api/mongoDB/User');
-
+const Review = require('../api/mongoDB/review');
 
 // Middleware to check if freelancer is logged in
 function isFreelancer(req, res, next) {
@@ -153,13 +153,32 @@ router.get('/active-projects/:userName', async (req, res) => {
 
   try {
     // Fetch all active projects by this client
-    const clientProjects = await clientProject.find( {'clientID': clientId} );
+    const clientProjects = await clientProject.find( {'clientID': clientId, status: "Active" } );
     if (clientProjects.length === 0) {
       return res.render('activeProjects', { clientProjects: [] });
     }
     const projectId = clientProjects.projectId;
 
     res.render('activeprojects', { clientProjects, projectId });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error fetching Projects.");
+  }
+});
+
+router.get('/inactiveProjects', middleware.ensureAuth, async (req, res) =>{
+    const clientId = req.session.user.userID;
+
+  try {
+    // Fetch all active projects by this client
+    const clientProjects = await clientProject.find( {'clientID': clientId, status: "Inactive"} );
+    if (clientProjects.length === 0) {
+      return res.render('inactiveProjects', { clientProjects: [] });
+    }
+    const projectId = clientProjects.projectId;
+
+    res.render('inActiveProjects', { clientProjects, projectId });
 
   } catch (err) {
     console.error(err);
@@ -174,12 +193,18 @@ router.get('/activeProjects/:projectId', middleware.ensureAuth, async (req, res)
     // Fetch all milestones associated with this projectId
     const milestones = await Milestone.find({ projectId: projectId });
     const pricePerMilestone = milestones.pricePerMilestone;
+
     if (milestones.length === 0) {
       return res.render('viewClientsMilestones', { milestones: [], projectId });
     }
-
-    milestones.projectStatus = true;
-    const overallStatus = milestones.projectStatus;
+    
+    const allApproved = milestones[0].milestones.every(m => m.status === 'approved');
+   
+    if (allApproved && milestones[0].projectStatus === false) {
+      milestones[0].projectStatus = true;
+      await milestones[0].save();
+    }
+    const overallStatus = milestones[0].projectStatus;
     res.render('viewClientsMilestones', { milestones, projectId, overallStatus });
 
   } catch (err) {
@@ -189,9 +214,61 @@ router.get('/activeProjects/:projectId', middleware.ensureAuth, async (req, res)
 
 });
 
-router.get('/reviewForm', (req, res) => {
-  res.render('reviewForm');
+// GET route to show review form page
+router.get('/:projectId/write-review', async (req, res) => {
+  const { projectId } = req.params;
+  
+  try {
+    // You can fetch the project to verify it exists and get freelancer info if needed
+    const project = await clientProject.findById(projectId);
+    const projectObjectId = new mongoose.Types.ObjectId(projectId);
+    if(!project) {
+      return res.status(404).send("Project not found");
+    }
+
+    //const clientID = project.clientID;
+
+    // const application = await Application.findOne({ projectId: projectObjectId });
+    // if(!application) {
+    //   console.log("Applicant not found");
+    //   return;
+    // }
+    // const freelancerUname = application.freelancerId.userName;
+
+    // Render a view named 'writeReview' and pass project data if needed
+    res.render('writeReview', { project });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server error");
+  }
 });
+
+router.post('/:projectId/write-review', middleware.ensureAuth, async (req, res) => {
+  const { projectId } = req.params;
+  const { rating, reviewText } = req.body;
+  
+
+  try {
+    const project = await clientProject.findById(projectId);
+    if (!project) return res.status(404).send("Project not found");
+
+    const clientId = new mongoose.Types.ObjectId(project.clientID);
+    const newReview = new Review({
+      projectId,
+      clientId,
+      rating,
+      reviewText
+    });
+
+    await newReview.save();
+
+    res.render('thank-you');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error submitting review.");
+  }
+});
+
 
 // PUT route to approve a milestone
 router.get('/:projectId/milestones/:milestoneId/approve-and-pay', async (req, res) => {
@@ -299,6 +376,27 @@ router.post("/:projectId/milestone/submit", async (req, res) => {
     console.error("Error submitting milestone:", error);
     res.status(500).json({ error: "Internal server error." });
   }
+});
+
+router.post("/:projectId/complete-project", async (req, res) => {
+
+  const { projectId } = req.params;
+  console.log(projectId);
+
+  try {
+      
+        const Project = await clientProject.findById({ _id: projectId});
+
+        if(!Project) {
+          res.status(404).json({ error: "Project doesn't exist!" });
+        }
+        Project.status = "Inactive";
+        await Project.save();
+        res.status(200).json({ success_msg: "Project completed!" });
+    } catch (err) {
+        console.error(err);
+    }
+  
 });
 
 module.exports = router;

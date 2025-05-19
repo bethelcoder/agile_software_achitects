@@ -52,6 +52,7 @@
   }
   
   .project-item {
+    margin-bottom: 20px;
     padding: 1rem 1.5rem;
     border: 1px solid #ddd;
     background-image: radial-gradient(circle, rgb(201, 247, 255) 0%, #f9f9f9 100%);
