@@ -34,12 +34,14 @@ router.post('/apply', async (req, res) => {
       req.flash('error_msg', 'You have already applied for this job.');
       return res.redirect('/users/dashboard'); // Or wherever your projects are listed
     }
-
+    projectclient= await project.findById(projectObjectId);
+    
     // Save new application
     const newApplication = new Application({
       projectId: projectObjectId,
       title: projectTitle, // Store title at time of application
       freelancerId: { userID: freelancerId, userName: userName },
+      ClientId: { userID: projectclient.clientID },
       Message: message,
       Skills: skills,
       links: portfolioLink? portfolioLink: ""

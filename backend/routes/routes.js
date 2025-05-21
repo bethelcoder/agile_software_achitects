@@ -35,11 +35,13 @@ router.get('/dashboard', middleware.ensureAuth, async (req, res) => {
     // ✅ Fetch projects before rendering
     const clientID = req.user.clientID; // or however you store it
     const projects = await Project.find({ clientID: userID });
-    const applications = await Application.find();
-    const applicants = applications.length;
+    const applied = await Application.find({ "ClientId.userID": userID });
+    const applicants = applied.length;
     res.render('clientDashboard', { userName, userID, projects, applicants });
   } else if (userRole.length == 1 && userRole[0] == "freelancer") {
-     const noOfApplications=applications.length;
+
+     const applied = await Application.find({ "freelancerId.userID": userID });
+     const noOfApplications = applied.length;
      const projectCount = await Application.find({
   Status: "Hired"
 });

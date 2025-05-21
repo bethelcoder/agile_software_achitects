@@ -8,9 +8,12 @@ const applicationSchema = new mongoose.Schema({
     unique: false
   },
   title: { type: String, required: true },
-  freelancerId: { 
+  freelancerId: {
     userID: { type: Number, required: true }, 
     userName: { type: String, required: true }
+  },
+  ClientId: {
+    userID: { type: Number, required: true },
   },
   Skills: { type: String, required: true },
   links: String,
