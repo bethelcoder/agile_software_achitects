@@ -43,7 +43,9 @@ router.get('/dashboard', middleware.ensureAuth, async (req, res) => {
      const applied = await Application.find({ "freelancerId.userID": userID });
      const noOfApplications = applied.length;
      const projectCount = await Application.find({
-  Status: "Hired"
+  Status: "Hired",
+  "freelancerId.userID": userID
+
 });
 const myprojects=projectCount.length;
 
