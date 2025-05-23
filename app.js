@@ -414,8 +414,7 @@ app.post('/checkout', async (req, res) => {
             success_url: "https://freelancestudioweb-f3dpbqgcf2d9dxdr.southafricanorth-01.azurewebsites.net/complete?session_id={CHECKOUT_SESSION_ID}",
             cancel_url: "https://freelancestudioweb-f3dpbqgcf2d9dxdr.southafricanorth-01.azurewebsites.net/cancel"
         });
-
-        res.redirect("thank-you");
+        res.redirect(303, session.url);
     } catch (err) {
         console.error(err);
         res.status(500).send("Something went wrong.");
@@ -423,6 +422,7 @@ app.post('/checkout', async (req, res) => {
 });
 
 app.get('/complete', async (req, res) => {
+  res.redirect("thank-you");
     try {
         const session = await stripe.checkout.sessions.retrieve(req.query.session_id, {
             expand: ['payment_intent.payment_method']
