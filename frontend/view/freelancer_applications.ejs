@@ -1,127 +1,155 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>My Applications</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f5f7fa;
-      color: #333;
-    }
-
-    header.top-nav {
-      background-color: #2c3e50;
-      color: white;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 2rem;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-
-    header h1.logo {
-      font-size: 1.5rem;
-    }
-
-    main.main-layout {
-      max-width: 900px;
-      margin: 2rem auto;
-      padding: 1rem;
-      background-color: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    }
-
-    main h2 {
-      margin-bottom: 1.5rem;
-      font-size: 1.8rem;
-      color: #2c3e50;
-    }
-
-    .application-item {
-      background-color: #ecf0f1;
-      margin-bottom: 1rem;
-      padding: 1rem;
-      border-radius: 6px;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-    }
-
-    .application-item:hover {
-      transform: scale(1.01);
-      transition: transform 0.2s ease;
-    }
-
-    .application-item code {
-      background-color: #dfe6e9;
-      padding: 3px 6px;
-      border-radius: 4px;
-      font-family: monospace;
-    }
-
-    .application-message {
-      margin-top: 0.5rem;
-      font-style: italic;
-    }
-
-    .back-button {
-      display: inline-block;
-      margin-top: 2rem;
-      padding: 10px 20px;
-      font-size: 1rem;
-      background-color: #3498db;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      text-decoration: none;
-      transition: background 0.3s ease;
-    }
-
-    .back-button:hover {
-      background-color: #2980b9;
-    }
-
-    @media (max-width: 600px) {
-      main.main-layout {
-        margin: 1rem;
-        padding: 1rem;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Applications</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
       }
-    }
-  </style>
-</head>
-<body>
 
-  <header class="top-nav">
-    <h1 class="logo">Freelance Studio</h1>
-  </header>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f5f7fa;
+        color: #333;
+      }
 
-  <main class="main-layout">
-    <h2>My Applications</h2>
+      header.top-nav {
+        background-color: #2c3e50;
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 2rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
 
-    <% if (applications.length === 0) { %>
-      <p>You haven't applied for any jobs yet.</p>
-    <% } else { %>
-      <% applications.forEach(app => { %>
+      header h1.logo {
+        font-size: 1.5rem;
+      }
+
+      main.main-layout {
+        padding: 2rem;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+      }
+
+      main h2 {
+        font-size: 1.6rem;
+        margin-bottom: 1.5rem;
+        color: #2c3e50;
+      }
+
+      .applications-list {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* 3 equal-width columns */
+        gap: 10px;
+        padding: 10px;
+      }
+
+      .application-item {
+        padding: 1rem 1.5rem;
+        border: 1px solid #ddd;
+        background-image: radial-gradient(
+          circle,
+          rgb(201, 247, 255) 0%,
+          #f9f9f9 100%
+        );
+        border-radius: 6px;
+        box-shadow: 0 0 15px #ddd;
+        opacity: 1;
+        transition: box-shadow 0.3s ease;
+      }
+
+      .application-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 2px 10px cyan, 0 2px 10px cyan inset;
+      }
+
+      .application-item strong {
+        display: block;
+        font-size: 1.2rem;
+        color: #333;
+        margin-bottom: 0.5rem;
+      }
+
+      .application-item p {
+        font-size: 0.95rem;
+        line-height: 1.4;
+        color: #555;
+      }
+
+      .application-item code {
+        background-color: #dfe6e9;
+        padding: 3px 6px;
+        border-radius: 4px;
+        font-family: monospace;
+      }
+
+      .application-message {
+        margin-top: 0.5rem;
+        font-style: italic;
+      }
+
+      .back-button {
+        display: inline-block;
+        margin-top: 2rem;
+        padding: 10px 20px;
+        font-size: 1rem;
+        background-color: #3498db;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        text-decoration: none;
+        transition: background 0.3s ease;
+      }
+
+      .back-button:hover {
+        background-color: #2980b9;
+      }
+
+      @media (max-width: 768px) {
+        main.main-layout {
+          margin: 1rem;
+          padding: 1rem;
+        }
+        .applications-list {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="top-nav">
+      <h1 class="logo">Freelance Studio</h1>
+    </header>
+
+    <main class="main-layout">
+      <h2>My Applications</h2>
+      <section class="applications-list">
+        <% if (applications.length === 0) { %>
+        <p>You haven't applied for any jobs yet.</p>
+        <% } else { %> <% applications.forEach(app => { %>
         <section class="application-item">
-          <p><strong>Project ID:</strong> <code><%= app.projectId._id %></code></p>
-          <p><strong>Freelancer ID:</strong> <code><%= app.freelancerId.userID %></code></p>
-          <p class="application-message"><strong>Status: </strong> "<%= app.Status %>"</p>
+          <strong><%= app.title %></strong>
+
+          <p><%= app.Message %></p>
+          <p class="application-message">
+            <strong>Status: "<%= app.Status %>"</strong>
+          </p>
         </section>
-      <% }) %>
-    <% } %>
+        <% }) %> <% } %>
+      </section>
 
-    <a href="/users/dashboard" class="back-button">← Back to Dashboard</a>
-  </main>
-
-</body>
+      <a href="/users/dashboard" class="back-button">← Back to Dashboard</a>
+    </main>
+  </body>
 </html>
 
 <!-- <!DOCTYPE html>

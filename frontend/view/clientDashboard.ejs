@@ -12,17 +12,50 @@
         padding: 0;
         background-color: #f4f4f9;
       }
+      header.top-nav {
+        background-color: #2c3e50;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem;
+      }
 
+      .menu-btn {
+        display: none;
+        position: absolute;
+        left: 1rem;
+      }
+
+      header h1.logo {
+        color: white;
+        font-size: 1.5rem;
+        width: fit-content;
+      }
+
+      /* Make main scroll independently */
       .dashboard {
         display: flex;
-        min-height: 100vh;
+        height: calc(100vh - 80px);
+        overflow: hidden;
       }
 
       aside {
+        flex-shrink: 0;
         background-color: #2c3e50;
         color: white;
         width: 220px;
+        height: 100%;
+        overflow-y: auto;
+        position: sticky;
         padding: 20px;
+      }
+
+      main {
+        flex: 1;
+        height: 100%;
+        overflow-y: auto;
+        padding: 40px;
       }
 
       aside h2 {
@@ -106,6 +139,8 @@
         justify-content: space-between;
         align-items: center;
         margin-bottom: 30px;
+        gap: 1rem;
+        flex-wrap: wrap;
       }
 
       .post-project-btn {
@@ -117,30 +152,65 @@
         border-radius: 8px;
         cursor: pointer;
         transition: background 0.3s;
+        flex-shrink: 0;
+        white-space: nowrap;
       }
 
       .post-project-btn:hover {
         background-color: #3b40a4;
       }
+
+      @media (max-width: 768px) {
+        .menu-btn {
+          display: block;
+        }
+        .side-nav {
+          display: none;
+          transition: transform 0.3s ease;
+          transform: translateX(-100%);
+          position: absolute;
+          left: 0;
+          width: 220px;
+          z-index: 1000;
+        }
+
+        .side-nav.open {
+          display: block;
+          transform: translateX(0);
+        }
+        .top-header .post-project-btn {
+          order: -1; /* Move the button to the top */
+          width: 80%;
+          padding-right: 30px;
+        }
+
+        .top-header section {
+          width: 100%;
+        }
+      }
     </style>
   </head>
   <body data-userid="<%= userID %>">
-    <div class="dashboard">
-      <aside>
+    <header class="top-nav">
+      <button class="menu-btn" aria-label="Open navigation">&#9776;</button>
+      <h1 class="logo">Freelance Studio</h1>
+    </header>
+    <section class="dashboard">
+      <aside class="side-nav hidden-on-mobile" id="sideNav">
         <h2>Client Panel</h2>
         <nav>
           <ul>
             <li><a href="#">🏠 Home</a></li>
             <li><a href="/projects/activeProjects">📁 Active Projects</a></li>
             <li><a href="/projects/inactiveProjects">📂Past Projects</a></li>
-            <li><a href="/submit-clientProfile?userID=<%= userID %>">📄 Profile</a></li>
-            
+            <li>
+              <a href="/submit-clientProfile?userID=<%= userID %>"
+                >📄 Profile</a
+              >
+            </li>
           </ul>
-   </nav>
-        <section class="bottomNav">
-   
-        
-        </section>
+        </nav>
+        <section class="bottomNav"></section>
       </aside>
 
       <main>
@@ -200,7 +270,7 @@
           </article>
         </section>
       </main>
-    </div>
+    </section>
 
     <%- include('joblisting') %>
 

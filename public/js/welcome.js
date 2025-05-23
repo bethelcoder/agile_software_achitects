@@ -120,6 +120,11 @@ document.getElementById("addProject").addEventListener("click", () => {
    
   });
 
+document.querySelector('.menu-btn').addEventListener('click', () => {
+  const nav = document.getElementById('sideNav');
+  nav.classList.toggle('open');
+});
+
 
 
 /*const dashboard=document.getElementById("dash");

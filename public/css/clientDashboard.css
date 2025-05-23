@@ -157,6 +157,7 @@ img {
     font-size: 28px;
     font-weight: bold;
     cursor: pointer;
+    border: none;
   }
   .project-container {
     margin-bottom: 1rem;
