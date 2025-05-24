@@ -1,93 +1,115 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Reports Dashboard</title>
-  <style>
-    body { font-family: Arial, sans-serif; margin: 20px; }
-    h1 { margin-bottom: 10px; }
-    .report-section { margin-bottom: 40px; }
-    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-    th, td { padding: 10px; border: 1px solid #ccc; text-align: left; }
-    .export-buttons { margin-top: 10px; }
-    .filter { margin-bottom: 20px; }
-  </style>
-</head>
-<body>
-  <header> <h1> Reports Dashboard</h1></header>
-  
-  <main>
-    <div class="filter">
-    <form method="POST" action="/reports">
-      <input type="hidden" name="userID" value="<%= userID %>">
-      <label>Filter by Status:</label>
-      <select name="status">
-        <option value="All">All</option>
-        <option value="Completed">Completed</option>
-        <option value="Active">Active</option>
-      </select>
-      <button type="submit">Apply Filters</button>
-    </form>
-  </div>
+  <head>
+    <title>Reports Dashboard</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+      h1 {
+        margin-bottom: 10px;
+      }
+      .report-section {
+        margin-bottom: 40px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+      }
+      th,
+      td {
+        padding: 10px;
+        border: 1px solid #ccc;
+        text-align: left;
+      }
+      .export-buttons {
+        margin-top: 10px;
+      }
+      .filter {
+        margin-bottom: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <header><h1>Reports Dashboard</h1></header>
 
-  
-  <div class="report-section">
-    <h2>✅ Project Completion Rates</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Project</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% projects.forEach(project => { %>
-          <tr>
-            <td><%= project.name %></td>
-            <td><%= project.status %></td>
-          </tr>
-        <% }); %>
-      </tbody>
-    </table>
-    <p> Completion Rate: <%=rate %> % </p>
-    <div class="export-buttons">
-   
-      
-    </div>
-  </div>
-
-
-  <div class="report-section">
-    <h2>💰 Payments</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Client</th>
-          <th>Project</th>
-          <th>Amount</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% payments.forEach(payment => { %>
-          <tr>
-            <td><%= payment.client %></td>
-            <td><%= payment.project %></td>
-            <td>R<%= payment.amount %></td>
-            <td><%= payment.status %></td>
-          </tr>
-        <% }); %>
-      </tbody>
-    </table>
-    <div class="export-buttons">
-     
-      <form action='/generateReport' method="POST" >
-          <input type="hidden" name="userID" value="<%= userID %>">
-          <button type="submit" style="color: blue;background-color: white;border-color: white;border-radius: 0%;">
-            <p>Download Report</p>
-          </button>
+    <main>
+      <section class="filter">
+        <form method="POST" action="/reports">
+          <input type="hidden" name="userID" value="<%= userID %>" />
+          <label>Filter by Status:</label>
+          <select name="status">
+            <option value="All">All</option>
+            <option value="Completed">Completed</option>
+            <option value="Active">Active</option>
+          </select>
+          <button type="submit">Apply Filters</button>
         </form>
-    </div>
-  </div>
-  </main>
-</body>
+      </section>
+
+      <section class="report-section">
+        <h2>✅ Project Completion Rates</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Project</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% projects.forEach(project => { %>
+            <tr>
+              <td><%= project.name %></td>
+              <td><%= project.status %></td>
+            </tr>
+            <% }); %>
+          </tbody>
+        </table>
+        <p>Completion Rate: <%=rate %> %</p>
+        <section class="export-buttons"></section>
+      </section>
+
+      <section class="report-section">
+        <h2>💰 Payments</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Client</th>
+              <th>Project</th>
+              <th>Amount</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% payments.forEach(payment => { %>
+            <tr>
+              <td><%= payment.client %></td>
+              <td><%= payment.project %></td>
+              <td>R<%= payment.amount %></td>
+              <td><%= payment.status %></td>
+            </tr>
+            <% }); %>
+          </tbody>
+        </table>
+        <section class="export-buttons">
+          <form action="/generateReport" method="POST">
+            <input type="hidden" name="userID" value="<%= userID %>" />
+            <button
+              type="submit"
+              style="
+                color: blue;
+                background-color: white;
+                border-color: white;
+                border-radius: 0%;
+              "
+            >
+              <p>Download Report</p>
+            </button>
+          </form>
+        </section>
+      </section>
+    </main>
+  </body>
 </html>

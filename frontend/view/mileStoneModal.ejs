@@ -1,48 +1,71 @@
 <!-- View Milestones Button -->
-<button class="milestone-btn" onclick="openModal('<%= project.projectId %>')">View Milestones</button>
+<button class="milestone-btn" onclick="openModal('<%= project.projectId %>')">
+  View Milestones
+</button>
 
 <!-- Modal -->
 <article id="modal-<%= project.projectId %>" class="modal">
   <section class="modal-content">
-    <span class="close" onclick="closeModal('<%= project.projectId %>')">&times;</span>
+    <button
+      class="close"
+      aria-label="Close modal"
+      onclick="closeModal('<%= project.projectId %>')"
+    >
+      &times;
+    </button>
     <h2>Milestones for <%= project.title %></h2>
 
-    <% if (milestoneObj && milestoneObj.milestones.length > 0) { %>
-      <% milestoneObj.milestones.forEach((milestone, index) => { %>
-        <form action="/projects/<%= project.projectId %>/milestone/submit" method="POST" class="milestone-form">
-          <input type="hidden" name="projectId" value="<%= project.projectId %>">
-          <input type="hidden" name="milestoneIndex" value="<%= index %>">
-          <input type="hidden" name="userName" value="<%= userName %>">
-          <input type="hidden" name="userID" value="<%= userID %>">
-          <input type="hidden" name="milestoneId" value="<%= milestone._id %>">
+    <% if (milestoneObj && milestoneObj.milestones.length > 0) { %> <%
+    milestoneObj.milestones.forEach((milestone, index) => { %>
+    <form
+      action="/projects/<%= project.projectId %>/milestone/submit"
+      method="POST"
+      class="milestone-form"
+    >
+      <input type="hidden" name="projectId" value="<%= project.projectId %>" />
+      <input type="hidden" name="milestoneIndex" value="<%= index %>" />
+      <input type="hidden" name="userName" value="<%= userName %>" />
+      <input type="hidden" name="userID" value="<%= userID %>" />
+      <input type="hidden" name="milestoneId" value="<%= milestone._id %>" />
 
-          <label>
-            <%= milestone.name %>
-            <% if (milestone.message && milestone.message.trim() !== '') { %>
-              <span style="display: block; margin-top: 5px; color: #555; font-style: italic;">
-                Message: <%= milestone.message %>
-              </span>
-            <% } %>
-          </label><br>
+      <label>
+        <%= milestone.name %> <% if (milestone.message &&
+        milestone.message.trim() !== '') { %>
+        <button
+          style="
+            display: block;
+            margin-top: 5px;
+            color: #555;
+            font-style: italic;
+          "
+        >
+          Message: <%= milestone.message %>
+        </button>
+        <% } %> </label
+      ><br />
 
-          <input type="url" name="submittedWorkLink" placeholder="Enter link to your work" required>
-          <button type="submit" class="submit-btn">Submit</button>
-          <p class="submission-message" style="margin-top: 5px; color: green;"></p>
-        </form>
-      <% }) %>
-    <% } else { %>
-      <p>No milestones found for this project.</p>
+      <input
+        type="url"
+        name="submittedWorkLink"
+        placeholder="Enter link to your work"
+        required
+      />
+      <button type="submit" class="submit-btn">Submit</button>
+      <p class="submission-message" style="margin-top: 5px; color: green"></p>
+    </form>
+    <% }) %> <% } else { %>
+    <p>No milestones found for this project.</p>
     <% } %>
   </section>
 </article>
 
 <script>
   document.addEventListener("DOMContentLoaded", () => {
-    document.querySelectorAll(".milestone-form").forEach(form => {
+    document.querySelectorAll(".milestone-form").forEach((form) => {
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
-        const messageEl = form.querySelector('.submission-message');
+        const messageEl = form.querySelector(".submission-message");
         messageEl.style.color = "green";
         messageEl.textContent = "Submitting...";
 
@@ -54,9 +77,9 @@
           const res = await fetch(action, {
             method: "POST",
             headers: {
-              "Content-Type": "application/json"
+              "Content-Type": "application/json",
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify(data),
           });
 
           const result = await res.json();
@@ -78,10 +101,10 @@
   });
 
   function openModal(projectId) {
-    document.getElementById('modal-' + projectId).style.display = 'block';
+    document.getElementById("modal-" + projectId).style.display = "block";
   }
 
   function closeModal(projectId) {
-    document.getElementById('modal-' + projectId).style.display = 'none';
+    document.getElementById("modal-" + projectId).style.display = "none";
   }
 </script>

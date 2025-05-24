@@ -1,344 +1,364 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Project Milestones</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      padding: 20px;
-      background-color: #f0f4f8;
-      color: #333;
-    }
-    .milestone {
-      border: 1px solid #d1d9e6;
-      padding: 15px;
-      margin-bottom: 12px;
-      border-radius: 12px;
-      cursor: pointer;
-      background-color: #fff;
-      box-shadow: 0 2px 6px rgb(0 0 0 / 0.08);
-      transition: background-color 0.25s ease, box-shadow 0.25s ease;
-    }
-    .milestone:hover {
-      background-color: #e6f2ff;
-      box-shadow: 0 6px 15px rgb(0 102 204 / 0.25);
-    }
-    .status {
-      font-weight: 600;
-      color: #4caf50;
-    }
-    .status.incomplete {
-      color: #f44336;
-    }
-    dialog#modal {
-      border: none;
-      border-radius: 16px;
-      padding: 0;
-      max-width: 460px;
-      width: 90%;
-      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.05);
-      position: relative;
-    }
-    dialog::backdrop {
-      background: rgba(0, 0, 0, 0.35);
-      backdrop-filter: blur(4px);
-    }
-    .modal-header {
-      background-color: #0366d6;
-      color: white;
-      padding: 20px 24px;
-      border-top-left-radius: 16px;
-      border-top-right-radius: 16px;
-      font-size: 1.5rem;
-      font-weight: 700;
-      position: relative;
-    }
-    .modal-body {
-      padding: 24px;
-      font-size: 1rem;
-    }
-    .modal-footer {
-      display: flex;
-      justify-content: flex-end;
-      gap: 12px;
-      padding: 20px 24px;
-      border-top: 1px solid #e2e8f0;
-      background-color: #f9fafb;
-    }
-    button {
-      min-width: 90px;
-      font-weight: 600;
-      padding: 10px 16px;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      font-size: 1rem;
-    }
-    button.approve {
-      background-color: #2ea44f;
-      color: white;
-    }
-    button.approve:hover {
-      background-color: #22863a;
-    }
-    button.reject {
-      background-color: #d73a49;
-      color: white;
-    }
-    button.reject:hover {
-      background-color: #b31d28;
-    }
-    button.close {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      background: transparent;
-      border: none;
-      color: white;
-      font-size: 1.8rem;
-      cursor: pointer;
-    }
-    #rejectionMessageContainer {
-      margin-top: 16px;
-      display: none;
-      flex-direction: column;
-    }
-    #rejectionMessageContainer label {
-      font-weight: 600;
-      margin-bottom: 6px;
-    }
-    #rejectionMessage {
-      resize: vertical;
-      min-height: 60px;
-      padding: 8px;
-      font-size: 1rem;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-family: inherit;
-    }
-    #rejectionSubmitBtn {
-      margin-top: 12px;
-      background-color: #d73a49;
-      color: white;
-      border-radius: 10px;
-      padding: 10px 16px;
-      font-weight: 600;
-      cursor: pointer;
-      border: none;
-      font-size: 1rem;
-      align-self: flex-end;
-    }
-    #rejectionSubmitBtn:hover {
-      background-color: #b31d28;
-    }
-    .projectStatus {
-      margin-top: 20px;
-      background-color: #0366d6;
-      color: white;
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <h1>Milestones for Project: <%= projectId %></h1>
-  </header>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Project Milestones</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        padding: 20px;
+        background-color: #f0f4f8;
+        color: #333;
+      }
+      .milestone {
+        border: 1px solid #d1d9e6;
+        padding: 15px;
+        margin-bottom: 12px;
+        border-radius: 12px;
+        cursor: pointer;
+        background-color: #fff;
+        box-shadow: 0 2px 6px rgb(0 0 0 / 0.08);
+        transition: background-color 0.25s ease, box-shadow 0.25s ease;
+      }
+      .milestone:hover {
+        background-color: #e6f2ff;
+        box-shadow: 0 6px 15px rgb(0 102 204 / 0.25);
+      }
+      .status {
+        font-weight: 600;
+        color: #4caf50;
+      }
+      .status.incomplete {
+        color: #f44336;
+      }
+      dialog#modal {
+        border: none;
+        border-radius: 16px;
+        padding: 0;
+        max-width: 460px;
+        width: 90%;
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2),
+          0 0 0 1px rgba(0, 0, 0, 0.05);
+        position: relative;
+      }
+      dialog::backdrop {
+        background: rgba(0, 0, 0, 0.35);
+        backdrop-filter: blur(4px);
+      }
+      .modal-header {
+        background-color: #0366d6;
+        color: white;
+        padding: 20px 24px;
+        border-top-left-radius: 16px;
+        border-top-right-radius: 16px;
+        font-size: 1.5rem;
+        font-weight: 700;
+        position: relative;
+      }
+      .modal-body {
+        padding: 24px;
+        font-size: 1rem;
+      }
+      .modal-footer {
+        display: flex;
+        justify-content: flex-end;
+        gap: 12px;
+        padding: 20px 24px;
+        border-top: 1px solid #e2e8f0;
+        background-color: #f9fafb;
+      }
+      button {
+        min-width: 90px;
+        font-weight: 600;
+        padding: 10px 16px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 1rem;
+      }
+      button.approve {
+        background-color: #2ea44f;
+        color: white;
+      }
+      button.approve:hover {
+        background-color: #22863a;
+      }
+      button.reject {
+        background-color: #d73a49;
+        color: white;
+      }
+      button.reject:hover {
+        background-color: #b31d28;
+      }
+      button.close {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        background: transparent;
+        border: none;
+        color: white;
+        font-size: 1.8rem;
+        cursor: pointer;
+      }
+      #rejectionMessageContainer {
+        margin-top: 16px;
+        display: none;
+        flex-direction: column;
+      }
+      #rejectionMessageContainer label {
+        font-weight: 600;
+        margin-bottom: 6px;
+      }
+      #rejectionMessage {
+        resize: vertical;
+        min-height: 60px;
+        padding: 8px;
+        font-size: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-family: inherit;
+      }
+      #rejectionSubmitBtn {
+        margin-top: 12px;
+        background-color: #d73a49;
+        color: white;
+        border-radius: 10px;
+        padding: 10px 16px;
+        font-weight: 600;
+        cursor: pointer;
+        border: none;
+        font-size: 1rem;
+        align-self: flex-end;
+      }
+      #rejectionSubmitBtn:hover {
+        background-color: #b31d28;
+      }
+      .projectStatus {
+        margin-top: 20px;
+        background-color: #0366d6;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Milestones for Project: <%= projectId %></h1>
+    </header>
 
-  <main>
-    <% if (milestones.length === 0) { %>
+    <main>
+      <% if (milestones.length === 0) { %>
       <p>No milestones found for this project.</p>
-    <% } else { %>
+      <% } else { %>
       <section>
-        <% milestones.forEach((milestone) => { %>
-          <% milestone.milestones.forEach((task) => { %>
-            <article
-              class="milestone"
-              tabindex="0"
-              data-milestone-id="<%= task._id %>"
-              data-task-name="<%= task.name %>"
-              data-task-status="<%= task.status %>"
-              data-task-link="<%= task.submittedWorkLink || '' %>"
+        <% milestones.forEach((milestone) => { %> <%
+        milestone.milestones.forEach((task) => { %>
+        <article
+          class="milestone"
+          tabindex="0"
+          data-milestone-id="<%= task._id %>"
+          data-task-name="<%= task.name %>"
+          data-task-status="<%= task.status %>"
+          data-task-link="<%= task.submittedWorkLink || '' %>"
+        >
+          <h2><%= task.name %></h2>
+          <p
+            class="status <%= task.status === 'approved' ? '' : 'incomplete' %>"
+          >
+            Status: <%= task.status %>
+          </p>
+          <% if (task.submittedWorkLink) { %>
+          <p>
+            <a
+              href="<%= task.submittedWorkLink %>"
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              <h2><%= task.name %></h2>
-              <p class="status <%= task.status === 'approved' ? '' : 'incomplete' %>">
-                Status: <%= task.status %>
-              </p>
-              <% if (task.submittedWorkLink) { %>
-                <p>
-                  <a href="<%= task.submittedWorkLink %>" target="_blank" rel="noopener noreferrer">
-                    View Submitted Work
-                  </a>
-                </p>
-              <% } %>
-            </article>
-          <% }) %>
-        <% }) %>
+              View Submitted Work
+            </a>
+          </p>
+          <% } %>
+        </article>
+        <% }) %> <% }) %>
       </section>
-    <% } %>
-    
-    <% if (overallStatus === true) { %>
-      <button class="projectStatus" id= "completeBtn" data-projectId="<%= projectId %>">Mark Project as Complete</button>
-    <% } %>
+      <% } %> <% if (overallStatus === true) { %>
+      <button
+        class="projectStatus"
+        id="completeBtn"
+        data-projectId="<%= projectId %>"
+      >
+        Mark Project as Complete
+      </button>
+      <% } %>
+    </main>
 
-  </main>
+    <dialog id="modal">
+      <button class="close" id="modalClose">&times;</button>
+      <header class="modal-header" id="modalTaskName">Milestone Name</header>
+      <section class="modal-body">
+        <p><strong>Submitted Work Link:</strong></p>
+        <a href="#" id="submittedLink" target="_blank" rel="noopener noreferrer"
+          >No link submitted yet.</a
+        >
 
-  <dialog id="modal">
-    <button class="close" id="modalClose">&times;</button>
-    <header class="modal-header" id="modalTaskName">Milestone Name</header>
-    <section class="modal-body">
-      <p><strong>Submitted Work Link:</strong></p>
-      <a href="#" id="submittedLink" target="_blank" rel="noopener noreferrer">No link submitted yet.</a>
+        <section id="rejectionMessageContainer">
+          <label for="rejectionMessage">Reason for Rejection:</label>
+          <textarea
+            id="rejectionMessage"
+            placeholder="Enter rejection message here..."
+          ></textarea>
+          <button id="rejectionSubmitBtn">Submit Rejection</button>
+        </section>
+      </section>
+      <footer class="modal-footer">
+        <button class="approve" id="approveBtn">Approve</button>
+        <button class="reject" id="rejectBtn">Reject</button>
+      </footer>
+    </dialog>
 
-      <div id="rejectionMessageContainer">
-        <label for="rejectionMessage">Reason for Rejection:</label>
-        <textarea id="rejectionMessage" placeholder="Enter rejection message here..."></textarea>
-        <button id="rejectionSubmitBtn">Submit Rejection</button>
-      </div>
-    </section>
-    <footer class="modal-footer">
-      <button class="approve" id="approveBtn">Approve</button>
-      <button class="reject" id="rejectBtn">Reject</button>
-    </footer>
-  </dialog>
+    <script>
+      const modal = document.getElementById("modal");
+      const modalTaskName = document.getElementById("modalTaskName");
+      const submittedLink = document.getElementById("submittedLink");
+      const approveBtn = document.getElementById("approveBtn");
+      const rejectBtn = document.getElementById("rejectBtn");
+      const modalClose = document.getElementById("modalClose");
+      const rejectionMessageContainer = document.getElementById(
+        "rejectionMessageContainer"
+      );
+      const rejectionMessageInput = document.getElementById("rejectionMessage");
+      const rejectionSubmitBtn = document.getElementById("rejectionSubmitBtn");
+      const completeProjBtn = document.getElementById("completeBtn");
+      let selectedMilestoneId = null;
+      let selectedProjectId = "<%= projectId %>";
 
-  <script>
-    const modal = document.getElementById('modal');
-    const modalTaskName = document.getElementById('modalTaskName');
-    const submittedLink = document.getElementById('submittedLink');
-    const approveBtn = document.getElementById('approveBtn');
-    const rejectBtn = document.getElementById('rejectBtn');
-    const modalClose = document.getElementById('modalClose');
-    const rejectionMessageContainer = document.getElementById('rejectionMessageContainer');
-    const rejectionMessageInput = document.getElementById('rejectionMessage');
-    const rejectionSubmitBtn = document.getElementById('rejectionSubmitBtn');
-    const completeProjBtn = document.getElementById("completeBtn");
-    let selectedMilestoneId = null;
-    let selectedProjectId = "<%= projectId %>";
+      function openModal(taskName, taskLink, milestoneId) {
+        modalTaskName.textContent = taskName;
+        submittedLink.href = taskLink || "#";
+        submittedLink.textContent = taskLink || "No link submitted yet.";
+        selectedMilestoneId = milestoneId;
 
-    function openModal(taskName, taskLink, milestoneId) {
-      modalTaskName.textContent = taskName;
-      submittedLink.href = taskLink || '#';
-      submittedLink.textContent = taskLink || 'No link submitted yet.';
-      selectedMilestoneId = milestoneId;
-
-      if(submittedLink.textContent == 'No link submitted yet.'){
-        approveBtn.disabled = true;
-      }
-
-      rejectionMessageContainer.style.display = 'none';
-      rejectionMessageInput.value = '';
-      approveBtn.style.display = 'inline-block';
-      rejectBtn.style.display = 'inline-block';
-      rejectionSubmitBtn.style.display = 'none';
-
-      modal.showModal();
-    }
-
-    function closeModal() {
-      modal.close();
-      selectedMilestoneId = null;
-    }
-    
-    document.querySelectorAll('.milestone').forEach(milestone => {
-      if(milestone.getAttribute('data-task-status')=="pending"){
-      milestone.addEventListener('click', () => {
-        openModal(
-          milestone.getAttribute('data-task-name'),
-          milestone.getAttribute('data-task-link'),
-          milestone.getAttribute('data-milestone-id')
-        );
-      });}
-    });
-  
-    modalClose.addEventListener('click', closeModal);
-
-    rejectBtn.addEventListener('click', () => {
-      rejectionMessageContainer.style.display = 'flex';
-      approveBtn.style.display = 'none';
-      rejectBtn.style.display = 'none';
-      rejectionSubmitBtn.style.display = 'inline-block';
-    });
-
-    rejectionSubmitBtn.addEventListener('click', async () => {
-      const message = rejectionMessageInput.value.trim();
-      if (!message) {
-        alert('Please enter a reason for rejection.');
-        return;
-      }
-
-      try {
-        const response = await fetch(`/projects/${selectedProjectId}/milestones/${selectedMilestoneId}/reject`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message })
-        });
-
-        const result = await response.json();
-        if (!response.ok) throw new Error(result.message || 'Rejection failed');
-
-        alert('Milestone rejected');
-        closeModal();
-        location.reload();
-      } catch (err) {
-        console.error(err);
-        alert('Error rejecting milestone: ' + err.message);
-      }
-    });
-
-    approveBtn.addEventListener('click', () => {
-      // Redirect to approval + payment flow
-      window.location.href = `/projects/${selectedProjectId}/milestones/${selectedMilestoneId}/approve-and-pay`;
-    });
-
-    window.addEventListener('keydown', e => {
-      if (e.key === 'Escape' && modal.open) closeModal();
-    });
-
-    modal.addEventListener('click', e => {
-      if (e.target === modal) closeModal();
-    });
-
-    completeProjBtn.addEventListener("click", () => {
-      const projectId = completeProjBtn.getAttribute("data-projectId");
-      fetch(`/projects/${projectId}/complete-project`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
+        if (submittedLink.textContent == "No link submitted yet.") {
+          approveBtn.disabled = true;
         }
-      })
-      .then(res => res.json())
-      .then(data => {
-        if(data.success_msg) {
-          // Redirect to review page with projectId as param
-          window.location.href = `/projects/${projectId}/write-review`;
-        } else if (data.error) {
-          alert(data.error);
+
+        rejectionMessageContainer.style.display = "none";
+        rejectionMessageInput.value = "";
+        approveBtn.style.display = "inline-block";
+        rejectBtn.style.display = "inline-block";
+        rejectionSubmitBtn.style.display = "none";
+
+        modal.showModal();
+      }
+
+      function closeModal() {
+        modal.close();
+        selectedMilestoneId = null;
+      }
+
+      document.querySelectorAll(".milestone").forEach((milestone) => {
+        if (milestone.getAttribute("data-task-status") == "pending") {
+          milestone.addEventListener("click", () => {
+            openModal(
+              milestone.getAttribute("data-task-name"),
+              milestone.getAttribute("data-task-link"),
+              milestone.getAttribute("data-milestone-id")
+            );
+          });
         }
-      })
-      .catch(err => {
-        console.error(err);
-        alert("Something went wrong!");
       });
-    });
 
-    // completeProjBtn.addEventListener("click", () => {
-    //   const projectId = completeProjBtn.getAttribute("data-projectId");
-    //   fetch(`/projects/${projectId}/complete-project`, {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json"
-    //     }
-    //   })
-    //   .then(res => res.json())
-    //   .then(data => {
-    //     alert(data.success_msg);
-    //   })
-    //   .catch(err => {
-    //     console.error(err.error);
-    //     alert(err.error);
-    //   });
-    // });
+      modalClose.addEventListener("click", closeModal);
 
-  </script>
-</body>
+      rejectBtn.addEventListener("click", () => {
+        rejectionMessageContainer.style.display = "flex";
+        approveBtn.style.display = "none";
+        rejectBtn.style.display = "none";
+        rejectionSubmitBtn.style.display = "inline-block";
+      });
+
+      rejectionSubmitBtn.addEventListener("click", async () => {
+        const message = rejectionMessageInput.value.trim();
+        if (!message) {
+          alert("Please enter a reason for rejection.");
+          return;
+        }
+
+        try {
+          const response = await fetch(
+            `/projects/${selectedProjectId}/milestones/${selectedMilestoneId}/reject`,
+            {
+              method: "PUT",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ message }),
+            }
+          );
+
+          const result = await response.json();
+          if (!response.ok)
+            throw new Error(result.message || "Rejection failed");
+
+          alert("Milestone rejected");
+          closeModal();
+          location.reload();
+        } catch (err) {
+          console.error(err);
+          alert("Error rejecting milestone: " + err.message);
+        }
+      });
+
+      approveBtn.addEventListener("click", () => {
+        // Redirect to approval + payment flow
+        window.location.href = `/projects/${selectedProjectId}/milestones/${selectedMilestoneId}/approve-and-pay`;
+      });
+
+      window.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && modal.open) closeModal();
+      });
+
+      modal.addEventListener("click", (e) => {
+        if (e.target === modal) closeModal();
+      });
+
+      completeProjBtn.addEventListener("click", () => {
+        const projectId = completeProjBtn.getAttribute("data-projectId");
+        fetch(`/projects/${projectId}/complete-project`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.success_msg) {
+              // Redirect to review page with projectId as param
+              window.location.href = `/projects/${projectId}/write-review`;
+            } else if (data.error) {
+              alert(data.error);
+            }
+          })
+          .catch((err) => {
+            console.error(err);
+            alert("Something went wrong!");
+          });
+      });
+
+      // completeProjBtn.addEventListener("click", () => {
+      //   const projectId = completeProjBtn.getAttribute("data-projectId");
+      //   fetch(`/projects/${projectId}/complete-project`, {
+      //     method: "POST",
+      //     headers: {
+      //       "Content-Type": "application/json"
+      //     }
+      //   })
+      //   .then(res => res.json())
+      //   .then(data => {
+      //     alert(data.success_msg);
+      //   })
+      //   .catch(err => {
+      //     console.error(err.error);
+      //     alert(err.error);
+      //   });
+      // });
+    </script>
+  </body>
 </html>
