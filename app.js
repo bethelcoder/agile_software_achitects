@@ -422,7 +422,7 @@ app.post('/checkout', async (req, res) => {
 });
 
 app.get('/complete', async (req, res) => {
-  res.redirect("thank-you");
+  
     try {
         const session = await stripe.checkout.sessions.retrieve(req.query.session_id, {
             expand: ['payment_intent.payment_method']
