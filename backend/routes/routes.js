@@ -24,13 +24,12 @@ router.get('/dashboard', middleware.ensureAuth, async (req, res) => {
   const allProjects = await Project.find({});
   const applications= await Application.find({});
   const users= await User.find({});
-  userRole.forEach((role)=>{
-    if (role=="admin"){
+  
+
+    if (userRole.includes("admin", 0)){
       const projects=allProjects;
-    
-      res.render('admin',{userName,userID,projects,users, applications});
-    }
-  })
+       return res.render('admin',{userName,userID,projects,users, applications}); 
+  }
   if (userRole.length == 1 && userRole[0] == "client") {
     // ✅ Fetch projects before rendering
     const clientID = req.user.clientID; // or however you store it
@@ -204,6 +203,8 @@ router.post('/mark-As-Admin', async(req,res)=>{
   }
 
 });
+
+
 
 router.get('/projects/:status', controller.getProjectsByStatus);
 router.post('/projects', controller.createProject);

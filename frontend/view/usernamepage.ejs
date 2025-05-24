@@ -40,6 +40,13 @@
             name="roles" 
             value="freelancer"
             <%= typeof roles != 'undefined' && roles.includes('freelancer') ? 'checked' : '' %>> Freelancer</label>
+        <label>
+          <input 
+            type="checkbox" 
+            name="roles" 
+            value="admin"
+            <%= typeof roles != 'undefined' && roles.includes('admin') ? 'checked' : '' %>> Admin</label>
+
       </section>
 
       <section class="radio-group">
