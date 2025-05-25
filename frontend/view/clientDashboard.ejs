@@ -262,7 +262,8 @@
                 style="text-decoration: none; color: #007bff"
                 >View Applicants</a
               >
-              <form action="/delete-project?<%= project._id %>" method="GET">
+              <form action="/delete-project" method="POST">
+                <input type="hidden" name="projectID" value="<%= project._id %>"/>
                 <button class="btn" type="submit">Delete Project</button>
               </form>
             </section>
